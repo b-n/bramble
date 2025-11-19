@@ -4,10 +4,9 @@ kind: Kustomization
 namespace: adguard
 
 resources:
+- gateway.yaml
+- httproute-local.yaml
 - ns.yaml
 - statefulset.yaml
 - service-admin.yaml
-
-images:
-- name: ghcr.io/home-assistant/home-assistant
-  newTag: "2025.11.2"
+- service-dns.yaml
