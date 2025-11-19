@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Node
+metadata:
+  name: rpi1
+  labels:
+    home.bramble/has-storage: "false"

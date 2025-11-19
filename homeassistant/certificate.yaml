@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: homeassistant
+spec:
+  secretName: homeassistant-tls
+  dnsNames:
+  - "thuis.bennaylor.dev"
+  issuerRef:
+    name: acme
+    kind: ClusterIssuer

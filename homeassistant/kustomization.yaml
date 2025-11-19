@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: homeassistant
+
+resources:
+- certificate.yaml
+- configmap-homeassistant-env.yaml
+- gateway.yaml
+- httproute.yaml
+- ns.yaml
+- statefulset-homeassistant.yaml
+- statefulset-matter-server.yaml
+- service-homeassistant.yaml
+- service-matter-server.yaml
+
+images:
+- name: ghcr.io/home-assistant/home-assistant
+  newTag: "2025.11.2"

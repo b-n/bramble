@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hetzner-dns-updater
+spec:
+  schedule: "*/5 * * * *"  # check every 5 minutes
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: hetzner-dns-updater
+        spec:
+          serviceAccountName: hetzner-dns
+          restartPolicy: Never
+          containers:
+          - name: hetzner-dns-updater
+            image: alpine/curl:latest  # REPLACEME
+            envFrom:
+            - configMapRef:
+                name: hetzner-dns-config
+            - secretRef:
+                name: hetzner-dns
+            env:
+            - name: STATE_LAST_IP
+              valueFrom:
+                configMapKeyRef:
+                  name: hetzner-dns-state
+                  key: LAST_IP
+            command:
+            - "/scripts/update-dns.sh"
+            volumeMounts:
+            - name: dns-scripts
+              mountPath: /scripts
+              readOnly: true
+          volumes:
+          - name: dns-scripts
+            configMap:
+              name: hetzner-dns-scripts
+              defaultMode: 0755

@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: homeassistant-matter-server
+spec:
+  selector:
+    matchLabels:
+      app: homeassistant-matter-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: homeassistant-matter-server
+    spec:
+      containers:
+      - name: matter-server
+        image: ghcr.io/matter-js/python-matter-server:stable  # Overridden
+        ports:
+        - containerPort: 5580
+          name: http
+        volumeMounts:
+        - mountPath: /data
+          name: matter-server-data
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: home.bramble/has-storage
+                operator: In
+                values:
+                - "true"
+  volumeClaimTemplates:
+  - metadata:
+      name: matter-server-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 1Gi

@@ -1,0 +1,21 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: hetzner-dns-role
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  resourceNames: ["hetzner-dns-state"]
+  verbs: ["get", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: hetzner-dns-rb
+subjects:
+- kind: ServiceAccount
+  name: hetzner-dns
+roleRef:
+  kind: Role
+  name: hetzner-dns-role
+  apiGroup: rbac.authorization.k8s.io

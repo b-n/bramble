@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: adguard-adguard
+spec:
+  selector:
+    matchLabels:
+      app: adguard-adguard
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: adguard-adguard
+    spec:
+      containers:
+      - name: adguard
+        image: adguard/adguardhome:latest  # Overridden
+        ports:
+        - containerPort: 53
+          name: dns-tcp
+          protocol: TCP
+        - containerPort: 53
+          name: dns-udp
+          protocol: UDP
+        - containerPort: 3000
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /opt/adguardhome/work
+          name: adguard-work
+        - mountPath: /opt/adguardhome/conf
+          name: adguard-conf
+  volumeClaimTemplates:
+  - metadata:
+      name: adguard-conf
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 32Mi
+  - metadata:
+      name: adguard-work
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 512Mi

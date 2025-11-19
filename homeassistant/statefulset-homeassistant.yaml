@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: homeassistant-homeassistant
+spec:
+  selector:
+    matchLabels:
+      app: homeassistant-homeassistant
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: homeassistant-homeassistant
+    spec:
+      containers:
+      - name: homeassistant
+        image: ghcr.io/home-assistant/home-assistant:stable  # Overridden
+        envFrom:
+        - configMapRef:
+            name: homeassistant-env
+        ports:
+        - containerPort: 8123
+          name: http
+        volumeMounts:
+        - mountPath: /config
+          name: homeassistant-config
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: home.bramble/has-storage
+                operator: In
+                values:
+                - "true"
+  volumeClaimTemplates:
+  - metadata:
+      name: homeassistant-config
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 8Gi
