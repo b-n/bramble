@@ -15,3 +15,7 @@ spec:
       certificateRefs:
       - name: homeassistant-tls
         namespace: homeassistant
+  - name: web
+    port: 9080
+    protocol: HTTP
+    hostname: thuis.home

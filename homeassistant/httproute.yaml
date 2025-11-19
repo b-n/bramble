@@ -8,6 +8,7 @@ spec:
   - name: homeassistant
   hostnames:
   - thuis.bennaylor.dev
+  - thuis.home
   rules:
   - matches:
     - path:

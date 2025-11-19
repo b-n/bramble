@@ -5,4 +5,4 @@ metadata:
   name: bramble
   labels:
     home.bramble/has-storage: "true"
-
+    home.bramble/host-node: "true"
