@@ -19,3 +19,7 @@ spec:
     port: 9080
     protocol: HTTP
     hostname: thuis.home
+  - name: web-esphome
+    port: 9080
+    protocol: HTTP
+    hostname: esphome.home

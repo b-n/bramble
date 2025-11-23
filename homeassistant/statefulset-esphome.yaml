@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: homeassistant-esphome
+spec:
+  selector:
+    matchLabels:
+      app: homeassistant-esphome
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: homeassistant-esphome
+    spec:
+      containers:
+      - name: esphome
+        image: ghcr.io/esphome/esphome:stable  # Overridden
+        envFrom:
+        - configMapRef:
+            name: homeassistant-esphome-env
+        ports:
+        - containerPort: 6052
+          name: http
+        volumeMounts:
+        - mountPath: /config
+          name: homeassistant-esphome-config
+        - mountPath: /cache
+          name: homeassistant-esphome-cache
+      volumes:
+        - name: homeassistant-esphome-cache
+          emptyDir: {}
+      #affinity:
+      #  nodeAffinity:
+      #    requiredDuringSchedulingIgnoredDuringExecution:
+      #      nodeSelectorTerms:
+      #      - matchExpressions:
+      #        - key: home.bramble/has-storage
+      #          operator: In
+      #          values:
+      #          - "true"
+  volumeClaimTemplates:
+  - metadata:
+      name: homeassistant-esphome-config
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 128Mi

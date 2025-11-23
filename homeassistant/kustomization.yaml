@@ -6,14 +6,20 @@ namespace: homeassistant
 resources:
 - certificate.yaml
 - configmap-homeassistant-env.yaml
+- configmap-esphome-env.yaml
 - gateway.yaml
-- httproute.yaml
+- httproute-esphome.yaml
+- httproute-homeassistant.yaml
 - ns.yaml
+- statefulset-esphome.yaml
 - statefulset-homeassistant.yaml
 - statefulset-matter-server.yaml
+- service-esphome.yaml
 - service-homeassistant.yaml
 - service-matter-server.yaml
 
 images:
 - name: ghcr.io/home-assistant/home-assistant
-  newTag: "2025.11.2"
+  newTag: "2025.11.3"
+- name: ghcr.io/esphome/esphome
+  newTag: "2025.11.0"

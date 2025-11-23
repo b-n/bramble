@@ -18,7 +18,7 @@ spec:
         image: ghcr.io/home-assistant/home-assistant:stable  # Overridden
         envFrom:
         - configMapRef:
-            name: homeassistant-env
+            name: homeassistant-homeassistant-env
         ports:
         - containerPort: 8123
           name: http

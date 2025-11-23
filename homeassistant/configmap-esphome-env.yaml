@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: homeassistant-homeassistant-env
+  name: homeassistant-esphome-env
 data:
   TZ: "Europe/Amsterdam"
+  #ESPHOME_DASHBOARD_USE_PING: "true"
