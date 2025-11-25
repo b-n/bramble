@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: hetzner-dns
 
 resources:
-#- configmap-state.yaml
+- configmap-state.yaml
 - configmap-config.yaml
 - ns.yaml
 - serviceaccount.yaml
