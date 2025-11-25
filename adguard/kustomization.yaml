@@ -4,9 +4,12 @@ kind: Kustomization
 namespace: adguard
 
 resources:
+- certificate.yaml
 - gateway.yaml
 - httproute-local.yaml
+- httproute-public.yaml
 - ns.yaml
 - statefulset.yaml
 - service-admin.yaml
 - service-dns.yaml
+- ../ext/middlewares

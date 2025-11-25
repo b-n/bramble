@@ -4,6 +4,8 @@ kind: Kustomization
 
 resources:
 - adguard/
+- dex/
 - helmcharts/
 - homeassistant/
 - infra/
+- oauth2-proxy/

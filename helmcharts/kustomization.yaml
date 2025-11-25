@@ -6,4 +6,6 @@ namespace: kube-system
 
 resources:
 - helmchart-cert-manager.yaml
+- helmchart-dex.yaml 
+- helmchart-oauth2-proxy.yaml 
 - helmchartconfig-traefik.yaml
