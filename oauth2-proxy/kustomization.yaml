@@ -6,4 +6,16 @@ namespace: oauth2-proxy
 
 resources:
 - referencegrant-oauth2-proxy.yaml
-- secret-oauth-proxy-dex.yaml
+
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: oauth2-proxy
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - ./secret-oauth-proxy-dex.enc.yaml
