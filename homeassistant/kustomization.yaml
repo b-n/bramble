@@ -4,12 +4,14 @@ kind: Kustomization
 namespace: homeassistant
 
 resources:
+- ../ext/middlewares/
 - certificate.yaml
 - configmap-homeassistant-env.yaml
 - configmap-esphome-env.yaml
 - gateway.yaml
 - httproute-esphome.yaml
 - httproute-homeassistant.yaml
+- httproute-homeassistant-local.yaml
 - ns.yaml
 - statefulset-esphome.yaml
 - statefulset-homeassistant.yaml
