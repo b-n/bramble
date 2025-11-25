@@ -1,0 +1,55 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    providers:
+      kubernetesGateway:
+        enabled: true
+        allowCrossNamespace: true
+      kubernetesCRD:
+        enabled: true
+        allowCrossNamespace: true
+      kubernetesIngress:
+        enabled: false
+
+    # No need for the default ingress class
+    ingressClass:
+      enabled: false
+
+    # Disable the default provisioned gateway
+    gateway:
+      enabled: false
+
+    # Trafiek ports
+    ports:
+      web:
+        port: 9080
+        expose:
+          default: true
+        exposedPort: 80
+      websecure:
+        port: 9443
+        expose:
+          default: true
+        exposedPort: 443
+
+    # only exposed via port-forward
+    api:
+      dashboard: true
+      insecure: true
+
+    logs:
+      general:
+        level: INFO
+      access:
+        enabled: true
+    
+    service:
+      spec:
+        externalTrafficPolicy: Local
+
+    nodeSelector:
+      "home.bramble/host-node": "true"
