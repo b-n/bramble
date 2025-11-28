@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aar-jellyfin
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: aar-jellyfin
+  template:
+    metadata:
+      labels:
+        app: aar-jellyfin
+    spec:
+      containers:
+      - name: aar-jellyfin
+        image: lscr.io/linuxserver/jellyfin:10.11.3
+        ports:
+        - containerPort: 8096
+          protocol: TCP
+          name: web
+        volumeMounts:
+        - name: jellyfin-cache
+          mountPath: /cache
+        - name: jellyfin-config
+          mountPath: /config
+        - name: aar-media
+          mountPath: /media
+      volumes:
+      - name: jellyfin-cache
+        iscsi:
+          targetPortal: 192.168.64.253:3260
+          iqn: iqn.2025-03.com.ugreen:aar-jellyfin-cache
+          lun: 0
+          fsType: ext4
+          chapAuthDiscovery: false
+          chapAuthSession: true
+          secretRef:
+            name: iscsi-chap-secret
+      - name: jellyfin-config
+        iscsi:
+          targetPortal: 192.168.64.253:3260
+          iqn: iqn.2025-03.com.ugreen:aar-jellyfin-config
+          lun: 0
+          fsType: ext4
+          chapAuthDiscovery: false
+          chapAuthSession: true
+          secretRef:
+            name: iscsi-chap-secret
+      - name: aar-media
+        iscsi:
+          targetPortal: 192.168.64.253:3260
+          iqn: iqn.2025-03.com.ugreen:aar-media
+          lun: 0
+          fsType: ext4
+          chapAuthDiscovery: false
+          chapAuthSession: true
+          readOnly: true
+          secretRef:
+            name: iscsi-chap-secret

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: aar-jellyfin
+spec:
+  type: ClusterIP
+  selector:
+    app: aar-jellyfin
+  ports:
+  - protocol: TCP
+    port: 8096
+    targetPort: 8096

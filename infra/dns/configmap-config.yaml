@@ -6,4 +6,4 @@ data:
   HETZNER_DNS_CONFIGMAP_STATE: hetzner-dns-state
   HETZNER_DNS_DOMAINS: testing.bennaylor.dev,testing2.bennaylor.dev
   HETZNER_DNS_ZONE: bennaylor.dev
-  HETZNER_DNS_NAMES: thuis,dex,adguard
+  HETZNER_DNS_NAMES: thuis,dex,adguard,aar

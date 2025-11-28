@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aar-web
+data:
+  styles.css: |
+    *, *::before, *::after { box-sizing: border-box; }
+    * { margin: 0; }
+    @media (prefers-reduced-motion: no-preference) { html { interpolate-size: allow-keywords; } }
+    body { line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    img, picture, video, canvas, svg { display: block; max-width: 100%; }
+    input, button, textarea, select { font: inherit; }
+    p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
+    p { text-wrap: pretty; }
+    h1, h2, h3, h4, h5, h6 { text-wrap: balance; }
+    #root, #__next { isolation: isolate; }
+    
+    body {
+      font-family: sans-serif;
+      background-color: #0f0f0f;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: #ccc;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin: 10px 0;
+    }
+    a {
+      text-decoration: none;
+      color: #007BFF;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AAR Services</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <h1>Yarrrrrrr</h1>
+        <ul>
+            <li><a href="/transmission/">Transmission</a></li>
+            <li><a href="/jellyfin/">Jellyfin</a></li>
+        </ul>
+    </body>
+    </html>

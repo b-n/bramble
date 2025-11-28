@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aar-transmission
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aar-transmission
+  template:
+    metadata:
+      labels:
+        app: aar-transmission
+    spec:
+      containers:
+      - name: aar-transmission
+        image: lscr.io/linuxserver/transmission:4.0.6
+        envFrom:
+        - configMapRef:
+            name: aar-transmission-env
+        ports:
+        - containerPort: 9091
+          protocol: TCP
+          name: web
+        - containerPort: 51413
+          protocol: TCP
+          name: torrent-tcp
+        - containerPort: 51413
+          protocol: UDP
+          name: torrent-udp
+        volumeMounts:
+        - name: transmission-config
+          mountPath: /config
+        - name: aar-media
+          mountPath: /downloads
+      volumes:
+      - name: transmission-config
+        iscsi:
+          targetPortal: 192.168.64.253:3260
+          iqn: iqn.2025-03.com.ugreen:aar-transmission-config
+          lun: 0
+          fsType: ext4
+          chapAuthDiscovery: false
+          chapAuthSession: true
+          secretRef:
+            name: iscsi-chap-secret
+      - name: aar-media
+        iscsi:
+          targetPortal: 192.168.64.253:3260
+          iqn: iqn.2025-03.com.ugreen:aar-media
+          lun: 0
+          fsType: ext4
+          chapAuthDiscovery: false
+          chapAuthSession: true
+          secretRef:
+            name: iscsi-chap-secret

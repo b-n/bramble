@@ -1,0 +1,26 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: aar
+
+resources:
+- ../ext/iscsi/
+- ../ext/middlewares/
+- ns.yaml
+# Gateway and routes
+- certificate.yaml
+- gateway.yaml
+- httproute-local.yaml
+- httproute-public.yaml
+# Root web
+- configmap-web.yaml
+- deployment-web.yaml
+- service-web.yaml
+# Transmission
+- configmap-transmission-env.yaml
+- deployment-transmission.yaml
+- service-transmission.yaml
+# Jellyfin
+- deployment-jellyfin.yaml
+- service-jellyfin.yaml
