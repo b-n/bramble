@@ -9,7 +9,7 @@ spec:
     namespace: adguard
   - group: gateway.networking.k8s.io
     kind: HTTPRoute
-    namespace: aar
+    namespace: arr
   - group: gateway.networking.k8s.io
     kind: HTTPRoute
     namespace: infra
