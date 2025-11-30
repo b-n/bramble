@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: aar-transmission-env
+  name: arr-transmission-env
 data:
   PUID: "1000"
   PGID: "1000"

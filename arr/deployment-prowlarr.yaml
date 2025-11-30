@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arr-prowlarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arr-prowlarr
+  template:
+    metadata:
+      labels:
+        app: arr-prowlarr
+    spec:
+      containers:
+      - name: arr-prowlarr
+        image: lscr.io/linuxserver/prowlarr:2.3.0
+        ports:
+        - containerPort: 9696
+          protocol: TCP
+          name: web
+        volumeMounts:
+        - name: prowlarr-config
+          mountPath: /config
+      volumes:
+      - name: prowlarr-config
+        iscsi:
+          targetPortal: 192.168.64.253:3260
+          iqn: iqn.2025-03.com.ugreen:arr-prowlarr-config
+          lun: 0
+          fsType: ext4
+          chapAuthDiscovery: false
+          chapAuthSession: true
+          secretRef:
+            name: iscsi-chap-secret

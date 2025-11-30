@@ -5,4 +5,4 @@ metadata:
 data:
   HETZNER_DNS_CONFIGMAP_STATE: hetzner-dns-state
   HETZNER_DNS_ZONE: bennaylor.dev
-  HETZNER_DNS_NAMES: thuis,dex,adguard,aar,nas
+  HETZNER_DNS_NAMES: thuis,dex,adguard,arr,nas

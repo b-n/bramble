@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: aar-jellyfin
+  name: arr-transmission
 spec:
   type: ClusterIP
   selector:
-    app: aar-jellyfin
+    app: arr-transmission
   ports:
   - protocol: TCP
-    port: 8096
-    targetPort: 8096
+    port: 9091
+    targetPort: 9091

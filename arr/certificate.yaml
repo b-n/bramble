@@ -1,11 +1,11 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: aar
+  name: arr
 spec:
-  secretName: aar-tls
+  secretName: arr-tls
   dnsNames:
-  - "aar.bennaylor.dev"
+  - "arr.bennaylor.dev"
   issuerRef:
     name: acme
     kind: ClusterIssuer

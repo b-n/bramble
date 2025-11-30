@@ -2,33 +2,42 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: aar-local
+  name: arr-public
 spec:
   parentRefs:
-  - name: aar
+  - name: arr
   hostnames:
-  - aar.home
+  - arr.bennaylor.dev
   rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /oauth2
+    backendRefs:
+    - name: oauth2-proxy
+      namespace: oauth2-proxy
+      port: 80
+      weight: 1
   - matches:
     - path:
         type: PathPrefix
         value: /transmission/
     backendRefs:
-      - name: aar-transmission
-        port: 9091
-        weight: 1
+    - name: arr-transmission
+      port: 9091
+      weight: 1
     filters:
     - type: ExtensionRef
       extensionRef:
         group: traefik.io
         kind: Middleware
-        name: local-only
+        name: oauth-chain
   - matches:
     - path:
         type: PathPrefix
         value: /jellyfin/
     backendRefs:
-      - name: aar-jellyfin
+      - name: arr-jellyfin
         port: 8096
         weight: 1
     filters:
@@ -36,10 +45,10 @@ spec:
       extensionRef:
         group: traefik.io
         kind: Middleware
-        name: local-only
+        name: oauth-chain
     - type: URLRewrite
       urlRewrite:
-        hostname: aar.home
+        hostname: arr.home
         path:
           type: ReplacePrefixMatch
           replacePrefixMatch: /
@@ -48,12 +57,12 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-      - name: aar-web
-        port: 3000
-        weight: 1
+    - name: arr-web
+      port: 3000
+      weight: 1
     filters:
     - type: ExtensionRef
       extensionRef:
         group: traefik.io
         kind: Middleware
-        name: local-only
+        name: oauth-chain

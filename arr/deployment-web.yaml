@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aar-web
+  name: arr-web
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: aar-web
+      app: arr-web
   template:
     metadata:
       labels:
-        app: aar-web
+        app: arr-web
     spec:
       containers:
-      - name: aar-web
+      - name: arr-web
         image: lipanski/docker-static-website:2.6.0
         ports:
         - containerPort: 3000
@@ -25,4 +25,4 @@ spec:
       volumes:
       - name: static-site
         configMap:
-          name: aar-web
+          name: arr-web

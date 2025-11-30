@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: aar-web
+  name: arr-web
 data:
   styles.css: |
     *, *::before, *::after { box-sizing: border-box; }
