@@ -1,0 +1,21 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: infra
+spec:
+  gatewayClassName: traefik
+  listeners:
+  - name: websecure
+    port: 9443
+    protocol: HTTPS
+    hostname: nas.bennaylor.dev
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: infra-nas-tls
+        namespace: infra
+  - name: web
+    port: 9080
+    protocol: HTTP
+    hostname: nas.home

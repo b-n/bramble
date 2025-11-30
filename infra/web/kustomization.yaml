@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: infra
+
+resources:
+- certificate-nas.yaml
+- ns.yaml
+- ../../ext/middlewares/
+- gateway.yaml
+- httproute-local.yaml
+- httproute-public.yaml
+# NAS
+- service-nas.yaml
+- endpointslice-nas.yaml

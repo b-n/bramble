@@ -4,5 +4,6 @@ kind: Kustomization
 
 resources:
 - dns/
+- web/
 - node-bramble.yaml
 - node-rpi1.yaml
