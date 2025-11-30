@@ -46,6 +46,20 @@ spec:
   - matches:
     - path:
         type: PathPrefix
+        value: /prowlarr/
+    backendRefs:
+      - name: arr-prowlarr
+        port: 9696
+        weight: 1
+    filters:
+    - type: ExtensionRef
+      extensionRef:
+        group: traefik.io
+        kind: Middleware
+        name: local-only
+  - matches:
+    - path:
+        type: PathPrefix
         value: /
     backendRefs:
       - name: arr-web

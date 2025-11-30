@@ -20,6 +20,11 @@ data:
       background-color: #0f0f0f;
       margin: 0;
       padding: 20px;
+      display: grid;
+      grid-template-columns: 1fr minmax(300px, 500px) 1fr;
+    }
+    body > * {
+      grid-column: 2;
     }
     h1 {
       color: #ccc;
@@ -44,14 +49,15 @@ data:
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>AAR Services</title>
+        <title>ARR Services</title>
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <h1>Yarrrrrrr</h1>
         <ul>
-            <li><a href="/transmission/">Transmission</a></li>
             <li><a href="/jellyfin/">Jellyfin</a></li>
+            <li><a href="/transmission/">Transmission</a></li>
+            <li><a href="/prowlarr/">Prowlarr</a></li>
         </ul>
     </body>
     </html>

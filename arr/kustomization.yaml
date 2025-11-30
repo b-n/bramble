@@ -26,3 +26,4 @@ resources:
 - service-jellyfin.yaml
 # Prowlarr
 - deployment-prowlarr.yaml
+- service-prowlarr.yaml
