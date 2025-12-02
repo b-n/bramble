@@ -24,7 +24,6 @@ spec:
         volumeMounts:
         - name: jellyfin-config-cache
           mountPath: /config
-          subPath: config
         - name: arr-media
           mountPath: /media
       volumes:
