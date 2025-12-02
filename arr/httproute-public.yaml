@@ -8,7 +8,11 @@ spec:
   - name: arr
   hostnames:
   - arr.bennaylor.dev
+  - transmission.arr.bennaylor.dev
+  - prowlarr.arr.bennaylor.dev
+  - jellyfin.arr.bennaylor.dev
   rules:
+  # Oauth for all things
   - matches:
     - path:
         type: PathPrefix
@@ -18,10 +22,30 @@ spec:
       namespace: oauth2-proxy
       port: 80
       weight: 1
+  # Root router
   - matches:
-    - path:
+    - headers:
+      - name: X-Forwarded-Host
+        type: Exact
+        value: arr.bennaylor.dev
+      path:
         type: PathPrefix
-        value: /transmission/
+        value: /
+    backendRefs:
+    - name: arr-web
+      port: 3000
+      weight: 1
+    filters:
+    - type: ExtensionRef
+      extensionRef:
+        group: traefik.io
+        kind: Middleware
+        name: oauth-chain
+  # Transmission
+  - matches:
+    - headers:
+      - name: X-Forwarded-Host
+        value: transmission.arr.bennaylor.dev
     backendRefs:
     - name: arr-transmission
       port: 9091
@@ -32,10 +56,11 @@ spec:
         group: traefik.io
         kind: Middleware
         name: oauth-chain
+  # Jellyfin
   - matches:
-    - path:
-        type: PathPrefix
-        value: /jellyfin/
+    - headers:
+      - name: X-Forwarded-Host
+        value: jellyfin.arr.bennaylor.dev
     backendRefs:
       - name: arr-jellyfin
         port: 8096
@@ -46,40 +71,15 @@ spec:
         group: traefik.io
         kind: Middleware
         name: oauth-chain
-    - type: URLRewrite
-      urlRewrite:
-        hostname: arr.home
-        path:
-          type: ReplacePrefixMatch
-          replacePrefixMatch: /
+  # Prowlarr
   - matches:
-    - path:
-        type: PathPrefix
-        value: /prowlarr/
+    - headers:
+      - name: X-Forwarded-Host
+        value: prowlarr.arr.bennaylor.dev
     backendRefs:
       - name: arr-prowlarr
         port: 9696
         weight: 1
-    filters:
-    - type: ExtensionRef
-      extensionRef:
-        group: traefik.io
-        kind: Middleware
-        name: oauth-chain
-    - type: URLRewrite
-      urlRewrite:
-        hostname: arr.home
-        path:
-          type: ReplacePrefixMatch
-          replacePrefixMatch: /
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
-    backendRefs:
-    - name: arr-web
-      port: 3000
-      weight: 1
     filters:
     - type: ExtensionRef
       extensionRef:

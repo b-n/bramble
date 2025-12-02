@@ -8,11 +8,32 @@ spec:
   - name: arr
   hostnames:
   - arr.home
+  - transmission.arr.home
+  - prowlarr.arr.home
+  - jellyfin.arr.home
   rules:
+  # Root Router
   - matches:
-    - path:
-        type: PathPrefix
-        value: /transmission/
+    - headers:
+      - name: X-Forwarded-Host
+        type: Exact
+        value: arr.home 
+    backendRefs:
+      - name: arr-web
+        port: 3000
+        weight: 1
+    filters:
+    - type: ExtensionRef
+      extensionRef:
+        group: traefik.io
+        kind: Middleware
+        name: local-only
+  # Transmission
+  - matches:
+    - headers:
+      - name: X-Forwarded-Host
+        type: Exact
+        value: transmission.arr.home
     backendRefs:
       - name: arr-transmission
         port: 9091
@@ -23,10 +44,12 @@ spec:
         group: traefik.io
         kind: Middleware
         name: local-only
+  # Jellyfin
   - matches:
-    - path:
-        type: PathPrefix
-        value: /jellyfin/
+    - headers:
+      - name: X-Forwarded-Host
+        type: Exact
+        value: jellyfin.arr.home
     backendRefs:
       - name: arr-jellyfin
         port: 8096
@@ -37,33 +60,15 @@ spec:
         group: traefik.io
         kind: Middleware
         name: local-only
-    - type: URLRewrite
-      urlRewrite:
-        hostname: arr.home
-        path:
-          type: ReplacePrefixMatch
-          replacePrefixMatch: /
+  # Prowlarr
   - matches:
-    - path:
-        type: PathPrefix
-        value: /prowlarr/
+    - headers:
+      - name: X-Forwarded-Host
+        type: Exact
+        value: prowlarr.arr.home
     backendRefs:
       - name: arr-prowlarr
         port: 9696
-        weight: 1
-    filters:
-    - type: ExtensionRef
-      extensionRef:
-        group: traefik.io
-        kind: Middleware
-        name: local-only
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
-    backendRefs:
-      - name: arr-web
-        port: 3000
         weight: 1
     filters:
     - type: ExtensionRef

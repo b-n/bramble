@@ -9,7 +9,16 @@ spec:
   - name: websecure
     port: 9443
     protocol: HTTPS
-    hostname: arr.bennaylor.dev
+    hostname: "arr.bennaylor.dev"
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: arr-tls
+        namespace: arr
+  - name: websecure-subdomains
+    port: 9443
+    protocol: HTTPS
+    hostname: "*.arr.bennaylor.dev"
     tls:
       mode: Terminate
       certificateRefs:
@@ -18,4 +27,8 @@ spec:
   - name: web
     port: 9080
     protocol: HTTP
-    hostname: arr.home
+    hostname: "arr.home"
+  - name: web-subdomains
+    port: 9080
+    protocol: HTTP
+    hostname: "*.arr.home"

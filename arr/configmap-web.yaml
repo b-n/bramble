@@ -55,9 +55,20 @@ data:
     <body>
         <h1>Yarrrrrrr</h1>
         <ul>
-            <li><a href="/jellyfin/">Jellyfin</a></li>
-            <li><a href="/transmission/">Transmission</a></li>
-            <li><a href="/prowlarr/">Prowlarr</a></li>
+            <li><a href="/jellyfin" class="arr-link">Jellyfin</a></li>
+            <li><a href="/transmission" class="arr-link">Transmission</a></li>
+            <li><a href="/prowlarr" class="arr-link">Prowlarr</a></li>
         </ul>
+        <script>
+        // for all arr-link, treat the first part of the string as a subdomain
+        document.querySelectorAll('.arr-link').forEach(link => {
+            const url = new URL(link.href);
+            const pathParts = url.pathname.split('/');
+            pathParts.shift(); // remove the first empty element
+            url.hostname = `${pathParts.shift()}.${window.location.hostname}`;
+            url.pathname = `/${pathParts.join('/')}`;
+            link.href = url.toString();
+        });
+        </script>
     </body>
     </html>
