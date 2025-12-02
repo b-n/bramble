@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
 - adguard/
+- arr/
 - cert-manager/
 - dex/
 - helmcharts/
