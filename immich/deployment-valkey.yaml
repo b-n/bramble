@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-valkey
+  labels:
+    app: immich-valkey
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: immich-valkey
+  template:
+    metadata:
+      labels:
+        app: immich-valkey
+    spec:
+      containers:
+      - name: valkey
+        image: valkey/valkey:8.1.4  # Overridden
+        ports:
+        - containerPort: 6379
+          name: valkey

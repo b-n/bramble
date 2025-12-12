@@ -1,0 +1,21 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: immich
+spec:
+  gatewayClassName: traefik
+  listeners:
+  - name: websecure
+    port: 9443
+    protocol: HTTPS
+    hostname: immich.bennaylor.dev
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: immich-tls
+        namespace: immich
+  - name: web
+    port: 9080
+    protocol: HTTP
+    hostname: immich.home

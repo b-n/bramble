@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: immich-postgres
+spec:
+  selector:
+    matchLabels:
+      app: immich-postgres
+  serviceName: immich-postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: immich-postgres
+    spec:
+      containers:
+      - name: postgres
+        image: ghcr.io/immich-app/postgres:18-vectorchord0.5.3-pgvector0.8.1  # Overridden
+        envFrom:
+        - configMapRef:
+            name: immich-postgres
+        - secretRef:
+            name: immich-postgres
+        ports:
+        - containerPort: 5432
+          name: pgport
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-data
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 10Gi

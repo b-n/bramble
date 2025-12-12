@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-ml
+spec:
+  replicas: 2
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: immich-ml
+  template:
+    metadata:
+      labels:
+        app: immich-ml
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: home.bramble/node-type
+                operator: In
+                values:
+                - "compute"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - immich-ml
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: immich-ml
+        image: ghcr.io/immich-app/immich-machine-learning:v2.3.1
+        env:
+        - name: TZ
+          value: "Europe/Amsterdam"
+        - name: DEVICE
+          value: "cpu"
+        envFrom:
+        - configMapRef:
+            name: immich-env
+        - secretRef:
+            name: immich-env
+        ports:
+        - containerPort: 3003
+          protocol: TCP
+        volumeMounts:
+        - name: immich-ml-cache
+          mountPath: /cache
+      volumes:
+      - name: immich-ml-cache
+        iscsi:
+          targetPortal: 192.168.64.253:3260
+          iqn: iqn.2025-03.com.ugreen:immich-ml-cache
+          lun: 0
+          fsType: ext4
+          chapAuthDiscovery: false
+          chapAuthSession: true
+          secretRef:
+            name: iscsi-chap-secret

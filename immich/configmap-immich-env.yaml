@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: immich-env
+data:
+  TZ: "Europe/Amsterdam"
+  IMMICH_ENV: "production"
+  IMMICH_LOG_LEVEL: "log"
+  # IMMICH_MEDIA_LOCATION: "/data/"
+  # IMMICH_CONFIG_FILE:
+  # IMMICH_TRUSTED_PROXIES: 10.42.0.1
+  IMMICH_HOST: "0.0.0.0"
+  IMMICH_TELEMETRY_INCLUDE: all
+  # DB vars
+  DB_HOSTNAME: "immich-postgres.immich.svc.cluster.local"
+  DB_PORT: "5432"
+  DB_USERNAME: "immich"
+  DB_DATABASE_NAME: "immich"
+  DB_VECTOR_EXTENSION: "vectorchord"
+  DB_STORAGE_TYPE: "SSD"
+  # Valkey vars
+  REDIS_HOSTNAME: "immich-valkey.immich.svc.cluster.local"
+  REDIS_PORT: "6379"

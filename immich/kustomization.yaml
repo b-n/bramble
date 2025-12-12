@@ -1,0 +1,41 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: immich
+
+resources:
+- ../ext/iscsi
+- ../ext/middlewares
+- ns.yaml
+- certificate.yaml
+- gateway.yaml
+- httproute.yaml
+- httproute-local.yaml
+# Postgres
+- configmap-postgres.yaml
+- statefulset-postgres.yaml
+- service-postgres.yaml
+# Valkey
+- deployment-valkey.yaml
+- service-valkey.yaml
+# Immich
+- configmap-immich-env.yaml
+- deployment-server.yaml
+- deployment-ml.yaml
+- service-immich.yaml
+- service-ml.yaml
+
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: immich
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - ./secret-postgres.enc.yaml
+  - ./secret-immich.enc.yaml

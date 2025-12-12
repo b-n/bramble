@@ -9,5 +9,6 @@ resources:
 - dex/
 - helmcharts/
 - homeassistant/
+- immich/
 - infra/
 - oauth2-proxy/

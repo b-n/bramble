@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: immich-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: immich-server
+  template:
+    metadata:
+      labels:
+        app: immich-server
+    spec:
+      containers:
+      - name: immich-server
+        image: ghcr.io/immich-app/immich-server:v2.3.1
+        env:
+        - name: TZ
+          value: "Europe/Amsterdam"
+        envFrom:
+        - configMapRef:
+            name: immich-env
+        - secretRef:
+            name: immich-env
+        ports:
+        - containerPort: 2283
+          protocol: TCP
+          name: web
+        volumeMounts:
+        - name: immich-data
+          mountPath: /data
+      volumes:
+      - name: immich-data
+        iscsi:
+          targetPortal: 192.168.64.253:3260
+          iqn: iqn.2025-03.com.ugreen:immich-data
+          lun: 0
+          fsType: ext4
+          chapAuthDiscovery: false
+          chapAuthSession: true
+          secretRef:
+            name: iscsi-chap-secret
