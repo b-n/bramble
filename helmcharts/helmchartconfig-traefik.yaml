@@ -30,6 +30,11 @@ spec:
         expose:
           default: true
         exposedPort: 80
+        transport:
+          repondingTimeouts:
+            idleTimeout: 0s
+            readTimeout: 0s
+            writeTimeout: 0s
       websecure:
         port: 9443
         expose:
@@ -52,4 +57,4 @@ spec:
         externalTrafficPolicy: Local
 
     nodeSelector:
-      "home.bramble/host-node": "true"
+      "home.bramble/node-type": "head"

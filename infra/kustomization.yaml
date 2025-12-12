@@ -7,3 +7,4 @@ resources:
 - web/
 - node-bramble.yaml
 - node-rpi1.yaml
+- node-rpi2.yaml
