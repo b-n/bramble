@@ -18,5 +18,5 @@ configMapGenerator:
   - update-dns.sh
 
 images:
-- name: quay.io/b-3-n/hetzner-dns
-  newTag: v1.57.0-3.22.2
+- name: alpine/curl
+  newTag: 8.14.1
