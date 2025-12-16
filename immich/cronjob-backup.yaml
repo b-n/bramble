@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: immich-backup
+spec:
+  schedule: "0 3 * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: immich-backup
+        spec:
+          containers:
+          - name: data-backup
+            image: rclone/rclone:latest # PATCHME
+            args:
+            - "--config"
+            - "/config/config.conf"
+            - "-v"
+            - "sync"
+            - "/data/"
+            - "sftp-immich-backup:backup/"
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+            - name: ssh
+              mountPath: /root/.ssh
+              readOnly: true
+            - name: immich-data
+              mountPath: /data
+              readOnly: true
+            - name: config
+              mountPath: /config/
+          restartPolicy: Never
+          volumes:
+          - name: ssh
+            secret:
+              secretName: immich-backup
+              defaultMode: 384
+              items:
+              - key: id_ed25519
+                path: id_ed25519
+              - key: known_hosts
+                path: known_hosts
+          - name: config
+            configMap:
+              name: immich-backup
+          - name: immich-data
+            iscsi:
+              targetPortal: 192.168.64.253:3260
+              iqn: iqn.2025-03.com.ugreen:immich-data
+              lun: 0
+              fsType: ext4
+              chapAuthDiscovery: false
+              chapAuthSession: true
+              readOnly: true
+              secretRef:
+                name: iscsi-chap-secret

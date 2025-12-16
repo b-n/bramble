@@ -25,6 +25,8 @@ resources:
 - deployment-ml.yaml
 - service-immich.yaml
 - service-ml.yaml
+# Backup
+- cronjob-backup.yaml
 
 generators:
 - |-
@@ -39,3 +41,5 @@ generators:
   files:
   - ./secret-postgres.enc.yaml
   - ./secret-immich.enc.yaml
+  - ./secret-immich-backup.enc.yaml
+  - ./configmap-immich-backup.enc.yaml
