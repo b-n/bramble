@@ -19,7 +19,7 @@ spec:
             - "--config"
             - "/config/config.conf"
             - "-v"
-            - "sync"
+            - "copy"
             - "/data/"
             - "sftp-immich-backup:backup/"
             imagePullPolicy: IfNotPresent
