@@ -3,6 +3,10 @@ kind: Kustomization
 
 namespace: adguard
 
+images:
+- name: adguard/adguardhome
+  newTag: v0.107.71
+
 resources:
 - certificate.yaml
 - gateway.yaml

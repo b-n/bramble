@@ -22,6 +22,8 @@ resources:
 
 images:
 - name: ghcr.io/home-assistant/home-assistant
-  newTag: "2025.11.3"
+  newTag: "2026.1.1"
 - name: ghcr.io/esphome/esphome
-  newTag: "2025.11.0"
+  newTag: "2025.12.6"
+- name: ghcr.io/matter-js/python-matter-server
+  newTag: "8.1.2"

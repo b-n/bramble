@@ -4,6 +4,14 @@ kind: Kustomization
 
 namespace: immich
 
+images:
+- name: ghcr.io/immich-app/immich-server
+  newTag: v2.4.1
+- name: ghcr.io/immich-app/immich-machine-learning
+  newTag: v2.4.1
+- name: valkey/valkey
+  newTag: 8.1.5
+
 resources:
 - ../ext/iscsi
 - ../ext/middlewares

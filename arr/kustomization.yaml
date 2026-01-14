@@ -4,6 +4,14 @@ kind: Kustomization
 
 namespace: arr
 
+images:
+- name: lscr.io/linuxserver/jellyfin
+  newTag: 10.11.5
+- name: lscr.io/linuxserver/prowlarr
+  newTag: 2.3.0
+- name: lscr.io/linuxserver/transmission
+  newTag: 4.0.6
+
 resources:
 - ../ext/iscsi/
 - ../ext/middlewares/
