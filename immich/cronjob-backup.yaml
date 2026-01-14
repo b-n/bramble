@@ -54,6 +54,5 @@ spec:
               fsType: ext4
               chapAuthDiscovery: false
               chapAuthSession: true
-              readOnly: true
               secretRef:
                 name: iscsi-chap-secret
