@@ -8,3 +8,7 @@ resources:
 - node-bramble.yaml
 - node-rpi1.yaml
 - node-rpi2.yaml
+- https://github.com/rancher/system-upgrade-controller/releases/latest/download/crd.yaml
+- https://github.com/rancher/system-upgrade-controller/releases/latest/download/system-upgrade-controller.yaml
+- plan-upgrade-control-plane.yaml
+- plan-upgrade-agent.yaml
