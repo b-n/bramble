@@ -36,11 +36,12 @@
 # example: "girlboss.ceo"
 #
 #server_name =
+server_name = "chat.techwerkers.nl"
 
 # This is the only directory where tuwunel will save its data, including
 # media. Note: this was previously "/var/lib/matrix-conduit".
 #
-#database_path = "/var/lib/tuwunel"
+database_path = "/var/lib/tuwunel"
 
 # Text which will be added to the end of the user's displayname upon
 # registration with a space before the text. In Conduit, this was the
@@ -49,6 +50,7 @@
 # To disable, set this to "" (an empty string).
 #
 #new_user_displayname_suffix = "💕"
+new_user_displayname_suffix = ""
 
 # The default address (IPv4 or IPv6) tuwunel will listen on.
 #
@@ -59,6 +61,7 @@
 # "::1"]
 #
 #address = ["127.0.0.1", "::1"]
+address = ["0.0.0.0"]
 
 # The port(s) tuwunel will listen on.
 #
@@ -70,7 +73,7 @@
 #
 # To listen on multiple ports, specify a vector e.g. [8080, 8448]
 #
-#port = 8008
+port = 8008
 
 # The UNIX socket tuwunel will listen on.
 #
@@ -104,6 +107,7 @@
 # example: "/opt/tuwunel-db-backups"
 #
 #database_backup_path =
+# TODO: Setup backups
 
 # The amount of online RocksDB database backups to keep/retain, if using
 # "database_backup_path", before deleting the oldest one.
@@ -286,6 +290,7 @@
 # of the A record.
 #
 #ip_lookup_strategy = 5
+ip_lookup_strategy = 1  # We only support ipv4 on the host sadly
 
 # List of domain patterns resolved via the alternative path without any
 # persistent cache, very small memory cache, and no enforced TTL. This
@@ -319,6 +324,8 @@
 # Max request size for file uploads in bytes.
 #
 #max_request_size = 24 MiB
+# We have somewhat restricted space...
+max_request_size = 10485760
 
 # This item is undocumented. Please contribute documentation for it.
 #
@@ -432,7 +439,7 @@
 # If you would like registration only via token reg, please configure
 # `registration_token` or `registration_token_file`.
 #
-#allow_registration = false
+allow_registration = true
 
 # Enabling this setting opens registration to anyone without restrictions.
 # This makes your server vulnerable to abuse
@@ -460,10 +467,12 @@
 # example: "/etc/tuwunel/.reg_token"
 #
 #registration_token_file =
+registration_token_file = "/etc/tuwunel/.reg_token"
 
 # Controls whether encrypted rooms and events are allowed.
 #
 #allow_encryption = true
+allow_encryption = true
 
 # Controls whether locally-created rooms should be end-to-end encrypted by
 # default. This option is equivalent to the one found in Synapse.
@@ -475,6 +484,7 @@
 # - Other values default to no effect.
 #
 #encryption_enabled_by_default_for_room_type = false
+encryption_enabled_by_default_for_room_type = "invite"
 
 # Controls whether federation is allowed or not. It is not recommended to
 # disable this after installation due to potential federation breakage but
@@ -504,6 +514,7 @@
 # part of MSC4267 "Automatically forgetting rooms on leave"
 #
 #forget_forced_upon_leave = false
+forget_forced_upon_leave = true
 
 # Set this to true to require authentication on the normally
 # unauthenticated profile retrieval endpoints (GET)
@@ -512,6 +523,7 @@
 # This can prevent profile scraping.
 #
 #require_auth_for_profile_requests = false
+require_auth_for_profile_requests = true
 
 # Set this to true to allow your server's public room directory to be
 # federated. Set this to false to protect against /publicRooms spiders,
@@ -548,6 +560,7 @@
 # the search will be shown.
 #
 #show_all_local_users_in_user_directory = false
+show_all_local_users_in_user_directory = true
 
 # Allow guests/unauthenticated users to access TURN credentials.
 #
@@ -739,10 +752,12 @@
 # applied.
 #
 #log = "info"
+log = "info"
 
 # Output logs with ANSI colours.
 #
 #log_colors = true
+log_colors = true
 
 # Sets the log format to compact mode.
 #
@@ -776,6 +791,7 @@
 # only: configuring an empty log string is preferred over using this.
 #
 #log_enable = true
+log_enable = true
 
 # Setting to false disables the logging/tracing system at a lower level
 # similar to `log_enable`. In this case the system is configured normally,
@@ -865,6 +881,7 @@
 # example: "/etc/tuwunel/.turn_secret"
 #
 #turn_secret_file =
+turn_secret_file = "/etc/tuwunel/.turn_secret"
 
 # TURN TTL, in seconds.
 #
@@ -1900,6 +1917,7 @@
 # still exists.
 #
 #delete_rooms_after_leave = false
+delete_rooms_after_leave = true
 
 # Limits the number of One Time Keys per device (not per-algorithm). The
 # reference implementation maintains 50 OTK's at any given time, therefor
@@ -1967,6 +1985,7 @@
 
 
 #[global.well_known]
+[global.well_known]
 
 # The server URL that the client well-known file will serve. This should
 # not contain a port, and should just be a valid HTTPS URL.
@@ -1974,6 +1993,7 @@
 # example: "https://matrix.example.com"
 #
 #client =
+client = "https://chat.techwerkers.nl"
 
 # The server base domain of the URL with a specific port that the server
 # well-known file will serve. This should contain a port at the end, and
@@ -1982,6 +2002,7 @@
 # example: "matrix.example.com:443"
 #
 #server =
+server = "chat.techwerkers.nl:443"
 
 # The URL of the support web page. This and the below generate the content
 # of `/.well-known/matrix/support`.
@@ -1995,18 +2016,21 @@
 # example: "m.role.admin"
 #
 #support_role =
+support_role = "m.role.admin"
 
 # The email address for the above support role.
 #
 # example: "admin@example.com"
 #
 #support_email =
+support_email = "hey@techwerkers.nl"
 
 # The Matrix User ID for the above support role.
 #
 # example "@admin:example.com"
 #
 #support_mxid =
+support_mxid = "@admin:chat.techwerkers.nl"
 
 # Element Call / MatrixRTC configuration (MSC4143).
 # Configures the LiveKit SFU server for voice/video calls.
