@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tw-matrix-tuwunel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tw-matrix-tuwunel
+  template:
+    metadata:
+      labels:
+        app: tw-matrix-tuwunel
+    spec:
+      containers:
+      - name: tuwunel
+        image: jevolk/tuwunel:main # REPLACEME
+        env:
+        - name: TUWUNEL_CONFIG
+          value: "/etc/tuwunel/tuwunel.toml"
+        ports:
+        - name: http
+          containerPort: 8008
+        volumeMounts:
+        - name: tuwunel-config
+          mountPath: /etc/tuwunel/tuwunel.toml
+          subPath: tuwunel.toml
+        - name: tuwunel-secrets
+          mountPath: /etc/tuwunel/.reg_token
+          subPath: .reg-token
+        - name: tuwunel-secrets
+          mountPath: /etc/tuwunel/.turn_secret
+          subPath: .turn-secret
+        - name: tuwunel-data
+          mountPath: /var/lib/tuwunel
+      nodeSelector:
+        home.bramble/has-storage: "true"
+      volumes:
+      - name: tuwunel-config
+        configMap:
+          name: tw-matrix-tuwunel-config
+          items:
+          - key: tuwunel.toml
+            path: tuwunel.toml
+      - name: tuwunel-secrets
+        secret:
+          secretName: tw-matrix-tuwunel
+          defaultMode: 420
+  volumeClaimTemplates:
+  - metadata:
+      name: tuwunel-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 10Gi

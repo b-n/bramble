@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: tw-matrix-bridge-mautrix-discord
+spec:
+  parentRefs:
+  - name: tw-matrix
+  hostnames:
+  - mautrix-discord.chat.techwerkers.nl 
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: tw-matrix-bridge-mautrix-discord
+      port: 29334
+      weight: 1

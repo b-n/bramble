@@ -484,7 +484,7 @@ allow_encryption = true
 # - Other values default to no effect.
 #
 #encryption_enabled_by_default_for_room_type = false
-encryption_enabled_by_default_for_room_type = "invite"
+#encryption_enabled_by_default_for_room_type = false
 
 # Controls whether federation is allowed or not. It is not recommended to
 # disable this after installation due to potential federation breakage but
@@ -894,7 +894,11 @@ turn_secret_file = "/etc/tuwunel/.turn_secret"
 # example: ["#tuwunel:tuwunel.chat",
 # "!eoIzvAvVwY23LPDay8:tuwunel.chat"]
 #
-#auto_join_rooms = []
+# Rooms:
+# - #welcome
+auto_join_rooms = [
+  "!HTP2TUxLlFNFjhgWkk:chat.techwerkers.nl"
+]
 
 # Config option to automatically deactivate the account of any user who
 # attempts to join a:
