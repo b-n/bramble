@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tw-matrix-bridge-mautrix-discord
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tw-matrix-bridge-mautrix-discord
+  template:
+    metadata:
+      labels:
+        app: tw-matrix-bridge-mautrix-discord
+    spec:
+      containers:
+      - name: tuwunel
+        image: dock.mau.dev/mautrix/discord:latest
+        # Useful for setting up the container for manual registration flows
+        #command: ["bash", "-c", "sleep 3600s"]
+        ports:
+        - name: http
+          containerPort: 29334
+        volumeMounts:
+        - name: mautrix-discord-data
+          mountPath: /data
+      nodeSelector:
+        home.bramble/has-storage: "true"
+  volumeClaimTemplates:
+  - metadata:
+      name: mautrix-discord-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 1Gi
