@@ -7,7 +7,7 @@ metadata:
 spec:
   repo: https://oauth2-proxy.github.io/manifests
   chart: oauth2-proxy
-  version: 8.5.1
+  version: 10.1.4
   targetNamespace: oauth2-proxy
   createNamespace: true
   valuesContent: |-
