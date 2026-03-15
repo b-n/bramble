@@ -2,6 +2,7 @@ apiVersion: helm.cattle.io/v1
 kind: HelmChart
 metadata:
   name: dex
+  namespace: kube-system
 spec:
   chart: dex
   repo: https://charts.dexidp.io/
