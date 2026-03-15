@@ -2,6 +2,7 @@ apiVersion: gateway.networking.k8s.io/v1beta1
 kind: ReferenceGrant
 metadata:
   name: oauth2-proxy-callbacks
+  namespace: oauth2-proxy
 spec:
   from:
   - group: gateway.networking.k8s.io
@@ -13,6 +14,9 @@ spec:
   - group: gateway.networking.k8s.io
     kind: HTTPRoute
     namespace: infra
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    namespace: keycloak
   to:
   - group: ""
     kind: Service
