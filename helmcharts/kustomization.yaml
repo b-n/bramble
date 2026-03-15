@@ -5,6 +5,5 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
-- helmchart-cert-manager.yaml
 - helmchart-dex.yaml 
 - helmchartconfig-traefik.yaml
