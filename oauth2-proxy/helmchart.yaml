@@ -12,13 +12,14 @@ spec:
   createNamespace: true
   valuesContent: |-
     config:
-      existingSecret: oauth2-proxy-dex
+      existingSecret: oauth2-proxy-keycloak
       configFile: |-
         # OIDC Settings
-        provider = "oidc"
-        provider_display_name = "Dex"
-        oidc_issuer_url = "https://dex.bennaylor.dev"
+        provider = "keycloak-oidc"
+        # provider_display_name = "Keycloak"
+        oidc_issuer_url = "https://keycloak.bennaylor.dev/realms/master"
         email_domains = [ "*" ]
+        code_challenge_method = "S256"
 
         # Proxy Settings
         reverse_proxy = true

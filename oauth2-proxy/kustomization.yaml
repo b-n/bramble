@@ -17,4 +17,4 @@ generators:
         exec:
           path: ksops
   files:
-  - ./secret-oauth-proxy-dex.enc.yaml
+  - ./secret-oauth-proxy-keycloak.enc.yaml

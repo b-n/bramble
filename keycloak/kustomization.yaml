@@ -1,0 +1,36 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: keycloak
+
+resources:
+# Dependencies: infra
+- gateway.yaml
+- httproute.yaml
+- httproute-local.yaml
+- certificate.yaml
+- ../ext/middlewares
+# Dependencies: postgres
+- configmap-postgres.yaml
+- statefulset-postgres.yaml
+- service-postgres.yaml
+# Main deployment
+- configmap-keycloak-env.yaml
+- deployment-keycloak.yaml
+- service-keycloak-discovery.yaml
+- service-keycloak-admin.yaml
+
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: keycloak
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - secret-postgres.enc.yaml
+  - secret-keycloak-env.enc.yaml

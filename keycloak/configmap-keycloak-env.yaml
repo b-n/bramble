@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-env
+data:
+  # Disabled after bootstrapping
+  # KC_BOOTSTRAP_ADMIN_USERNAME: admin
+  # KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+  KC_PROXY_HEADERS: xforwarded
+  KC_HTTP_ENABLED: "true"
+  # TLS is done at the gateway, and we want to host on multiple domains
+  # KC_HOSTNAME: "https://keycloak.bennaylor.dev"
+  KC_HOSTNAME_STRICT: "false"
+  # KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
+  KC_HEALTH_ENABLED: "true"
+  KC_CACHE: ispn
+  # - name: POD_IP
+  #   valueFrom:
+  #     fieldRef:
+  #       fieldPath: status.podIP
+  # KC_CACHE_EMBEDDED_NETWORK_BIND_ADDRESS: '$(POD_IP)'
+  KC_DB: postgres
+  KC_DB_URL_DATABASE: keycloak
+  KC_DB_URL_HOST: keycloak-postgres.keycloak.svc.cluster.local.
+  KC_DB_USERNAME: keycloak

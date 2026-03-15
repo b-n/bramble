@@ -6,9 +6,8 @@ resources:
 - adguard/
 - arr/
 - cert-manager/
-- dex/
-- helmcharts/
 - homeassistant/
 - immich/
 - infra/
+- keycloak/
 - oauth2-proxy/

@@ -1,18 +1,20 @@
----
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: dex
-  namespace: dex
+  name: keycloak
 spec:
   gatewayClassName: traefik
   listeners:
   - name: websecure
     port: 9443
     protocol: HTTPS
-    hostname: dex.bennaylor.dev
+    hostname: keycloak.bennaylor.dev
     tls:
       mode: Terminate
       certificateRefs:
-      - name: dex-tls
-        namespace: dex
+      - name: keycloak-tls
+        namespace: keycloak
+  - name: web
+    port: 9080
+    protocol: HTTP
+    hostname: keycloak.home
