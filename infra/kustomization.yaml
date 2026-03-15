@@ -12,3 +12,4 @@ resources:
 - https://github.com/rancher/system-upgrade-controller/releases/latest/download/system-upgrade-controller.yaml
 - plan-upgrade-control-plane.yaml
 - plan-upgrade-agent.yaml
+- helmchartconfig-traefik.yaml

@@ -6,4 +6,3 @@ namespace: kube-system
 
 resources:
 - helmchart-dex.yaml 
-- helmchartconfig-traefik.yaml
