@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: headscale
+  labels:
+    app: headscale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: headscale
+  template:
+    metadata:
+      labels:
+        app: headscale
+    spec:
+      containers:
+      - name: headscale
+        image: docker.io/headscale/headscale:latest # REPLACEME
+        args: ["serve", "-c", "/etc/headscale/config.yaml"]
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: metrics
+          containerPort: 9090
+        - name: grpc
+          containerPort: 50443
+        volumeMounts:
+        - mountPath: /var/lib/headscale
+          name: headscale-data
+        - mountPath: /var/lib/headscale/oidc_client_secret
+          name: headscale-secrets
+          subPath: oidc_client_secret
+        - mountPath: /etc/headscale/config.yaml
+          name: headscale-config
+          subPath: config-headscale.yaml
+        - mountPath: /var/run/headscale
+          name: tmpfs
+      volumes:
+      - name: tmpfs
+        emptyDir: {}
+      - name: headscale-config
+        configMap:
+          name: headscale-config
+          items:
+          - key: config-headscale.yaml
+            path: config-headscale.yaml
+      - name: headscale-secrets
+        secret:
+          secretName: headscale-keys
+          items:
+          - key: oidc_client_secret
+            path: oidc_client_secret
+      nodeSelector:
+        home.bramble/has-storage: "true"
+  volumeClaimTemplates:
+  - metadata:
+      name: headscale-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 1Gi

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: headscale-headplane
+  labels:
+    app: headscale
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: http
+      name: http
+  selector:
+    app: headscale-headplane
+  type: ClusterIP
