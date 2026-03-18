@@ -17,6 +17,9 @@ spec:
   - group: gateway.networking.k8s.io
     kind: HTTPRoute
     namespace: keycloak
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    namespace: headscale
   to:
   - group: ""
     kind: Service

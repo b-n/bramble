@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: headscale-headplane
+  labels:
+    app: headscale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: headscale-headplane
+  template:
+    metadata:
+      labels:
+        app: headscale-headplane
+    spec:
+      containers:
+      - name: headscale
+        image: ghcr.io/tale/headplane:latest # REPLACEME
+        ports:
+        - name: http
+          containerPort: 3000
+        volumeMounts:
+        # Persistent data
+        - mountPath: /var/lib/headplane
+          name: headplane-data
+        # headplane config and secrets
+        - mountPath: /var/lib/headplane/cookie_secret
+          name: headplane-secrets
+          subPath: cookie_secret
+        - mountPath: /var/lib/headplane/headscale_api_key
+          name: headplane-secrets
+          subPath: headscale_api_key
+        - mountPath: /etc/headplane/config.yaml
+          name: headscale-headplane-config
+          subPath: config-headplane.yaml
+        # headscale config
+        - mountPath: /etc/headscale/config.yaml
+          name: headscale-config
+          subPath: config-headscale.yaml
+          readOnly: true
+        - mountPath: /var/lib/headplane/oidc_client_secret
+          name: headscale-secrets
+          subPath: oidc_client_secret
+      volumes:
+      # persistent data
+      - name: headscale-headplane-config
+        configMap:
+          name: headscale-headplane-config
+          items:
+          - key: config-headplane.yaml
+            path: config-headplane.yaml
+      # headplane secrets
+      - name: headplane-secrets
+        secret:
+          secretName: headscale-headplane
+          items:
+          - key: cookie_secret 
+            path: cookie_secret
+          - key: headscale_api_key
+            path: headscale_api_key
+      # headscale config/secrets
+      - name: headscale-config
+        configMap:
+          name: headscale-config
+          items:
+          - key: config-headscale.yaml
+            path: config-headscale.yaml
+      - name: headscale-secrets
+        secret:
+          secretName: headscale-keys
+          items:
+          - key: oidc_client_secret
+            path: oidc_client_secret
+      nodeSelector:
+        home.bramble/has-storage: "true"
+  volumeClaimTemplates:
+  - metadata:
+      name: headplane-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 1Gi

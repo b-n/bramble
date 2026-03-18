@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: headscale
+spec:
+  gatewayClassName: traefik
+  listeners:
+  - name: websecure
+    port: 9443
+    protocol: HTTPS
+    hostname: wg.bennaylor.dev
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: headscale-tls
+        namespace: headscale

@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: headscale
+spec:
+  secretName: headscale-tls
+  dnsNames:
+  - "wg.bennaylor.dev"
+  issuerRef:
+    name: acme
+    kind: ClusterIssuer
