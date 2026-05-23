@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: observability
+spec:
+  secretName: observability-tls
+  dnsNames:
+  - "prometheus.bennaylor.dev"
+  - "grafana.bennaylor.dev"
+  issuerRef:
+    name: acme
+    kind: ClusterIssuer

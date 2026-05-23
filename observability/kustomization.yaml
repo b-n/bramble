@@ -1,0 +1,34 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: observability
+
+resources:
+# Shared
+- ns.yaml
+- gateway.yaml
+- ../ext/middlewares
+- certificate.yaml
+# Prometheus
+- serviceaccount-prometheus.yaml
+- clusterrole-prometheus.yaml
+- clusterrolebinding-prometheus.yaml
+- prometheus.yaml
+- httproute-prometheus.yaml
+# Grafana
+- helmchart-grafana.yaml
+- httproute-grafana.yaml
+
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: observability
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - secret-k3s-server-scrape.enc.yaml
+  - secret-grafana-env.enc.yaml

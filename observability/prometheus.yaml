@@ -1,0 +1,36 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+spec:
+  serviceAccountName: prometheus
+  nodeSelector:
+    home.bramble/has-storage: "true"
+  retention: 30d
+  enableOTLPReceiver: true
+  scrapeInterval: 30s
+  serviceMonitorSelector:
+    matchLabels:
+      prometheus: scrape
+  serviceMonitorNamespaceSelector: {}
+  podMonitorSelector:
+    matchLabels:
+      prometheus: scrape
+  podMonitorNamespaceSelector: {}
+  additionalScrapeConfigs:
+    name: secret-k3s-server-scrape
+    key: scrape_configs
+  resources:
+    requests:
+      memory: 400Mi
+    limits:
+      memory: 400Mi
+  storage:
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        storageClassName: nfs
+        resources:
+          requests:
+            storage: 20Gi
