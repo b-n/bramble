@@ -13,3 +13,5 @@ resources:
 - plan-upgrade-control-plane.yaml
 - plan-upgrade-agent.yaml
 - helmchartconfig-traefik.yaml
+- helmchart-nfs.yaml
+- ns-nfs.yaml

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: n8n-env
+data:
+  DB_TYPE: postgresdb
+  DB_POSTGRESDB_HOST: n8n-postgres.n8n.svc.cluster.local
+  DB_POSTGRESDB_PORT: "5432"
+  DB_POSTGRESDB_DATABASE: n8n
+  DB_POSTGRESDB_USER: n8n
+  N8N_PROTOCOL: https
+  N8N_PORT: "5678"
+  N8N_HOST: "n8n.bennaylor.dev"
+  N8N_EDITOR_BASE_URL: "https://n8n.bennaylor.dev"
+  N8N_DIAGNOSTICS_ENABLED: "false"
+  N8N_HIRING_BANNER_ENABLED: "false"
+  N8N_HIDE_USAGE_PAGE: "true"
+  N8N_SECURE_COOKIE: "true"
+  N8N_SAMESITE_COOKIE: "strict"
+  N8N_EMAIL_MODE: "smtp"
+  N8N_SMTP_HOST: "disroot.org"
+  N8N_SMTP_PORT: "587"
+  N8N_SMTP_USER: "techwerkers"
+  N8N_SMTP_SENDER: "n8n@techwerkers.nl"
+  N8N_SMTP_SSL: "true"
+  N8N_PROXY_HOPS: "1"
+  N8N_SMTP_STARTTLS: "true"

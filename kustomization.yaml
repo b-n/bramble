@@ -11,3 +11,4 @@ resources:
 - infra/
 - keycloak/
 - oauth2-proxy/
+- n8n/
