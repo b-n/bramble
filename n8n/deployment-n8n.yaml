@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: n8n
+  labels:
+    app: n8n
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: n8n
+  template:
+    metadata:
+      labels:
+        app: n8n
+    spec:
+      containers:
+      - name: n8n
+        image: n8nio/n8n:latest
+        command: ["sh"]
+        args:
+        - -c
+        - sleep 5; n8n start
+        envFrom:
+        - configMapRef:
+            name: n8n-env
+        - secretRef:
+            name: n8n-env
+        ports:
+        - name: http
+          containerPort: 5678
+        resources:
+          limits:
+            memory: 512Mi
+          requests:
+            memory: 512Mi
+        volumeMounts:
+        - name: n8n-data
+          mountPath: /home/node/.n8n
+      volumes:
+      - name: n8n-data
+        persistentVolumeClaim:
+          claimName: n8n-data
