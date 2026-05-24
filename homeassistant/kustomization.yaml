@@ -4,26 +4,31 @@ kind: Kustomization
 namespace: homeassistant
 
 resources:
+# Generic resources
 - ../ext/middlewares/
 - certificate.yaml
-- configmap-homeassistant-env.yaml
-- configmap-esphome-env.yaml
 - gateway.yaml
-- httproute-esphome.yaml
+- ns.yaml
+# Homeassistant
+- configmap-homeassistant-env.yaml
 - httproute-homeassistant.yaml
 - httproute-homeassistant-local.yaml
-- ns.yaml
-- statefulset-esphome.yaml
 - statefulset-homeassistant.yaml
+- service-homeassistant.yaml
+# Esphome
+- configmap-esphome-env.yaml
+- httproute-esphome.yaml
+- deployment-esphome.yaml
+- pvc-esphome.yaml
+# Matter server
 - statefulset-matter-server.yaml
 - service-esphome.yaml
-- service-homeassistant.yaml
 - service-matter-server.yaml
 
 images:
 - name: ghcr.io/home-assistant/home-assistant
-  newTag: "2026.3.1"
+  newTag: "2026.5.4"
 - name: ghcr.io/esphome/esphome
-  newTag: "2026.2.4"
+  newTag: "2026.5.0"
 - name: ghcr.io/matter-js/python-matter-server
   newTag: "8.1.2"
