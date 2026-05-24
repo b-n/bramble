@@ -14,6 +14,15 @@ spec:
       labels:
         app: arr-jellyfin
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: home.bramble/compute-class
+                operator: In
+                values:
+                - "raspberry-pi-5"
       containers:
       - name: arr-jellyfin
         image: lscr.io/linuxserver/jellyfin:latest
@@ -26,6 +35,7 @@ spec:
           mountPath: /config
         - name: arr-media
           mountPath: /media
+          readOnly: true
       volumes:
       - name: jellyfin-config-cache
         iscsi:
@@ -37,14 +47,17 @@ spec:
           chapAuthSession: true
           secretRef:
             name: iscsi-chap-secret
+      # - name: arr-media
+      #   iscsi:
+      #     targetPortal: 192.168.64.253:3260
+      #     iqn: iqn.2025-03.com.ugreen:arr-media
+      #     lun: 0
+      #     fsType: ext4
+      #     chapAuthDiscovery: false
+      #     chapAuthSession: true
+      #     readOnly: true
+      #     secretRef:
+      #       name: iscsi-chap-secret
       - name: arr-media
-        iscsi:
-          targetPortal: 192.168.64.253:3260
-          iqn: iqn.2025-03.com.ugreen:arr-media
-          lun: 0
-          fsType: ext4
-          chapAuthDiscovery: false
-          chapAuthSession: true
-          readOnly: true
-          secretRef:
-            name: iscsi-chap-secret
+        persistentVolumeClaim:
+          claimName: arr-media

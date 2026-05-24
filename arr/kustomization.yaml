@@ -6,9 +6,9 @@ namespace: arr
 
 images:
 - name: lscr.io/linuxserver/jellyfin
-  newTag: 10.11.7
+  newTag: 10.11.9
 - name: lscr.io/linuxserver/prowlarr
-  newTag: 2.3.0
+  newTag: 2.3.5
 - name: lscr.io/linuxserver/transmission
   newTag: 4.1.1
 
@@ -16,6 +16,7 @@ resources:
 - ../ext/iscsi/
 - ../ext/middlewares/
 - ns.yaml
+- pvc-media.yaml
 # Gateway and routes
 - certificate.yaml
 - gateway.yaml
