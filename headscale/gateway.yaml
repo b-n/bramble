@@ -12,5 +12,7 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: headscale-tls
+      - group: ""
+        kind: Secret
+        name: headscale-tls
         namespace: headscale

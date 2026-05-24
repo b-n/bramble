@@ -13,7 +13,9 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: infra-nas-tls
+      - group: ""
+        kind: Secret
+        name: infra-nas-tls
         namespace: infra
   - name: web
     port: 9080

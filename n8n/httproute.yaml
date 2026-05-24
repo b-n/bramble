@@ -5,7 +5,9 @@ metadata:
   name: n8n-public
 spec:
   parentRefs:
-  - name: n8n
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: n8n
   hostnames:
   - n8n.bennaylor.dev
   rules:
@@ -15,7 +17,9 @@ spec:
         type: PathPrefix
         value: /oauth2
     backendRefs:
-    - name: oauth2-proxy
+    - group: ""
+      kind: Service
+      name: oauth2-proxy
       namespace: oauth2-proxy
       port: 80
       weight: 1
@@ -28,7 +32,9 @@ spec:
         type: PathPrefix
         value: /webhook/
     backendRefs:
-    - name: n8n
+    - group: ""
+      kind: Service
+      name: n8n
       port: 8080
       weight: 1
   # n8n
@@ -37,7 +43,9 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: n8n
+    - group: ""
+      kind: Service
+      name: n8n
       port: 8080
       weight: 1
     filters:

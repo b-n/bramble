@@ -47,7 +47,9 @@ spec:
           secretName: tw-matrix-tuwunel
           defaultMode: 420
   volumeClaimTemplates:
-  - metadata:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
       name: tuwunel-data
     spec:
       accessModes: [ "ReadWriteOnce" ]

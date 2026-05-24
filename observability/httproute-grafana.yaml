@@ -6,7 +6,9 @@ metadata:
   namespace: observability
 spec:
   parentRefs:
-  - name: observability
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: observability
     sectionName: websecure-grafana
   hostnames:
   - grafana.bennaylor.dev
@@ -17,6 +19,8 @@ spec:
         value: /oauth2
     backendRefs:
     - name: oauth2-proxy
+      group: ""
+      kind: Service
       namespace: oauth2-proxy
       port: 80
       weight: 1
@@ -25,7 +29,9 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: grafana
+    - group: ""
+      kind: Service
+      name: grafana
       port: 80
       weight: 1
     filters:

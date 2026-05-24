@@ -13,7 +13,9 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: observability-tls
+      - group: ""
+        kind: Secret
+        name: observability-tls
         namespace: observability
   - name: websecure-grafana
     port: 9443
@@ -22,5 +24,7 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: observability-tls
+      - group: ""
+        kind: Secret
+        name: observability-tls
         namespace: observability

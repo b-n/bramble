@@ -12,7 +12,9 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: n8n-tls
+      - group: ""
+        kind: Secret
+        name: n8n-tls
         namespace: n8n
   - name: web
     port: 9080

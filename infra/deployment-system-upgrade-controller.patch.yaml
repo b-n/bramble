@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: system-upgrade-controller
+  namespace: system-upgrade
+spec:
+  template:
+    spec:
+      containers:
+      - name: system-upgrade-controller
+        env:
+        - name: SYSTEM_UPGRADE_CONTROLLER_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.labels['upgrade.cattle.io/controller']
+        - name: SYSTEM_UPGRADE_CONTROLLER_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: SYSTEM_UPGRADE_CONTROLLER_NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+ 

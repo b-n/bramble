@@ -5,7 +5,9 @@ metadata:
   name: tw-matrix
 spec:
   parentRefs:
-  - name: tw-matrix
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: tw-matrix
   hostnames:
   - chat.techwerkers.nl 
   rules:
@@ -14,6 +16,8 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: tw-matrix-tuwunel
+    - group: ""
+      kind: Service
+      name: tw-matrix-tuwunel
       port: 8008
       weight: 1

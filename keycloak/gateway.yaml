@@ -12,7 +12,9 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: keycloak-tls
+      - group: ""
+        kind: Secret
+        name: keycloak-tls
         namespace: keycloak
   - name: web
     port: 9080

@@ -5,7 +5,9 @@ metadata:
   name: infra-public
 spec:
   parentRefs:
-  - name: infra
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: infra
   hostnames:
   - nas.bennaylor.dev
   rules:
@@ -14,7 +16,9 @@ spec:
         type: PathPrefix
         value: /oauth2
     backendRefs:
-    - name: oauth2-proxy
+    - group: ""
+      kind: Service
+      name: oauth2-proxy
       namespace: oauth2-proxy
       port: 80
       weight: 1
@@ -23,7 +27,9 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: infra-nas
+    - group: ""
+      kind: Service
+      name: infra-nas
       port: 9999
       weight: 1
     filters:

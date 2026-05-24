@@ -30,10 +30,13 @@ spec:
       nodeSelector:
         home.bramble/has-storage: "true"
   volumeClaimTemplates:
-  - metadata:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
       name: postgres-data
     spec:
-      accessModes: ["ReadWriteOnce"]
+      accessModes:
+      - ReadWriteOnce
       storageClassName: local-path
       resources:
         requests:

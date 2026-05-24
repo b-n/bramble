@@ -5,7 +5,9 @@ metadata:
   name: homeassistant-homeassistant
 spec:
   parentRefs:
-  - name: homeassistant
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: homeassistant
   hostnames:
   - thuis.bennaylor.dev
   rules:
@@ -17,6 +19,8 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-      - name: homeassistant-homeassistant
-        port: 8123
-        weight: 1
+    - group: ""
+      kind: Service
+      name: homeassistant-homeassistant
+      port: 8123
+      weight: 1

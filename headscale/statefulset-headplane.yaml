@@ -75,7 +75,9 @@ spec:
       nodeSelector:
         home.bramble/has-storage: "true"
   volumeClaimTemplates:
-  - metadata:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
       name: headplane-data
     spec:
       accessModes: ["ReadWriteOnce"]

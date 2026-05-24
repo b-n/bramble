@@ -5,7 +5,9 @@ metadata:
   name: tw-matrix-bridge-mautrix-discord
 spec:
   parentRefs:
-  - name: tw-matrix
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: tw-matrix
   hostnames:
   - mautrix-discord.chat.techwerkers.nl 
   rules:
@@ -14,6 +16,8 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: tw-matrix-bridge-mautrix-discord
+    - group: ""
+      kind: Service
+      name: tw-matrix-bridge-mautrix-discord
       port: 29334
       weight: 1

@@ -5,7 +5,9 @@ metadata:
   name: arr-public
 spec:
   parentRefs:
-  - name: arr
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: arr
   hostnames:
   - arr.bennaylor.dev
   - transmission.arr.bennaylor.dev
@@ -18,7 +20,9 @@ spec:
         type: PathPrefix
         value: /oauth2
     backendRefs:
-    - name: oauth2-proxy
+    - group: ""
+      kind: Service
+      name: oauth2-proxy
       namespace: oauth2-proxy
       port: 80
       weight: 1
@@ -32,7 +36,10 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: arr-web
+    - group: ""
+      kind: Service
+      name: arr-web
+      namespace: arr
       port: 3000
       weight: 1
     filters:
@@ -47,7 +54,10 @@ spec:
       - name: X-Forwarded-Host
         value: transmission.arr.bennaylor.dev
     backendRefs:
-    - name: arr-transmission
+    - group: ""
+      kind: Service
+      name: arr-transmission
+      namespace: arr
       port: 9091
       weight: 1
     filters:
@@ -62,7 +72,10 @@ spec:
       - name: X-Forwarded-Host
         value: jellyfin.arr.bennaylor.dev
     backendRefs:
-      - name: arr-jellyfin
+      - group: ""
+        kind: Service
+        name: arr-jellyfin
+        namespace: arr
         port: 8096
         weight: 1
     filters:
@@ -77,7 +90,10 @@ spec:
       - name: X-Forwarded-Host
         value: prowlarr.arr.bennaylor.dev
     backendRefs:
-      - name: arr-prowlarr
+      - group: ""
+        kind: Service
+        name: arr-prowlarr
+        namespace: arr
         port: 9696
         weight: 1
     filters:

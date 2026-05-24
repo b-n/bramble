@@ -5,7 +5,9 @@ metadata:
   name: headscale-public
 spec:
   parentRefs:
-  - name: headscale
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: headscale
   hostnames:
   - wg.bennaylor.dev
   rules:
@@ -16,7 +18,9 @@ spec:
         type: PathPrefix
         value: /oauth2
     backendRefs:
-    - name: oauth2-proxy
+    - group: ""
+      kind: Service
+      name: oauth2-proxy
       namespace: oauth2-proxy
       port: 80
       weight: 1
@@ -26,7 +30,9 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: headscale
+    - group: ""
+      kind: Service
+      name: headscale
       port: 8080
       weight: 1
   # Admin ui for headscale
@@ -35,7 +41,9 @@ spec:
         type: PathPrefix
         value: /admin
     backendRefs:
-    - name: headscale-headplane
+    - group: ""
+      kind: Service
+      name: headscale-headplane
       port: 8080
       weight: 1
     filters:

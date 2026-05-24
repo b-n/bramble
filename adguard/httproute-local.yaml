@@ -5,7 +5,9 @@ metadata:
   name: adguard-local
 spec:
   parentRefs:
-  - name: adguard
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: adguard
   hostnames:
   - adguard.home
   rules:
@@ -14,7 +16,9 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-      - name: adguard-admin
+      - group: ""
+        kind: Service
+        name: adguard-admin
         port: 3000
         weight: 1
     filters:

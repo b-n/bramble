@@ -13,7 +13,9 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: immich-tls
+      - group: ""
+        kind: Secret
+        name: immich-tls
         namespace: immich
   - name: web
     port: 9080

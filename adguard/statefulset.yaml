@@ -32,7 +32,9 @@ spec:
         - mountPath: /opt/adguardhome/conf
           name: adguard-conf
   volumeClaimTemplates:
-  - metadata:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
       name: adguard-conf
     spec:
       accessModes: ["ReadWriteOnce"]
@@ -40,7 +42,9 @@ spec:
       resources:
         requests:
           storage: 32Mi
-  - metadata:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
       name: adguard-work
     spec:
       accessModes: ["ReadWriteOnce"]

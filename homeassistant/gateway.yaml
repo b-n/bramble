@@ -13,7 +13,9 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: homeassistant-tls
+      - group: ""
+        kind: Secret
+        name: homeassistant-tls
         namespace: homeassistant
   - name: web
     port: 9080

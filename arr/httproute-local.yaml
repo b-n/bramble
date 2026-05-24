@@ -5,7 +5,9 @@ metadata:
   name: arr-local
 spec:
   parentRefs:
-  - name: arr
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: arr
   hostnames:
   - arr.home
   - transmission.arr.home
@@ -19,7 +21,10 @@ spec:
         type: Exact
         value: arr.home 
     backendRefs:
-      - name: arr-web
+      - group: ""
+        kind: Service
+        name: arr-web
+        namespace: arr
         port: 3000
         weight: 1
     filters:
@@ -35,7 +40,10 @@ spec:
         type: Exact
         value: transmission.arr.home
     backendRefs:
-      - name: arr-transmission
+      - group: ""
+        kind: Service
+        name: arr-transmission
+        namespace: arr
         port: 9091
         weight: 1
     filters:
@@ -51,7 +59,10 @@ spec:
         type: Exact
         value: jellyfin.arr.home
     backendRefs:
-      - name: arr-jellyfin
+      - group: ""
+        kind: Service
+        name: arr-jellyfin
+        namespace: arr
         port: 8096
         weight: 1
     filters:
@@ -67,7 +78,10 @@ spec:
         type: Exact
         value: prowlarr.arr.home
     backendRefs:
-      - name: arr-prowlarr
+      - group: ""
+        kind: Service
+        name: arr-prowlarr
+        namespace: arr
         port: 9696
         weight: 1
     filters:

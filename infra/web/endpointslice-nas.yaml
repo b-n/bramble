@@ -8,6 +8,7 @@ addressType: IPv4
 ports:
 - port: 9999
   protocol: TCP
+  name: ""
 endpoints:
 - addresses:
   - "192.168.64.253"

@@ -35,7 +35,9 @@ spec:
                 values:
                 - "true"
   volumeClaimTemplates:
-  - metadata:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
       name: homeassistant-config
     spec:
       accessModes: ["ReadWriteOnce"]

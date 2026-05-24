@@ -5,7 +5,9 @@ metadata:
   name: homeassistant-esphome
 spec:
   parentRefs:
-  - name: homeassistant
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: homeassistant
   hostnames:
   - esphome.home
   rules:
@@ -14,9 +16,11 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-      - name: homeassistant-esphome
-        port: 6052
-        weight: 1
+    - group: ""
+      kind: Service
+      name: homeassistant-esphome
+      port: 6052
+      weight: 1
     filters:
     - type: ExtensionRef
       extensionRef:

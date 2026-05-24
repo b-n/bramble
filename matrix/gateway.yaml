@@ -12,7 +12,9 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: tw-matrix-tls
+      - group: ""
+        kind: Secret
+        name: tw-matrix-tls
         namespace: tw-matrix
   - name: websecure-ooye
     port: 9443
@@ -21,5 +23,7 @@ spec:
     tls:
       mode: Terminate
       certificateRefs:
-      - name: tw-matrix-tls
+      - group: ""
+        kind: Secret
+        name: tw-matrix-tls
         namespace: tw-matrix

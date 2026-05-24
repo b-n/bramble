@@ -5,7 +5,9 @@ metadata:
   name: immich-local
 spec:
   parentRefs:
-  - name: immich
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: immich
   hostnames:
   - immich.home
   rules:
@@ -14,7 +16,9 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: immich-server
+    - group: ""
+      kind: Service
+      name: immich-server
       port: 2283
       weight: 1
     filters:

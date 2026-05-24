@@ -5,7 +5,9 @@ metadata:
   name: keycloak-local
 spec:
   parentRefs:
-  - name: keycloak
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: keycloak
   hostnames:
   - keycloak.home
   rules:
@@ -14,7 +16,9 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-    - name: keycloak-admin
+    - group: ""
+      kind: Service
+      name: keycloak-admin
       port: 8080
       weight: 1
     filters:
