@@ -4,6 +4,10 @@ kind: Kustomization
 
 namespace: keycloak
 
+images:
+- name: quay.io/keycloak/keycloak
+  newTag: 26.6.2
+
 resources:
 # Dependencies: infra
 - gateway.yaml

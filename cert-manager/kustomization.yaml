@@ -6,3 +6,4 @@ resources:
 - clusterissuer.yaml
 - gateway-issuer.yaml
 - helmchart.yaml
+- servicemonitor.yaml

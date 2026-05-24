@@ -3,6 +3,12 @@ kind: Kustomization
 
 namespace: tw-matrix
 
+images:
+- name: jevolk/tuwunel
+  newTag: v1.7.0
+- name: dock.mau.dev/mautrix/discord
+  newTag: v0.7.6
+
 resources:
 - certificate.yaml
 - gateway.yaml

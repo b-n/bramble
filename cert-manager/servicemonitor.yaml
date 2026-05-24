@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cert-manager
+  namespace: cert-manager
+  labels:
+    prometheus: scrape
+spec:
+  jobLabel: cert-manager
+  endpoints:
+  - port: "tcp-prometheus-servicemonitor"
+  - port: "http-metrics"
+  - port: "metrics"
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: cert-manager

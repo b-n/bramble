@@ -49,6 +49,8 @@ database_path = "/var/lib/tuwunel"
 #
 # To disable, set this to "" (an empty string).
 #
+# reloadable: yes
+#
 #new_user_displayname_suffix = "💕"
 new_user_displayname_suffix = ""
 
@@ -94,6 +96,7 @@ port = 8008
 # This is false by default to allow easier deprecation or removal of
 # config options in the future without breaking existing deployments. The
 # default behaviour is to simply warn on startup.
+# reloadable: yes
 #
 #error_on_unknown_config_opts = false
 
@@ -104,6 +107,7 @@ port = 8008
 # For more information, see:
 # https://tuwunel.chat/maintenance.html#backups
 #
+# reloadable: yes
 # example: "/opt/tuwunel-db-backups"
 #
 #database_backup_path =
@@ -111,6 +115,8 @@ port = 8008
 
 # The amount of online RocksDB database backups to keep/retain, if using
 # "database_backup_path", before deleting the oldest one.
+#
+# reloadable: yes
 #
 #database_backups_to_keep = 1
 
@@ -191,22 +197,38 @@ port = 8008
 #
 #stateinfo_cache_capacity = varies by system
 
-# This item is undocumented. Please contribute documentation for it.
+# Minimum time-to-live in seconds for room summary entries in the spaces
+# cache.
 #
-#roomid_spacehierarchy_cache_capacity = varies by system
+# reloadable: yes
+#
+#spacehierarchy_cache_ttl_min = 21600
+
+# Maximum time-to-live in seconds for room summary entries in the spaces
+# cache.
+#
+# reloadable: yes
+#
+#spacehierarchy_cache_ttl_max = 129600
 
 # Minimum timeout a client can request for long-polling sync. Requests
 # will be clamped up to this value if smaller.
+#
+# reloadable: yes
 #
 #client_sync_timeout_min = 5000
 
 # Default timeout for long-polling sync if a client does not request
 # another in their query-string.
 #
+# reloadable: yes
+#
 #client_sync_timeout_default = 30000
 
 # Maximum timeout a client can request for long-polling sync. Requests
 # will be clamped down to this value if larger.
+#
+# reloadable: yes
 #
 #client_sync_timeout_max = 90000
 
@@ -298,6 +320,7 @@ ip_lookup_strategy = 1  # We only support ipv4 on the host sadly
 # these specific properties. This path does not support federation or
 # general purposes.
 #
+# reloadable: yes
 # example: ["*\.dns\.podman$"]
 #
 #dns_passthru_domains = []
@@ -321,13 +344,42 @@ ip_lookup_strategy = 1  # We only support ipv4 on the host sadly
 #
 #dns_case_randomization = false
 
-# Max request size for file uploads in bytes.
+# Max request size for file uploads. Accepts an integer byte count or a
+# string with SI/IEC suffix such as "24 MiB".
 #
 #max_request_size = 24 MiB
 # We have somewhat restricted space...
 max_request_size = 10485760
 
+# Maximum number of concurrently pending (asynchronous) media uploads a
+# user can have.
+#
+# reloadable: yes
+#
+#max_pending_media_uploads = 5
+
+# The time in seconds before an unused pending MXC URI expires and is
+# removed.
+#
+# reloadable: yes
+#
+#media_create_unused_expiration_time = 86400 (24 hours)
+
+# The maximum number of media create requests per second allowed from a
+# single user.
+#
+# reloadable: yes
+#
+#media_rc_create_per_second = 10
+
+# The maximum burst count for media create requests from a single user.
+#
+# reloadable: yes
+#
+#media_rc_create_burst_count = 50
+
 # This item is undocumented. Please contribute documentation for it.
+# reloadable: yes
 #
 #max_fetch_prev_events = 192
 
@@ -394,6 +446,8 @@ max_request_size = 10485760
 
 # Federation sender transaction retry backoff limit (seconds).
 #
+# reloadable: yes
+#
 #sender_retry_backoff_limit = 86400
 
 # Appservice URL request connection timeout. Defaults to 35 seconds as
@@ -423,9 +477,67 @@ max_request_size = 10485760
 
 # Grace period for clean shutdown of client requests (seconds).
 #
+# reloadable: yes
+#
 #client_shutdown_timeout = 10
 
+# Source of the client IP address for rate limiting, logging, and
+# security tooling.
+#
+# When unset (the default), the `ClientIp` extractor scans common
+# proxy headers in leftmost-IP mode (`X-Forwarded-For`, RFC 7239
+# `Forwarded`, `X-Real-IP`, `Fly-Client-IP`, `True-Client-IP`,
+# `CF-Connecting-IP`, `CloudFront-Viewer-Address`) and falls back
+# to the TCP peer address; clients can spoof their address via
+# request headers in that mode.
+#
+# When set, `ClientIp` resolves exclusively from the selected
+# source. The rightmost value is used for multi-valued headers;
+# only the proxy can append to the right, so this is resistant to
+# client spoofing.
+#
+# Supported values:
+# - "connect_info" - TCP peer address only (direct connections)
+# - "rightmost_x_forwarded_for" - nginx, Caddy
+# - "rightmost_forwarded" - RFC 7239 proxies
+# - "x_real_ip" - nginx `X-Real-IP`
+# - "cf_connecting_ip" - Cloudflare / cloudflared
+# - "true_client_ip" - Akamai, Cloudflare Enterprise
+# - "fly_client_ip" - Fly.io
+# - "cloudfront_viewer_address" - AWS CloudFront
+#
+# On Unix-socket deployments, leave this unset rather than setting
+# "connect_info"; that source requires a TCP peer address.
+#
+# WARNING: a header-based value without a trusted reverse proxy in
+# front of tuwunel allows clients to forge their IP. Changing this
+# value requires a server restart.
+#
+#ip_source = "connect_info"
+
+# Subnets whose TCP peers are treated as trusted and bypass the
+# `ip_source`-based extraction, falling through to the same
+# insecure header-scan + `ConnectInfo` fallback used when
+# `ip_source` is unset. Each entry is CIDR notation, including
+# the prefix length (use `/32` or `/128` to trust a single host).
+#
+# Loopback (`127.0.0.0/8`, `::1/128`) is always bypassed and
+# need not be listed.
+#
+# Use this when locally-attached bridges or other server-side
+# clients connect from a private container or VPN subnet that
+# cannot carry the configured proxy header (e.g. a Docker
+# user-defined bridge network without `network_mode: host`).
+#
+# WARNING: any peer in these subnets can forge the client IP via
+# request headers. Only include subnets you control end-to-end.
+# Changing this value requires a server restart.
+#
+#ip_source_trusted_subnets = ["172.18.0.0/16", "fd00::/8"]
+
 # Grace period for clean shutdown of federation requests (seconds).
+#
+# reloadable: yes
 #
 #sender_shutdown_timeout = 5
 
@@ -438,11 +550,13 @@ max_request_size = 10485760
 #
 # If you would like registration only via token reg, please configure
 # `registration_token` or `registration_token_file`.
+# reloadable: yes
 #
 allow_registration = true
 
 # Enabling this setting opens registration to anyone without restrictions.
 # This makes your server vulnerable to abuse
+# reloadable: yes
 #
 #yes_i_am_very_very_sure_i_want_an_open_registration_server_prone_to_abuse = false
 
@@ -454,6 +568,7 @@ allow_registration = true
 #
 # YOU NEED TO EDIT THIS OR USE registration_token_file.
 #
+# reloadable: yes
 # example: "o&^uCtes4HPf0Vu@F20jQeeWE7"
 #
 #registration_token =
@@ -464,12 +579,37 @@ allow_registration = true
 #
 # tuwunel must be able to access the file, and it must not be empty
 #
+# reloadable: yes
 # example: "/etc/tuwunel/.reg_token"
 #
 #registration_token_file =
 registration_token_file = "/etc/tuwunel/.reg_token"
 
+# A pre-shared secret enabling out-of-band account creation via the
+# Synapse-style `/_synapse/admin/v1/register` endpoint. The endpoint is
+# only available when this is set. Requests authenticate by HMAC-SHA1
+# keyed on this value; UIAA is bypassed.
+#
+# Use a high-entropy value (at least 32 bytes) and treat it as a
+# secret of equivalent power to a server admin's access token.
+#
+# reloadable: yes
+# example: "kZ2hN5pQ8wXyL4mR7tBfCgJxV3aD6sE1u"
+#
+#registration_shared_secret =
+
+# Path to a file containing the registration shared secret. Trimmed of
+# surrounding whitespace on read. Takes precedence over
+# `registration_shared_secret` when both are set.
+#
+# reloadable: yes
+# example: "/etc/tuwunel/.reg_shared_secret"
+#
+#registration_shared_secret_file =
+registration_shared_secret_file = "/etc/tuwunel/.reg_token"
+
 # Controls whether encrypted rooms and events are allowed.
+# reloadable: yes
 #
 #allow_encryption = true
 allow_encryption = true
@@ -481,10 +621,12 @@ allow_encryption = true
 # - "all": All created rooms are encrypted.
 # - "invite": Any room created with `private_chat` or
 #   `trusted_private_chat` presets.
+# - "none": Explicit value for no effect.
 # - Other values default to no effect.
 #
-#encryption_enabled_by_default_for_room_type = false
-#encryption_enabled_by_default_for_room_type = false
+# reloadable: yes
+#
+#encryption_enabled_by_default_for_room_type = "none"
 
 # Controls whether federation is allowed or not. It is not recommended to
 # disable this after installation due to potential federation breakage but
@@ -499,6 +641,7 @@ allow_encryption = true
 #
 # Rooms are fixed to the setting at the time of their creation and can
 # never be changed; changing this value only affects new rooms.
+# reloadable: yes
 #
 #federate_created_rooms = true
 
@@ -507,11 +650,13 @@ allow_encryption = true
 # This isn't intended and is very likely a bug if federation requests are
 # being sent to yourself. This currently mainly exists for development
 # purposes.
+# reloadable: yes
 #
 #federation_loopback = false
 
 # Always calls /forget on behalf of the user if leaving a room. This is a
 # part of MSC4267 "Automatically forgetting rooms on leave"
+# reloadable: yes
 #
 #forget_forced_upon_leave = false
 forget_forced_upon_leave = true
@@ -521,26 +666,53 @@ forget_forced_upon_leave = true
 # "/_matrix/client/v3/profile/{userId}".
 #
 # This can prevent profile scraping.
+# reloadable: yes
 #
 #require_auth_for_profile_requests = false
 require_auth_for_profile_requests = true
+
+# Preserve per-room profile overrides during a global profile update.
+#
+# When `true` (default), a profile change (displayname or avatar_url)
+# arriving via the profile endpoints skips rooms whose current
+# `m.room.member` already differs from the user's prior global
+# profile. This is the natural behavior users expect after setting a
+# per-room nickname or avatar with a client's `/myroomnick`-style
+# command: a subsequent global change does not clobber the override.
+#
+# Set to `false` to always rewrite every joined room's member event
+# to match the new global profile. That matches the literal spec
+# reading.
+#
+# MSC4466 lets clients pick this per request via the
+# `org.matrix.msc4466.propagate_to` query parameter
+# (`all` / `unchanged` / `none`); an explicit value overrides this
+# default in either direction.
+#
+# reloadable: yes
+#
+#preserve_room_profile_overrides = true
 
 # Set this to true to allow your server's public room directory to be
 # federated. Set this to false to protect against /publicRooms spiders,
 # but will forbid external users from viewing your server's public room
 # directory. If federation is disabled entirely (`allow_federation`), this
 # is inherently false.
+# reloadable: yes
 #
 #allow_public_room_directory_over_federation = false
 
 # Set this to true to allow your server's public room directory to be
 # queried without client authentication (access token) through the Client
 # APIs. Set this to false to protect against /publicRooms spiders.
+# reloadable: yes
 #
 #allow_public_room_directory_without_auth = false
 
 # Allows room directory searches to match on partial room_id's when the
 # search term starts with '!'.
+#
+# reloadable: yes
 #
 #allow_public_room_search_by_id = true
 
@@ -553,11 +725,15 @@ require_auth_for_profile_requests = true
 # to prevent this feature from abuse, knowledge of several characters of
 # the room_id is required before any results are returned.
 #
+# reloadable: yes
+#
 #allow_unlisted_room_search_by_id = true
 
 # Show all local users in user directory. With this set to false, only
 # users in public rooms or those that share a room with the user making
 # the search will be shown.
+#
+# reloadable: yes
 #
 #show_all_local_users_in_user_directory = false
 show_all_local_users_in_user_directory = true
@@ -571,12 +747,14 @@ show_all_local_users_in_user_directory = true
 # It is unlikely you need to enable this as all major clients support
 # authentication for this endpoint and prevents misuse of your TURN server
 # from potential bots.
+# reloadable: yes
 #
 #turn_allow_guests = false
 
 # Set this to true to lock down your server's public room directory and
 # only allow admins to publish rooms to the room directory. Unpublishing
 # is still allowed by all users with this enabled.
+# reloadable: yes
 #
 #lockdown_public_room_directory = false
 
@@ -584,6 +762,7 @@ show_all_local_users_in_user_directory = true
 # external users to see your device display name. If federation is
 # disabled entirely (`allow_federation`), this is inherently false. For
 # privacy reasons, this is best left disabled.
+# reloadable: yes
 #
 #allow_device_name_federation = false
 
@@ -597,11 +776,13 @@ show_all_local_users_in_user_directory = true
 # spiders.
 #
 # This is inherently false if `allow_federation` is disabled
+# reloadable: yes
 #
 #allow_inbound_profile_lookup_federation_requests = true
 
 # Allow standard users to create rooms. Appservices and admins are always
 # allowed to create rooms
+# reloadable: yes
 #
 #allow_room_creation = true
 
@@ -614,6 +795,8 @@ show_all_local_users_in_user_directory = true
 # tuwunel officially supports room versions 6+. tuwunel has slightly
 # experimental (though works fine in practice) support for versions 3 - 5.
 #
+# reloadable: yes
+#
 #allow_unstable_room_versions = true
 
 # Set to true to enable experimental room versions.
@@ -622,8 +805,27 @@ show_all_local_users_in_user_directory = true
 # development, protype spec-changes, or somehow present a serious risk to
 # the server's operation or database corruption. This is for developer use
 # only.
+# reloadable: yes
 #
 #allow_experimental_room_versions = false
+
+# MSC4284: ask the room's policy server to sign outgoing events. When a
+# room has a valid `m.room.policy` state event, the homeserver requests a
+# signature from that policy server's federation `/sign` endpoint before
+# federating each event. Refusal aborts the local request; network or
+# timeout failures fail open with a warn log so a transient policy-server
+# outage does not silently take the room offline.
+#
+# reloadable: yes
+#
+#enable_policy_servers = false
+
+# MSC4284: timeout (seconds) for requests to a room's policy server.
+# Applies to both outbound `/sign` calls and inbound signature-fetches.
+#
+# reloadable: yes
+#
+#policy_server_request_timeout = 5
 
 # Default room version tuwunel will create rooms with.
 #
@@ -631,6 +833,7 @@ show_all_local_users_in_user_directory = true
 # recommendation. To prevent stale documentation we no longer list it
 # here. It is only advised to override this if you know what you are
 # doing, and by doing so, updates with new versions are precluded.
+# reloadable: yes
 #
 #default_room_version =
 
@@ -697,6 +900,7 @@ show_all_local_users_in_user_directory = true
 # Currently, tuwunel doesn't support inbound batched key requests, so
 # this list should only contain other Synapse servers.
 #
+# reloadable: yes
 # example: ["matrix.org", "tchncs.de"]
 #
 #trusted_servers = ["matrix.org"]
@@ -708,6 +912,7 @@ show_all_local_users_in_user_directory = true
 # however other options exist to query trusted servers first under
 # specific high-load circumstances and should be evaluated before setting
 # this to true.
+# reloadable: yes
 #
 #query_trusted_key_servers_first = false
 
@@ -720,6 +925,7 @@ show_all_local_users_in_user_directory = true
 # to tolerate delays are advised to set this to false. Note that setting
 # query_trusted_key_servers_first to true causes this option to be
 # ignored.
+# reloadable: yes
 #
 #query_trusted_key_servers_first_on_join = true
 
@@ -728,15 +934,20 @@ show_all_local_users_in_user_directory = true
 # as forwarding-agents to cache and deduplicate requests. Notary servers
 # do not act as forwarding-agents by default, therefor do not enable this
 # unless you know exactly what you are doing.
+# reloadable: yes
 #
 #only_query_trusted_key_servers = false
 
 # Maximum number of keys to request in each trusted server batch query.
 #
+# reloadable: yes
+#
 #trusted_server_batch_size = 192
 
 # Maximum number of request batches in flight simultaneously when querying
 # a trusted server.
+#
+# reloadable: yes
 #
 #trusted_server_batch_concurrency = 2
 
@@ -806,12 +1017,16 @@ log_enable = true
 # integrations (e.g. Vector Integrations in Element), *not* OIDC/OpenID
 # Connect/etc.
 #
+# reloadable: yes
+#
 #openid_token_ttl = 3600
 
 # Allow an existing session to mint a login token for another client.
 # This requires interactive authentication, but has security ramifications
 # as a malicious client could use the mechanism to spawn more than one
 # session. Enabled by default.
+#
+# reloadable: yes
 #
 #login_via_existing_session = true
 
@@ -824,13 +1039,27 @@ log_enable = true
 # enabled while disabling the former to prevent clients from commanding
 # login token creation but without preventing the server from doing so.
 #
+# reloadable: yes
+#
 #login_via_token = true
+
+# Whether to enable login using traditional user/password authorization
+# flow.
+#
+# Set this option to false if you intend to allow logging in only using
+# other mechanisms, such as SSO.
+#
+# reloadable: yes
+#
+#login_with_password = true
 
 # Login token expiration/TTL in milliseconds.
 #
 # These are short-lived tokens for the m.login.token endpoint.
 # This is used to allow existing sessions to create new sessions.
 # see login_via_existing_session.
+#
+# reloadable: yes
 #
 #login_token_ttl = 120000
 
@@ -840,17 +1069,66 @@ log_enable = true
 # login will be invalidated after this amount of time and the client will
 # be soft-logged-out until refreshing it.
 #
+# reloadable: yes
+#
 #access_token_ttl = 604800
+
+# Refresh token TTL in seconds.
+#
+# Refresh tokens are rejected once this lifetime elapses. Whether the
+# deadline slides forward on each use or stays fixed at issuance is
+# controlled by `refresh_token_idle_only`. The default of `0` disables
+# refresh-token expiry entirely; a typical enabled value is `259200`
+# (three days).
+#
+# reloadable: yes
+#
+#refresh_token_ttl = 0
+
+# Whether `refresh_token_ttl` acts as an idle timeout or an absolute
+# session lifetime.
+#
+# When `true` (default), each successful refresh resets the deadline to
+# `now + refresh_token_ttl`. A session in continuous use never expires.
+# When `false`, the deadline is fixed at first issuance and rotation
+# carries it forward, forcing re-auth after `refresh_token_ttl`
+# regardless of activity.
+#
+# reloadable: yes
+#
+#refresh_token_idle_only = true
+
+# Whether refresh-token expiry triggers a hard logout instead of a soft
+# one.
+#
+# When `false` (default), an expired refresh token is rejected with
+# `M_UNKNOWN_TOKEN` carrying `soft_logout: true`. The client can preserve
+# E2EE keys and local state, then re-authenticate to resume the same
+# device.
+#
+# When `true`, the device is removed entirely on expiry: the access
+# token is invalidated, the device record is deleted, and the client is
+# signalled with `soft_logout: false`. The next session is a brand-new
+# device, so the client cannot recover E2EE history from local state
+# alone; this is the CWE-613 stance and trades usability for that
+# guarantee.
+#
+# reloadable: yes
+#
+#refresh_token_hard_logout = false
 
 # Static TURN username to provide the client if not using a shared secret
 # ("turn_secret"), It is recommended to use a shared secret over static
 # credentials.
+# reloadable: yes
 #
 #turn_username = false
 
 # Static TURN password to provide the client if not using a shared secret
 # ("turn_secret"). It is recommended to use a shared secret over static
 # credentials.
+#
+# reloadable: yes
 #
 #turn_password = false
 
@@ -860,6 +1138,7 @@ log_enable = true
 # "realm" config option. If using TURN over TLS, replace the URI prefix
 # "turn:" with "turns:".
 #
+# reloadable: yes
 # example: ["turn:example.turn.uri?transport=udp",
 # "turn:example.turn.uri?transport=tcp"]
 #
@@ -885,15 +1164,19 @@ turn_secret_file = "/etc/tuwunel/.turn_secret"
 
 # TURN TTL, in seconds.
 #
+# reloadable: yes
+#
 #turn_ttl = 86400
 
 # List/vector of room IDs or room aliases that tuwunel will make newly
 # registered users join. The rooms specified must be rooms that you have
 # joined at least once on the server, and must be public.
 #
-# example: ["#tuwunel:tuwunel.chat",
-# "!eoIzvAvVwY23LPDay8:tuwunel.chat"]
+# reloadable: yes
+# example: ["#tuwunel:grin.hu",
+# "!l2xV0sd51lraysuRcsWVECge4NULaH3g-ou95vgDgiM"]
 #
+#auto_join_rooms = []
 # Rooms:
 # - #welcome
 auto_join_rooms = [
@@ -916,6 +1199,7 @@ auto_join_rooms = [
 #
 # Defaults to false as rooms can be banned for non-moderation-related
 # reasons and this performs a full user deactivation.
+# reloadable: yes
 #
 #auto_deactivate_banned_room_attempts = false
 
@@ -930,8 +1214,8 @@ auto_join_rooms = [
 #
 #rocksdb_log_stderr = false
 
-# Max RocksDB `LOG` file size before rotating in bytes. Defaults to 4MB in
-# bytes.
+# Max RocksDB `LOG` file size before rotating. Accepts an integer byte
+# count or a string with SI/IEC suffix such as "4 MiB".
 #
 #rocksdb_max_log_file_size = 4194304
 
@@ -939,22 +1223,12 @@ auto_join_rooms = [
 #
 #rocksdb_log_time_to_roll = 0
 
-# Set this to true to use RocksDB config options that are tailored to HDDs
-# (slower device storage).
+# Use RocksDB tunings tailored to spinning disks (HDDs). On NVMe or SSD
+# storage, leave this disabled.
 #
-# It is worth noting that by default, tuwunel will use RocksDB with
-# Direct IO enabled. *Generally* speaking this improves performance as it
-# bypasses buffered I/O (system page cache). However there is a potential
-# chance that Direct IO may cause issues with database operations if your
-# setup is uncommon. This has been observed with FUSE filesystems, and
-# possibly ZFS filesystem. RocksDB generally deals/corrects these issues
-# but it cannot account for all setups. If you experience any weird
-# RocksDB issues, try enabling this option as it turns off Direct IO and
-# feel free to report in the tuwunel Matrix room if this option fixes
-# your DB issues.
-#
-# For more information, see:
-# https://github.com/facebook/rocksdb/wiki/Direct-IO
+# When enabled, RocksDB skips compaction readahead and parallel file-open
+# threads at startup. This option does not affect Direct IO; for that, see
+# `rocksdb_direct_io`.
 #
 #rocksdb_optimize_for_spinning_disks = false
 
@@ -1172,11 +1446,13 @@ auto_join_rooms = [
 #
 # Normally, RocksDB allocates certain types of files by calling
 # fallocate, writing the file contents, then truncating the logs to the
-# proper size. This causes pathological disk space usage on btrfs due
-# how it interacts with its Copy-on-Write implementation.
+# proper size. This causes pathological disk space usage on btrfs due to
+# how it interacts with its Copy-on-Write implementation. On ZFS,
+# fallocate(2) for preallocation is unsupported and returns EOPNOTSUPP;
+# only `FALLOC_FL_PUNCH_HOLE` and `FALLOC_FL_ZERO_RANGE` are implemented.
 #
-# It is recommended to set this to false if you run the server on btrfs,
-# and not touch it otherwise.
+# Set this to false if you run the server on btrfs or ZFS, and do not
+# touch it otherwise.
 #
 #rocksdb_allow_fallocate = true
 
@@ -1196,6 +1472,7 @@ auto_join_rooms = [
 #emergency_password =
 
 # This item is undocumented. Please contribute documentation for it.
+# reloadable: yes
 #
 #notification_push_path = "/_matrix/push/v1/notify"
 
@@ -1209,6 +1486,7 @@ auto_join_rooms = [
 #
 # Note that setting this option to true will not affect the record of
 # notifications found in the notifications pane.
+# reloadable: yes
 #
 #push_everything = false
 
@@ -1220,6 +1498,7 @@ auto_join_rooms = [
 # This option is intended for custom software deployments seeking purely
 # to minimize unused resources; the overall savings are otherwise
 # negligible.
+# reloadable: yes
 #
 #calculate_heroes = true
 
@@ -1227,6 +1506,7 @@ auto_join_rooms = [
 #
 # Note that presence on tuwunel is very fast unlike Synapse's. If using
 # outgoing presence, this MUST be enabled.
+# reloadable: yes
 #
 #allow_local_presence = true
 
@@ -1235,6 +1515,7 @@ auto_join_rooms = [
 # This option receives presence updates from other servers, but does not
 # send any unless `allow_outgoing_presence` is true. Note that presence on
 # tuwunel is very fast unlike Synapse's.
+# reloadable: yes
 #
 #allow_incoming_presence = true
 
@@ -1244,6 +1525,7 @@ auto_join_rooms = [
 # receive any unless `allow_incoming_presence` is true. Note that presence
 # on tuwunel is very fast unlike Synapse's. If using outgoing presence,
 # you MUST enable `allow_local_presence` as well.
+# reloadable: yes
 #
 #allow_outgoing_presence = true
 
@@ -1274,26 +1556,33 @@ auto_join_rooms = [
 # on another client.
 #
 # Disabled by default to preserve legacy behavior.
+# reloadable: yes
 #
 #suppress_push_when_active = false
 
 # Allow receiving incoming read receipts from remote servers.
+# reloadable: yes
 #
 #allow_incoming_read_receipts = true
 
 # Allow sending read receipts to remote servers.
+# reloadable: yes
 #
 #allow_outgoing_read_receipts = true
 
 # Allow outgoing typing updates to federation.
+# reloadable: yes
 #
 #allow_outgoing_typing = true
 
 # Allow incoming typing updates from federation.
+# reloadable: yes
 #
 #allow_incoming_typing = true
 
 # Maximum time federation user can indicate typing.
+#
+# reloadable: yes
 #
 #typing_federation_timeout_s = 30
 
@@ -1301,9 +1590,13 @@ auto_join_rooms = [
 # client's request to stop typing. It only enforces a minimum value in
 # case of no stop request.
 #
+# reloadable: yes
+#
 #typing_client_timeout_min_s = 15
 
 # Maximum time local client can indicate typing.
+#
+# reloadable: yes
 #
 #typing_client_timeout_max_s = 45
 
@@ -1339,16 +1632,19 @@ auto_join_rooms = [
 
 # Set to true to allow user type "guest" registrations. Some clients like
 # Element attempt to register guest users automatically.
+# reloadable: yes
 #
 #allow_guest_registration = false
 
 # Set to true to log guest registrations in the admin room. Note that
 # these may be noisy or unnecessary if you're a public homeserver.
+# reloadable: yes
 #
 #log_guest_registrations = false
 
 # Set to true to allow guest registrations/users to auto join any rooms
 # specified in `auto_join_rooms`.
+# reloadable: yes
 #
 #allow_guests_auto_join_rooms = false
 
@@ -1369,10 +1665,12 @@ auto_join_rooms = [
 # Fallback to requesting legacy unauthenticated media from remote servers.
 # Unauthenticated media was removed in ~2024Q3; enabling this adds
 # considerable federation requests which are unlikely to succeed.
+# reloadable: yes
 #
 #request_legacy_media = false
 
 # This item is undocumented. Please contribute documentation for it.
+# reloadable: yes
 #
 #freeze_legacy_media = true
 
@@ -1413,9 +1711,50 @@ auto_join_rooms = [
 #
 #prune_missing_media = false
 
+# List of storage providers to use for media. Providers can be configured
+# below in respective sections designated by
+# `global.storage_provider.<NAME>.<brand>` where `NAME` can be listed
+# here.
+#
+# For advanced features and future extensions involving multiple providers
+# the list may contain multiple entries. You MUST take note of other
+# configuration options when listing multiple providers or resource
+# duplication costs and poor performance can result.
+#
+# The list defaults to `["media"]` which is an implicit storage provider
+# representing the media directory on the local filesystem. It can be
+# altered by configuring `global.storage_provider.media.local` explicitly
+# or disabled by omitting it from this list entirely. Users with existing
+# deployments are advised to continue listing "media" as a fallback along
+# with their new provider.
+#
+# reloadable: yes
+#
+#media_storage_providers = ["media"]
+
+# List of configured storage providers where new media will be sent. When
+# this list is not explicitly configured all entries in
+# `media_storage_providers` are used as default.
+#
+# This list is important for users passively migrating to a new media
+# storage provider by only writing to one while querying the other as a
+# fallback.
+#
+# For example:
+#
+# `media_storage_providers = ["media", "media_on_s3"]`
+# `store_media_on_providers = ["media_on_s3"]`
+#
+# Entries in this list must also be listed in `media_storage_providers`.
+#
+# reloadable: yes
+#
+#store_media_on_providers = []
+
 # Vector list of regex patterns of server names that tuwunel will refuse
 # to download remote media from.
 #
+# reloadable: yes
 # example: ["badserver\.tld$", "badphrase", "19dollarfortnitecards"]
 #
 #prevent_media_downloads_from = []
@@ -1430,14 +1769,36 @@ auto_join_rooms = [
 #
 # Basically "global" ACLs.
 #
+# reloadable: yes
 # example: ["badserver\.tld$", "badphrase", "19dollarfortnitecards"]
 #
 #forbidden_remote_server_names = []
+
+# (EXPERIMENTAL) The behavior of this option will change; the
+# _experimental suffix will be removed for that change in an upcoming
+# release.
+#
+# List of allowed server names via regex patterns. This is an allow-list
+# rather than a deny-list with all the same details as its counterpart in
+# `forbidden_remote_server_names`.
+#
+# This feature becomes active when this list has one or more entries;
+# everything not matching is denied. By default it is empty and inactive.
+#
+# Entries in `forbidden_remote_server_names` are still applied after
+# this is applied. This allows you to match e.g. "*\.example\.com" here
+# while still singling out "bad\.example\.com" for exclusion.
+#
+# reloadable: yes
+# example: ["badserver\.tld$", "badphrase", "19dollarfortnitecards"]
+#
+#allowed_remote_server_names_experimental = []
 
 # List of forbidden server names via regex patterns that we will block all
 # outgoing federated room directory requests for. Useful for preventing
 # our users from wandering into bad servers or spaces.
 #
+# reloadable: yes
 # example: ["badserver\.tld$", "badphrase", "19dollarfortnitecards"]
 #
 #forbidden_remote_room_directory_server_names = []
@@ -1485,6 +1846,8 @@ auto_join_rooms = [
 # attack surface to your server, you are expected to be aware of the risks
 # by doing so.
 #
+# reloadable: yes
+#
 #url_preview_domain_contains_allowlist = []
 
 # Vector list of explicit domains allowed to send requests to for URL
@@ -1497,6 +1860,8 @@ auto_join_rooms = [
 # attack surface to your server, you are expected to be aware of the risks
 # by doing so.
 #
+# reloadable: yes
+#
 #url_preview_domain_explicit_allowlist = []
 
 # Vector list of explicit domains not allowed to send requests to for URL
@@ -1506,6 +1871,8 @@ auto_join_rooms = [
 # will match "https://google.com", "http://google.com", but not
 # "https://mymaliciousdomainexamplegoogle.com". The denylist is checked
 # first before allowlist. Setting this to "*" will not do anything.
+#
+# reloadable: yes
 #
 #url_preview_domain_explicit_denylist = []
 
@@ -1519,10 +1886,14 @@ auto_join_rooms = [
 # attack surface to your server, you are expected to be aware of the risks
 # by doing so.
 #
+# reloadable: yes
+#
 #url_preview_url_contains_allowlist = []
 
-# Maximum amount of bytes allowed in a URL preview body size when
-# spidering. Defaults to 256KB in bytes.
+# Maximum body size allowed when spidering a URL for previews. Accepts an
+# integer byte count or a string with SI/IEC suffix such as "256 KB".
+#
+# reloadable: yes
 #
 #url_preview_max_spider_size = 256000
 
@@ -1536,6 +1907,7 @@ auto_join_rooms = [
 # root domain is checked and matched. Useful if the domain contains
 # allowlist is still too broad for you but you still want to allow all the
 # subdomains under a root domain.
+# reloadable: yes
 #
 #url_preview_check_root_domain = false
 
@@ -1549,6 +1921,7 @@ auto_join_rooms = [
 # used, and startup as warnings if any room aliases in your database have
 # a forbidden room alias/ID.
 #
+# reloadable: yes
 # example: ["19dollarfortnitecards", "b[4a]droom", "badphrase"]
 #
 #forbidden_alias_names = []
@@ -1562,6 +1935,7 @@ auto_join_rooms = [
 # startup as warnings if any local users in your database have a forbidden
 # username.
 #
+# reloadable: yes
 # example: ["administrator", "b[a4]dusernam[3e]", "badphrase"]
 #
 #forbidden_usernames = []
@@ -1574,11 +1948,15 @@ auto_join_rooms = [
 # Useful for preventing failed joins due to timeouts
 # from a certain homeserver.
 #
+# reloadable: yes
+#
 #deprioritize_joins_through_servers = ["matrix\.org"]
 
 # Maximum make_join requests to attempt within each join attempt. Each
 # attempt tries a different server, as each server is only tried once;
 # though retries can occur when the join request as a whole is retried.
+#
+# reloadable: yes
 #
 #max_make_join_attempts_per_join_attempt = 48
 
@@ -1589,6 +1967,8 @@ auto_join_rooms = [
 # client, which can be frustrating for users. Therefor the default value
 # is greater than one, but less than excessively exceeding the client's
 # request timeout, though that may not be avoidable in some cases.
+#
+# reloadable: yes
 #
 #max_join_attempts_per_join_request = 3
 
@@ -1614,6 +1994,7 @@ auto_join_rooms = [
 # remote), and block non-admin users from receiving remote room invites.
 #
 # Admins are always allowed to send and receive all room invites.
+# reloadable: yes
 #
 #block_non_admin_invites = false
 
@@ -1622,6 +2003,7 @@ auto_join_rooms = [
 # a normal tuwunel admin command. The reply will be publicly visible to
 # the room, originating from the sender.
 #
+# reloadable: yes
 # example: \\!admin debug ping puppygock.gay
 #
 #admin_escape_commands = true
@@ -1648,6 +2030,7 @@ auto_join_rooms = [
 #
 # If false, tuwunel will error and fail to start if an admin execute
 # command (`--execute` / `admin_execute`) fails.
+# reloadable: yes
 #
 #admin_execute_errors_ignore = false
 
@@ -1656,11 +2039,15 @@ auto_join_rooms = [
 # Similar to admin_execute, but these commands are executed when the
 # server receives SIGUSR2 on supporting platforms.
 #
+# reloadable: yes
+#
 #admin_signal_execute = []
 
 # Controls the max log level for admin command log captures (logs
 # generated from running admin commands). Defaults to "info" on release
 # builds, else "debug" on debug builds.
+#
+# reloadable: yes
 #
 #admin_log_capture = "info"
 
@@ -1671,12 +2058,16 @@ auto_join_rooms = [
 # admin room can be pinned here so you always have an easy-to-access
 # shortcut dedicated to your admin room.
 #
+# reloadable: yes
+#
 #admin_room_tag = "m.server_notice"
 
 # Whether to grant the first user to register admin privileges by joining
 # them to the admin room. Note that technically the next user to register
 # when the admin room is empty (or only contains the server-user) is
 # granted, and only when the admin room is enabled.
+#
+# reloadable: yes
 #
 #grant_admin_to_first_user = true
 
@@ -1747,12 +2138,24 @@ auto_join_rooms = [
 # - "smoke" performs a shutdown after startup admin commands rather than
 #   hanging on client handling.
 #
-#test = []
+#test = false
+
+# Indicates the server has started in maintenance mode. Historically
+# maintenance mode has been enabled by the command line argument
+# `--maintenance` which then sets various configuration items such as
+# `listening=false` among others. That is still the case. This option was
+# only added as a single source of truth that `--maintenance` mode is
+# active.
+#
+# This option must never be set manually.
+#
+#maintenance = false
 
 # Controls whether admin room notices like account registrations, password
 # changes, account deactivations, room directory publications, etc will be
 # sent to the admin room. Update notices and normal admin command
 # responses will still be sent.
+# reloadable: yes
 #
 #admin_room_notices = true
 
@@ -1760,11 +2163,15 @@ auto_join_rooms = [
 #
 # They can be retrieved with `admin debug get-retained-pdu` or MSC2815.
 #
+# reloadable: yes
+#
 #save_unredacted_events = true
 
 # Redaction retention period in seconds.
 #
 # By default the unredacted events are stored for 60 days.
+#
+# reloadable: yes
 #
 #redaction_retention_seconds = 5184000
 
@@ -1774,11 +2181,14 @@ auto_join_rooms = [
 # Server admins can request unredacted events regardless of the value of
 # this option.
 #
+# reloadable: yes
+#
 #allow_room_admins_to_request_unredacted_events = true
 
 # Prevents local users from sending redactions.
 #
 # This check does not apply to server admins.
+# reloadable: yes
 #
 #disable_local_redactions = false
 
@@ -1881,6 +2291,8 @@ auto_join_rooms = [
 # Enables configuration reload when the server receives SIGUSR1 on
 # supporting platforms.
 #
+# reloadable: yes
+#
 #config_reload_signal = true
 
 # Sets the `Access-Control-Allow-Origin` header included by this server in
@@ -1908,6 +2320,7 @@ auto_join_rooms = [
 #
 # This option exists for developer and debug use, and as a failsafe in
 # lieu of hardcoding it.
+# reloadable: yes
 #
 #hydra_backports = true
 
@@ -1920,6 +2333,8 @@ auto_join_rooms = [
 # currently invoke this operation, so in some cases you may find the room
 # still exists.
 #
+# reloadable: yes
+#
 #delete_rooms_after_leave = false
 delete_rooms_after_leave = true
 
@@ -1928,6 +2343,8 @@ delete_rooms_after_leave = true
 # our default is at least five times that. There is no known reason for an
 # administrator to adjust this value; it is provided here rather than
 # hardcoding it.
+#
+# reloadable: yes
 #
 #one_time_key_limit = 256
 
@@ -1946,6 +2363,7 @@ delete_rooms_after_leave = true
 # Note that fluffychat always displays a single button anyway. You do not
 # need to enable this to use fluffychat; instead we offer a
 # default-provider option, see `default` in the provider config section.
+# reloadable: yes
 #
 #single_sso = false
 
@@ -1959,12 +2377,64 @@ delete_rooms_after_leave = true
 #
 # This option defaults to false, allowing the client to generate the list
 # of providers or hide all SSO-related options when none configured.
+# reloadable: yes
 #
 #sso_custom_providers_page = false
 
-# Under development; do not enable.
+# From MSC3824:
+# > If the client finds oauth_aware_preferred to be true then, assuming it
+# > supports that auth type, it should present this as the only
+# > login/registration method available to the user.
+# reloadable: yes
 #
-#sso_aware_preferred = false
+#oidc_aware_preferred = false
+
+# Directory containing appservice yaml registration files.
+#
+#appservice_dir = ""
+
+# Skip database migration on startup. This option is intended for
+# developer debugging and testing only. Never set this option to false
+# unless you have been instructed to do so. Setting this option to false
+# may cause permanent damage and permanent loss of data.
+#
+# Any new database migrations will not be applied on startup, and the
+# database schema version will not be adjusted. These migrations and
+# schema changes may be expected by the current codebase but may not be
+# available when this option is set to false.
+#
+# Setting this option to false will have no effect if no new migrations
+# are to be applied. New migrations are applied once during any execution
+# where this option is set to true (which is the default).
+#
+#database_migrations = true
+
+# Force the database to set its version to the current version known to
+# the executable.
+#
+# - When the discovered version is less than the current version any
+#   migrations are applied normally.
+# - When the discovered version is equal to the current version,
+#   unversioned migrations are applied normally.
+# - When the discovered database version is greater than the current
+#   version, one-time migrations are applied normally and the discoverable
+#   version is regressed back to the current version.
+#
+# This option extremely dangerous and intended for developer debugging and
+# testing only. Never set this option unless you have been instructed to
+# do so. Setting this option may cause permanent damage and permanent loss
+# of data.
+#
+#force_migration = false
+
+# Set this to true for excluding unencrypted rooms from the common-rooms
+# calculation deciding the receivers of device list updates.
+#
+# Setting this to true can help performance on very large homeservers,
+# but it may not be spec compliant and risky for client expectations.
+# reloadable: yes
+#
+#device_key_update_encrypted_rooms_only = false
 
 
 
@@ -2003,46 +2473,31 @@ client = "https://chat.techwerkers.nl"
 # well-known file will serve. This should contain a port at the end, and
 # should not be a URL.
 #
+# reloadable: yes
 # example: "matrix.example.com:443"
 #
 #server =
 server = "chat.techwerkers.nl:443"
 
-# The URL of the support web page. This and the below generate the content
-# of `/.well-known/matrix/support`.
-#
-# example: "https://example.com/support"
-#
-#support_page =
-
-# The name of the support role.
-#
-# example: "m.role.admin"
-#
-#support_role =
-support_role = "m.role.admin"
-
-# The email address for the above support role.
-#
-# example: "admin@example.com"
-#
-#support_email =
-support_email = "hey@techwerkers.nl"
-
-# The Matrix User ID for the above support role.
-#
-# example "@admin:example.com"
-#
-#support_mxid =
-support_mxid = "@admin:chat.techwerkers.nl"
-
-# Element Call / MatrixRTC configuration (MSC4143).
-# Configures the LiveKit SFU server for voice/video calls.
-#
-# Requires a LiveKit server with JWT authentication.
-# The `livekit_service_url` should point to your LiveKit JWT endpoint.
+# LiveKit JWT endpoint.
+# Required for Element Call / MatrixRTC (MSC4143).
 #
 # Note: You must also set `client` above to your homeserver URL.
+#
+# reloadable: yes
+#
+#livekit_url = ""
+
+# Custom MatrixRTC transports.
+#
+# If you're looking to setup Element Call / MatrixRTC with Livekit,
+# you should not use this option and instead set `livekit_url`.
+# This is only required if you want to configure a non-livekit MatrixRTC
+# transport. There are no known client implementations that support any
+# other transport types.
+#
+# This option was previously the only way to configure a Livekit
+# transport. It has been superseded by `livekit_url`.
 #
 # Example:
 # ```toml
@@ -2054,7 +2509,94 @@ support_mxid = "@admin:chat.techwerkers.nl"
 # livekit_service_url = "https://livekit.yourdomain.com"
 # ```
 #
+# reloadable: yes
+#
 #rtc_transports = []
+
+
+
+#[global.well_known.support_policy.<ID>]
+
+# Identifier name of the policy document.
+#
+# example: "privacy_policy"
+# reloadable: yes
+#
+#name =
+
+# Version string of the policy document.
+#
+# example: "v6.7"
+# reloadable: yes
+#
+#version =
+
+
+
+#[global.well_known.support_policy.<ID>.policy_translation]
+
+# User friendly name of the policy document.
+#
+# example: "Privacy Policy"
+# reloadable: yes
+#
+#name =
+
+# Link to the test of the policy document. A valid URL must be specified.
+#
+# example: "https://website.local/privacy-policy"
+# reloadable: yes
+#
+#url =
+
+# Language code of the policy document. This should be formatted as
+# specified in Section 2.2 of RFC5646:
+# https://datatracker.ietf.org/doc/html/rfc5646#section-2.2
+#
+# example: "en_US"
+# reloadable: yes
+#
+#language =
+
+
+
+#[global.well_known.support_contact.<ID>]
+
+# The name of the support role.
+#
+# example: "m.role.admin"
+#
+#role =
+role = "m.role.admin"
+
+# The email address for the above support role.
+#
+# example: "admin@example.com"
+#
+#email_address =
+email_address = "hey@techwerkers.nl"
+
+# The Matrix User ID for the above support role.
+#
+# example "@admin:example.com"
+#
+#matrix_id =
+matrix_id = "@admin:chat.techwerkers.nl"
+
+# The PGP key (i.e. OpenPGP) that one may use for encrypted communications
+# for the above support role. No specific format is mandated for this
+# field or by the spec proposal. This field can contain a URL to a PGP
+# key, the 64-bit long ID, the OPENPGPKEY DNS record, or just the full
+# fingerprint.
+#
+# Full/raw key content must not be here.
+#
+# As this is a spec proposal (MSC4439), the identifier/prefix for this
+# field is currently "dev.zirco.msc4439.pgp_key"
+#
+# example: "openpgp4fpr:8B77919975EAFA5E2456EE03665FE73077489DB0"
+#
+#pgp_key =
 
 
 
@@ -2062,17 +2604,24 @@ support_mxid = "@admin:chat.techwerkers.nl"
 
 # blurhashing x component, 4 is recommended by https://blurha.sh/
 #
+# reloadable: yes
+#
 #components_x = 4
 
 # blurhashing y component, 3 is recommended by https://blurha.sh/
+#
+# reloadable: yes
 #
 #components_y = 3
 
 # Max raw size that the server will blurhash, this is the size of the
 # image after converting it to raw data, it should be higher than the
 # upload limit but not too high. The higher it is the higher the
-# potential load will be for clients requesting blurhashes. The default
-# is 33.55MB. Setting it to 0 disables blurhashing.
+# potential load will be for clients requesting blurhashes. Accepts an
+# integer byte count or a string with SI/IEC suffix such as "32 MiB".
+# Setting it to 0 disables blurhashing.
+#
+# reloadable: yes
 #
 #blurhash_max_raw_size = 33554432
 
@@ -2082,18 +2631,21 @@ support_mxid = "@admin:chat.techwerkers.nl"
 
 # Whether to enable LDAP login.
 #
+# reloadable: yes
 # example: "true"
 #
 #enable = false
 
 # URI of the LDAP server.
 #
+# reloadable: yes
 # example: "ldap://ldap.example.com:389"
 #
 #uri =
 
 # Root of the searches.
 #
+# reloadable: yes
 # example: "ou=users,dc=example,dc=org"
 #
 #base_dn =
@@ -2106,6 +2658,7 @@ support_mxid = "@admin:chat.techwerkers.nl"
 # `bind_password_file`. Beware: automatically granting admin rights will
 # not work if you use this direct bind instead of a LDAP search.
 #
+# reloadable: yes
 # example: "cn=ldap-reader,dc=example,dc=org" or
 # "cn={username},ou=users,dc=example,dc=org"
 #
@@ -2116,6 +2669,8 @@ support_mxid = "@admin:chat.techwerkers.nl"
 #
 # The server must be able to access the file, and it must not be empty.
 #
+# reloadable: yes
+#
 #bind_password_file = ""
 
 # Search filter to limit user searches.
@@ -2123,24 +2678,21 @@ support_mxid = "@admin:chat.techwerkers.nl"
 # You can use the variable `{username}` that will be replaced by the
 # entered username for more complex filters.
 #
+# reloadable: yes
 # example: "(&(objectClass=person)(memberOf=matrix))"
 #
 #filter = "(objectClass=*)"
 
 # Attribute to use to uniquely identify the user.
 #
+# reloadable: yes
 # example: "uid" or "cn"
 #
 #uid_attribute = "uid"
 
-# Attribute containing the mail of the user.
-#
-# example: "mail"
-#
-#mail_attribute = "mail"
-
 # Attribute containing the distinguished name of the user.
 #
+# reloadable: yes
 # example: "givenName" or "sn"
 #
 #name_attribute = "givenName"
@@ -2149,6 +2701,7 @@ support_mxid = "@admin:chat.techwerkers.nl"
 #
 # Defaults to `base_dn` if empty.
 #
+# reloadable: yes
 # example: "ou=admins,dc=example,dc=org"
 #
 #admin_base_dn =
@@ -2161,6 +2714,7 @@ support_mxid = "@admin:chat.techwerkers.nl"
 # You can use the variable `{username}` that will be replaced by the
 # entered username for more complex filters.
 #
+# reloadable: yes
 # example: "(objectClass=tuwunelAdmin)" or "(uid={username})"
 #
 #admin_filter =
@@ -2171,11 +2725,15 @@ support_mxid = "@admin:chat.techwerkers.nl"
 
 # Enable JWT logins
 #
+# reloadable: yes
+#
 #enable = false
 
 # Validation key, also called 'secret' in Synapse config. The type of key
 # can be configured in 'format', but defaults to the common HMAC which
 # is a plaintext shared-secret, so you should keep this value private.
+#
+# reloadable: yes
 #
 #key =
 
@@ -2187,34 +2745,48 @@ support_mxid = "@admin:chat.techwerkers.nl"
 # - ECDSA is a PEM-encoded public-key.
 # - EDDSA is a PEM-encoded Ed25519 public-key.
 #
+# reloadable: yes
+#
 #format = "HMAC"
 
 # Automatically create new user from a valid claim, otherwise access is
 # denied for an unknown even with an authentic token.
 #
+# reloadable: yes
+#
 #register_user = true
 
 # JWT algorithm
+#
+# reloadable: yes
 #
 #algorithm = "HS256"
 
 # Optional audience claim list. The token must claim one or more values
 # from this list when set.
 #
+# reloadable: yes
+#
 #audience = []
 
 # Optional issuer claim list. The token must claim one or more values
 # from this list when set.
+#
+# reloadable: yes
 #
 #issuer = []
 
 # Require expiration claim in the token. This defaults to false for
 # synapse migration compatibility.
 #
+# reloadable: yes
+#
 #require_exp = false
 
 # Require not-before claim in the token. This defaults to false for
 # synapse migration compatibility.
+#
+# reloadable: yes
 #
 #require_nbf = false
 
@@ -2222,15 +2794,21 @@ support_mxid = "@admin:chat.techwerkers.nl"
 # required depends on require_exp, but when present this ensures the token
 # is not used after a time.
 #
+# reloadable: yes
+#
 #validate_exp = true
 
 # Validate not-before time of the token when present. Whether or not it is
 # required depends on require_nbf, but when present this ensures the token
 # is not used before a time.
 #
+# reloadable: yes
+#
 #validate_nbf = true
 
 # Bypass validation for diagnostic/debug use only.
+#
+# reloadable: yes
 #
 #validate_signature = true
 
@@ -2348,18 +2926,69 @@ support_mxid = "@admin:chat.techwerkers.nl"
 # compute a Matrix UserId for new registrations. Reviewing Tuwunel's
 # documentation will be necessary for a complete description in detail. An
 # empty array imposes no restriction here, avoiding generated fallbacks as
-# much as possible. For simplicity we reserve a claim called "unique"
-# which can be listed alone to ensure *only* generated ID's are used for
-# registrations.
+# much as possible.
+#
+# For simplicity we reserve a claim called "unique" which can be listed
+# alone to ensure *only* generated ID's are used for registrations.
+#
+# Note that listing the claim "sub" has special significance and will take
+# precedence over all other claims, listed or unlisted. "sub" is not
+# normally used to determine a UserId unless explicitly listed here.
+#
+# As of now arbitrary claims cannot be listed here, we only recognize
+# specific hard-coded claims.
 #
 #userid_claims = []
+
+# Trusted providers can cause username conflicts (i.e. account hijacking)
+# but this is precisely how an existing matrix account can be associated
+# with a provider. When this option is set to true, the way we compute a
+# Matrix UserId from userinfo claims is inverted: we find the first
+# matching user and grant access to it. Whereas by default, when set to
+# false, we skip matching users and register the first available username;
+# falling-back to random characters to avoid conflicts.
+#
+# Only set this option to true for providers you self-host and control.
+# Never set this option to true for the public providers such as GitHub,
+# GitLab, etc.
+#
+# Note that associating an existing user with an untrusted provider is
+# still possible but only with the command '!admin query oauth associate'.
+#
+#trusted = false
+
+# Setting this option to false will inhibit unique ID's from being
+# generated as a last-resort when determining a UserId from a provider's
+# claims. In the case of untrusted providers, when all provided claims
+# conflict with existing user accounts, a unique fallback ID needs
+# to be generated for registration to not be denied with an error.
+#
+# Set this option to false if you operate a private server or a trusted
+# identity provider where random UserId's are undesirable; the result of a
+# misconfiguration or other issue where an error is warranted.
+#
+# This option should be set to true for public servers or some users may
+# never be able to register.
+#
+#unique_id_fallbacks = true
+
+# Controls whether new user registration is possible from this provider.
+# When this option is set to false, authorizations from this provider
+# only affect existing users and will never result in a new registration
+# when the claims fail to match any existing user (in the case of trusted
+# providers) or an available username is found (in the case of untrusted
+# providers).
+#
+# Setting this option to false is generally not useful unless there is
+# an explicit reason to do so.
+#
+#registration = true
 
 # Optional extra path components after the issuer_url leading to the
 # location of the `.well-known` directory used for discovery. If the path
 # starts with a slash it will be treated as absolute, meaning overwriting
 # any path in the issuer_url. The path needs to end with a slash. This
-# will be empty for specification-compliant providers. We have supplied
-# any known values based on `brand` (e.g. `login/oauth/` for GitHub).
+# will be empty for specification-compliant providers.
 #
 #base_path =
 
@@ -2405,6 +3034,146 @@ support_mxid = "@admin:chat.techwerkers.nl"
 # The duration in seconds before a grant authorization session expires.
 #
 #grant_session_duration = 300
+
+# Whether to check the redirect cookie during the callback. This is a
+# security feature and should remain enabled. This is available for
+# developers or deployments which cannot tolerate cookies and are willing
+# to tolerate the risks.
+#
+#check_cookie = true
+
+# Extra query parameters appended to every authorization request sent to
+# the identity provider.
+#
+# E.g. to force re-authentication even if IdP cookies are present:
+# ```toml
+# [[global.identity_provider]]
+# extra_authorization_parameters = { prompt = "login" }
+# ```
+#
+#extra_authorization_parameters = {}
+
+
+
+#[global.storage_provider.<ID>.local]
+
+# Absolute path to this local filesystem storage provider. Technically the
+# provider exists at the filesystem root, and the base_path is prefixed to
+# all objects.
+#
+#base_path =
+
+# Creates the directory on the local filesystem if missing. This is not
+# recommended to prevent misconfigured environments and missing mounts
+# from silently succeeding.
+#
+#create_if_missing = false
+
+# Toggles the preservation of a directory after its last file contents are
+# removed.
+#
+#delete_empty_directories = true
+
+# Enables checks performed at startup determining the usability of the
+# local directory. Failures will abort the server's startup.
+#
+#startup_check = true
+
+
+
+#[global.storage_provider.<ID>.s3]
+
+# Supply an s3 URL e.g. "s3://bucket/path". These URLs may contain one
+# or all of `bucket`, `region`, and `path` . When not supplied, such
+# additional items can be supplied below individually.
+#
+#url =
+
+# The name of the S3 bucket. e.g. "bucketname-123456789-us-west-2-an".
+#
+#bucket =
+
+# The region of the S3 bucket. e.g. "us-west-2".
+#
+#region = "us-east-1"
+
+# Your amazon IAM Key ID with access granted to this bucket.
+# e.g. "ABCDEFG1X1ZZYYXXWWVV"
+#
+#key =
+
+# The secret key component which is approx 40 characters of base64.
+#
+#secret =
+
+# Optional path prefix within the bucket where all our operations will
+# take place.
+#
+#base_path =
+
+# (expert use) Override the location of s3 applied after components of the
+# parsed `url` (or when none set).
+#
+#endpoint =
+
+# (expert use) Override this property useful for some self-hosted
+# environments. By default it is derived when parsing the primary `url`.
+#
+#use_vhost_request = false
+
+# (expert use) Alternative session-token authentication method.
+#
+#token =
+
+# (expert use) Associated SSE-KMS key material.
+#
+#kms =
+
+# (expert use) When configured for the bucket it should be reflected here.
+#
+#use_bucket_key =
+
+# (expert use) Threshold size for switching to Multi-part uploads. This is
+# a quirk of the S3 protocol which requires us to use a different approach
+# for "large" uploads. This value determines what a "large" upload is. The
+# default value should be sufficient for most providers. The value is a
+# parsed string allowing SI or IEC units for convenience.
+#
+#multipart_threshold = 100 MiB
+
+# (expert use) Size of each individual part within a Multi-part upload.
+# Once an upload exceeds `multipart_threshold` the payload is split into
+# parts of this size, each sent as a separate HTTP PUT. Smaller values
+# keep individual requests under per-request timeouts on slow uplinks at
+# the cost of more round-trips. S3 requires every part except the last
+# to be at least 5 MiB. The value is a parsed string allowing SI or IEC
+# units for convenience.
+#
+#multipart_part_size = 10 MiB
+
+# (developer use) Allows relaxing default requirement forcing HTTPS.
+#
+#use_https = true
+
+# (developer_use) Allows skipping request header signatures (will be
+# reejected by AWS).
+#
+#use_signatures = true
+
+# (developer_use) Allows disabling request payload signatures.
+#
+#use_payload_signatures = true
+
+# (developer use) Enables checks performed at startup such as pinging the
+# provider. Failures are considered critical startup errors which abort
+# startup. When set to false, faulty providers are only discovered with
+# first use and will not be fatal errors.
+#
+# Only set this to false if you expect a provider to be down at startup or
+# for development/testing purposes; checks are disabled when the server
+# is started in '--maintenance' mode.
+#
+#startup_check = true
 
 
 

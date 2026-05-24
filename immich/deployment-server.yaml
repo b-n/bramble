@@ -14,6 +14,15 @@ spec:
       labels:
         app: immich-server
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: home.bramble/node-type
+                operator: In
+                values:
+                - "head"
       containers:
       - name: immich-server
         image: ghcr.io/immich-app/immich-server:v2.3.1

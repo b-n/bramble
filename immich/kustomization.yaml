@@ -6,11 +6,13 @@ namespace: immich
 
 images:
 - name: ghcr.io/immich-app/immich-server
-  newTag: v2.5.6
+  newTag: v2.7.5
 - name: ghcr.io/immich-app/immich-machine-learning
-  newTag: v2.5.6
+  newTag: v2.7.5
 - name: valkey/valkey
-  newTag: 8.1.6
+  newTag: 9.1.0
+- name: ghcr.io/immich-app/postgres
+  newTag: 18-vectorchord0.5.3-pgvector0.8.1 
 
 resources:
 - ../ext/iscsi

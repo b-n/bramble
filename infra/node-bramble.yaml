@@ -7,4 +7,3 @@ metadata:
     home.bramble/has-storage: "true"
     home.bramble/node-type: "head"
     home.bramble/compute-class: "raspberry-pi-5"
-
