@@ -12,7 +12,4 @@ resources:
 - keycloak/
 - oauth2-proxy/
 - n8n/
-- prometheus-operator/
-- kube-state-metrics/
-- node-exporter/
 - observability/
