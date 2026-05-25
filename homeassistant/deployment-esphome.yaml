@@ -27,6 +27,11 @@ spec:
           name: homeassistant-esphome-config
         - mountPath: /cache
           name: homeassistant-esphome-cache
+        resources:
+          requests:
+            memory: 512Mi
+          limits:
+            memory: 512Mi
       volumes:
       - name: homeassistant-esphome-cache
         emptyDir: {}

@@ -17,3 +17,20 @@ spec:
       enableGatewayAPI: true
     extraArgs:
     - "--enable-gateway-api"
+    resources:
+      requests:
+        memory: 64Mi
+      limits:
+        memory: 64Mi
+    cainjector:
+      resources:
+        requests:
+          memory: 64Mi
+        limits:
+          memory: 64Mi
+    webhook:
+      resources:
+        requests:
+          memory: 64Mi
+        limits:
+          memory: 64Mi

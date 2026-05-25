@@ -10,6 +10,11 @@ spec:
   - port: metrics
     path: /metrics
     scheme: http
+    metricRelabelings:
+    - targetLabel: cluster
+      replacement: bramble
+      action: replace
+    honorLabels: true
   selector:
     matchLabels:
       app: node-exporter

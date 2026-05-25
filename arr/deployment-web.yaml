@@ -22,6 +22,11 @@ spec:
         volumeMounts:
         - name: static-site 
           mountPath: /home/static
+        resources:
+          requests:
+            memory: 16Mi
+          limits:
+            memory: 16Mi
       volumes:
       - name: static-site
         configMap:

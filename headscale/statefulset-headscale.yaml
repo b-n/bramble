@@ -36,6 +36,11 @@ spec:
           subPath: config-headscale.yaml
         - mountPath: /var/run/headscale
           name: tmpfs
+        resources:
+          requests:
+            memory: 64Mi
+          limits:
+            memory: 64Mi
       volumes:
       - name: tmpfs
         emptyDir: {}

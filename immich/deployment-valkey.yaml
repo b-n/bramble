@@ -21,3 +21,8 @@ spec:
         ports:
         - containerPort: 6379
           name: valkey
+        resources:
+          requests:
+            memory: 32Mi
+          limits:
+            memory: 32Mi

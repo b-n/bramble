@@ -31,6 +31,11 @@ spec:
           name: adguard-work
         - mountPath: /opt/adguardhome/conf
           name: adguard-conf
+        resources:
+          requests:
+            memory: 256Mi
+          limits:
+            memory: 256Mi
   volumeClaimTemplates:
   - apiVersion: v1
     kind: PersistentVolumeClaim

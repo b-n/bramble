@@ -27,6 +27,11 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/postgresql
           name: postgres-data
+        resources:
+          requests:
+            memory: 64Mi
+          limits:
+            memory: 64Mi
       nodeSelector:
         home.bramble/has-storage: "true"
   volumeClaimTemplates:

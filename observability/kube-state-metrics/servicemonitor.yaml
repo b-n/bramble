@@ -8,6 +8,11 @@ spec:
   jobLabel: kube-state-metrics
   endpoints:
   - port: http-metrics
+    metricRelabelings:
+    - targetLabel: cluster
+      replacement: bramble
+      action: replace
+    honorLabels: true
   selector:
     matchLabels:
       app.kubernetes.io/name: kube-state-metrics

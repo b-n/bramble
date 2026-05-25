@@ -35,8 +35,11 @@ spec:
           mountPath: /config
         - name: arr-media
           mountPath: /downloads
-      #  - name: arr-media-nfs
-      #    mountPath: /downloads-new
+        resources:
+          requests:
+            memory: 256Mi
+          limits:
+            memory: 256Mi
       volumes:
       - name: transmission-config
         iscsi:
@@ -48,16 +51,6 @@ spec:
           chapAuthSession: true
           secretRef:
             name: iscsi-chap-secret
-      # - name: arr-media
-      #   iscsi:
-      #     targetPortal: 192.168.64.253:3260
-      #     iqn: iqn.2025-03.com.ugreen:arr-media
-      #     lun: 0
-      #     fsType: ext4
-      #     chapAuthDiscovery: false
-      #     chapAuthSession: true
-      #     secretRef:
-      #       name: iscsi-chap-secret
       - name: arr-media
         persistentVolumeClaim:
           claimName: arr-media

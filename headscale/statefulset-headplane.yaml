@@ -42,6 +42,11 @@ spec:
         - mountPath: /var/lib/headplane/oidc_client_secret
           name: headscale-secrets
           subPath: oidc_client_secret
+        resources:
+          requests:
+            memory: 192Mi
+          limits:
+            memory: 192Mi
       volumes:
       # persistent data
       - name: headscale-headplane-config

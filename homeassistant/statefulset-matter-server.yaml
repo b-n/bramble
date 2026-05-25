@@ -22,6 +22,11 @@ spec:
         volumeMounts:
         - mountPath: /data
           name: matter-server-data
+        resources:
+          requests:
+            memory: 128Mi
+          limits:
+            memory: 128Mi
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

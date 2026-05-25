@@ -25,6 +25,11 @@ spec:
         volumeMounts:
         - mountPath: /config
           name: homeassistant-config
+        resources:
+          requests:
+            memory: 1024Mi
+          limits:
+            memory: 1024Mi
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
