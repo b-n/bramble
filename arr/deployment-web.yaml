@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: arr-web
-        image: lipanski/docker-static-website:2.6.0
+        image: lipanski/docker-static-website:latest
         ports:
         - containerPort: 3000
           protocol: TCP

@@ -4,5 +4,5 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
-- https://github.com/kubernetes/kube-state-metrics//examples/standard?timeout=120&ref=v2.19.0
+- https://github.com/kubernetes/kube-state-metrics//examples/standard?timeout=120&ref=v2.19.1
 - servicemonitor.yaml

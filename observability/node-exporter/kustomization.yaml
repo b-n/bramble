@@ -3,6 +3,10 @@ kind: Kustomization
 
 namespace: kube-system
 
+images:
+- name: prom/node-exporter
+  newTag: v1.11.1
+
 resources:
 - daemonset.yaml
 - podmonitor.yaml

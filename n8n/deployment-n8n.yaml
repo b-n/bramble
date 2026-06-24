@@ -33,9 +33,9 @@ spec:
           containerPort: 5678
         resources:
           limits:
-            memory: 512Mi
+            memory: 768Mi
           requests:
-            memory: 512Mi
+            memory: 768Mi
         volumeMounts:
         - name: n8n-data
           mountPath: /home/node/.n8n

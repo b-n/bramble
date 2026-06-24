@@ -6,11 +6,13 @@ namespace: arr
 
 images:
 - name: lscr.io/linuxserver/jellyfin
-  newTag: 10.11.9
+  newTag: 10.11.11
 - name: lscr.io/linuxserver/prowlarr
-  newTag: 2.3.5
+  newTag: 2.4.0
 - name: lscr.io/linuxserver/transmission
-  newTag: 4.1.1
+  newTag: 4.1.2
+- name: lipanski/docker-static-website
+  newTag: 2.6.0
 
 resources:
 - ../ext/iscsi/
