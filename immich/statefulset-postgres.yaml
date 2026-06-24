@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: postgres
-        image: ghcr.io/immich-app/postgres:18-vectorchord0.5.3-pgvector0.8.1  # Overridden
+        image: ghcr.io/immich-app/postgres:18-vectorchord0.5.3-pgvector0.8.1 # Overridden
         envFrom:
         - configMapRef:
             name: immich-postgres

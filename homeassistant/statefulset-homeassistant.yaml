@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: homeassistant
-        image: ghcr.io/home-assistant/home-assistant:stable  # Overridden
+        image: ghcr.io/home-assistant/home-assistant:stable # Overridden
         envFrom:
         - configMapRef:
             name: homeassistant-homeassistant-env

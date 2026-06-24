@@ -6,10 +6,10 @@ metadata:
     app: headscale
 spec:
   ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: http
-      name: http
+  - protocol: TCP
+    port: 8080
+    targetPort: http
+    name: http
   selector:
     app: headscale-headplane
   type: ClusterIP

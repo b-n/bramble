@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: adguard
-        image: adguard/adguardhome:latest  # Overridden
+        image: adguard/adguardhome:latest # Overridden
         ports:
         - containerPort: 53
           name: dns-tcp

@@ -6,7 +6,7 @@ metadata:
 spec:
   clusterIP: None
   selector:
-    app: immich-server 
+    app: immich-server
   ports:
   - protocol: TCP
     port: 2283

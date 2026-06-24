@@ -5,5 +5,5 @@ metadata:
 spec:
   chain:
     middlewares:
-      - name: oauth-redirect
-      - name: oauth-auth
+    - name: oauth-redirect
+    - name: oauth-auth

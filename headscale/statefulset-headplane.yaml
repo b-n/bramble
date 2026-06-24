@@ -60,7 +60,7 @@ spec:
         secret:
           secretName: headscale-headplane
           items:
-          - key: cookie_secret 
+          - key: cookie_secret
             path: cookie_secret
           - key: headscale_api_key
             path: headscale_api_key

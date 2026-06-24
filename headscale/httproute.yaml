@@ -55,7 +55,7 @@ spec:
   - matches:
     - path:
         type: Exact
-        value: / 
+        value: /
     filters:
     - type: RequestRedirect
       requestRedirect:
@@ -63,5 +63,3 @@ spec:
           type: ReplaceFullPath
           replaceFullPath: /admin
         statusCode: 302
-
-

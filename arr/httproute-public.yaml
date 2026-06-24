@@ -72,12 +72,12 @@ spec:
       - name: X-Forwarded-Host
         value: jellyfin.arr.bennaylor.dev
     backendRefs:
-      - group: ""
-        kind: Service
-        name: arr-jellyfin
-        namespace: arr
-        port: 8096
-        weight: 1
+    - group: ""
+      kind: Service
+      name: arr-jellyfin
+      namespace: arr
+      port: 8096
+      weight: 1
     filters:
     - type: ExtensionRef
       extensionRef:
@@ -90,12 +90,12 @@ spec:
       - name: X-Forwarded-Host
         value: prowlarr.arr.bennaylor.dev
     backendRefs:
-      - group: ""
-        kind: Service
-        name: arr-prowlarr
-        namespace: arr
-        port: 9696
-        weight: 1
+    - group: ""
+      kind: Service
+      name: arr-prowlarr
+      namespace: arr
+      port: 9696
+      weight: 1
     filters:
     - type: ExtensionRef
       extensionRef:

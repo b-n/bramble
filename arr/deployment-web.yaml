@@ -20,7 +20,7 @@ spec:
           protocol: TCP
           name: http
         volumeMounts:
-        - name: static-site 
+        - name: static-site
           mountPath: /home/static
         resources:
           requests:

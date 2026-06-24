@@ -15,4 +15,4 @@ generators:
         exec:
           path: ksops
   files:
-  - ./secret-iscsi-chap.enc.yaml 
+  - ./secret-iscsi-chap.enc.yaml

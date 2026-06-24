@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: matter-server
-        image: ghcr.io/matter-js/python-matter-server:stable  # Overridden
+        image: ghcr.io/matter-js/python-matter-server:stable # Overridden
         ports:
         - containerPort: 5580
           name: http

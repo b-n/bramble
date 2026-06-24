@@ -114,7 +114,7 @@ derp:
 
   # List of externally available DERP maps encoded in JSON
   urls:
-    - https://controlplane.tailscale.com/derpmap/default
+  - https://controlplane.tailscale.com/derpmap/default
 
   # Locally available DERP map files encoded in YAML
   #
@@ -327,23 +327,22 @@ dns:
     #   - 1.0.0.1
     #   - 2606:4700:4700::1111
     #   - 2606:4700:4700::1001
+    #   NextDNS (see https://tailscale.com/docs/integrations/nextdns).
+    #   "abc123" is example NextDNS ID, replace with yours.
+    #   - https://dns.nextdns.io/abc123
     global:
-      - 9.9.9.9
-      - 192.168.1.192
-      - 192.168.64.1
-
-      # NextDNS (see https://tailscale.com/docs/integrations/nextdns).
-      # "abc123" is example NextDNS ID, replace with yours.
-      # - https://dns.nextdns.io/abc123
+    - 9.9.9.9
+    - 192.168.1.192
+    - 192.168.64.1
 
     # Split DNS (see https://tailscale.com/docs/reference/dns-in-tailscale#restricted-nameservers),
     # a map of domains and which DNS server to use for each.
+    # foo.bar.com:
+    #   - 1.1.1.1
+    # darp.headscale.net:
+    #   - 1.1.1.1
+    #   - 8.8.8.8
     split: {}
-      # foo.bar.com:
-      #   - 1.1.1.1
-      # darp.headscale.net:
-      #   - 1.1.1.1
-      #   - 8.8.8.8
 
   # Set custom DNS search domains. With MagicDNS enabled,
   # your tailnet base_domain is always the first search domain.
@@ -427,7 +426,7 @@ oidc:
   # allowed_groups list.
   allowed_groups:
   # - /headscale
-    - /headscale_users
+  - /headscale_users
 
   # Optional: PKCE (Proof Key for Code Exchange) configuration
   # PKCE adds an additional layer of security to the OAuth 2.0 authorization code flow

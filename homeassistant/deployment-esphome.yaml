@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: esphome
-        image: ghcr.io/esphome/esphome:stable  # Overridden
+        image: ghcr.io/esphome/esphome:stable # Overridden
         envFrom:
         - configMapRef:
             name: homeassistant-esphome-env

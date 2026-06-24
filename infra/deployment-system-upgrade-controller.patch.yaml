@@ -24,4 +24,3 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: spec.nodeName
- 

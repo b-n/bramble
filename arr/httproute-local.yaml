@@ -19,14 +19,14 @@ spec:
     - headers:
       - name: X-Forwarded-Host
         type: Exact
-        value: arr.home 
+        value: arr.home
     backendRefs:
-      - group: ""
-        kind: Service
-        name: arr-web
-        namespace: arr
-        port: 3000
-        weight: 1
+    - group: ""
+      kind: Service
+      name: arr-web
+      namespace: arr
+      port: 3000
+      weight: 1
     filters:
     - type: ExtensionRef
       extensionRef:
@@ -40,12 +40,12 @@ spec:
         type: Exact
         value: transmission.arr.home
     backendRefs:
-      - group: ""
-        kind: Service
-        name: arr-transmission
-        namespace: arr
-        port: 9091
-        weight: 1
+    - group: ""
+      kind: Service
+      name: arr-transmission
+      namespace: arr
+      port: 9091
+      weight: 1
     filters:
     - type: ExtensionRef
       extensionRef:
@@ -59,12 +59,12 @@ spec:
         type: Exact
         value: jellyfin.arr.home
     backendRefs:
-      - group: ""
-        kind: Service
-        name: arr-jellyfin
-        namespace: arr
-        port: 8096
-        weight: 1
+    - group: ""
+      kind: Service
+      name: arr-jellyfin
+      namespace: arr
+      port: 8096
+      weight: 1
     filters:
     - type: ExtensionRef
       extensionRef:
@@ -78,12 +78,12 @@ spec:
         type: Exact
         value: prowlarr.arr.home
     backendRefs:
-      - group: ""
-        kind: Service
-        name: arr-prowlarr
-        namespace: arr
-        port: 9696
-        weight: 1
+    - group: ""
+      kind: Service
+      name: arr-prowlarr
+      namespace: arr
+      port: 9696
+      weight: 1
     filters:
     - type: ExtensionRef
       extensionRef:

@@ -22,4 +22,4 @@ resources:
 - ns-nfs.yaml
 
 patches:
-- path: deployment-system-upgrade-controller.patch.yaml 
+- path: deployment-system-upgrade-controller.patch.yaml

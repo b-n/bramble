@@ -51,7 +51,7 @@ spec:
         level: INFO
       access:
         enabled: true
-    
+
     service:
       spec:
         externalTrafficPolicy: Local

@@ -16,11 +16,11 @@ spec:
         type: PathPrefix
         value: /
     backendRefs:
-      - group: ""
-        kind: Service
-        name: adguard-admin
-        port: 3000
-        weight: 1
+    - group: ""
+      kind: Service
+      name: adguard-admin
+      port: 3000
+      weight: 1
     filters:
     - type: ExtensionRef
       extensionRef:
