@@ -25,7 +25,7 @@ spec:
         path: "{{ .path.path }}"
       destination:
         name: bramble
-        namespace: argocd
+        namespace: "{{ .path.basename }}"
       syncPolicy:
         automated:
           prune: false
