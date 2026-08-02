@@ -11,13 +11,19 @@ spec:
       repoURL: https://github.com/b-n/bramble.git
       revision: main
       directories:
+      # ArgoCD is manually applied
+      # - path: argocd
       - path: adguard
       - path: arr
       - path: cert-manager
+      - path: headscale
+      - path: homeassistant
       - path: immich
+      - path: infra
       - path: keycloak
       - path: n8n
       - path: oauth2-proxy
+      - path: observability
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
