@@ -53,6 +53,9 @@ spec:
     - headers:
       - name: X-Forwarded-Host
         value: transmission.arr.bennaylor.dev
+      path:
+        type: PathPrefix
+        value: /
     backendRefs:
     - group: ""
       kind: Service
@@ -71,6 +74,9 @@ spec:
     - headers:
       - name: X-Forwarded-Host
         value: jellyfin.arr.bennaylor.dev
+      path:
+        type: PathPrefix
+        value: /
     backendRefs:
     - group: ""
       kind: Service
@@ -89,6 +95,9 @@ spec:
     - headers:
       - name: X-Forwarded-Host
         value: prowlarr.arr.bennaylor.dev
+      path:
+        type: PathPrefix
+        value: /
     backendRefs:
     - group: ""
       kind: Service
