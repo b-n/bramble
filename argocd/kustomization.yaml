@@ -7,7 +7,9 @@ namespace: argocd
 resources:
 - https://raw.githubusercontent.com/argoproj/argo-cd/v3.4.6/manifests/install.yaml
 - appproject-bramble.yaml
+- appproject-techwerkers-k3s.yaml
 - app-bramble.yaml
+- app-techwerkers-k3s.yaml
 - gateway.yaml
 - certificate.yaml
 - httproute.yaml

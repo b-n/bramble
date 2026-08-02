@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: techwerkers-k3s
+  namespace: argocd
+spec:
+  description: Techwerkers cluster
+  clusterResourceWhitelist:
+  - group: "*"
+    kind: "*"
+  destinations:
+  - name: "*"
+    namespace: "*"
+    server: "*"
+  sourceRepos:
+  - "*"
+  roles:
+  - name: admin
+    description: Do anything in this project
+    groups:
+    - twk3s_admin
+    policies:
+    - p, proj:techwerkers-k3s:admin, applications, *, techwerkers-k3s/*, allow
