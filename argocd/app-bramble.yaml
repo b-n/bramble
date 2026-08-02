@@ -10,7 +10,7 @@ spec:
     targetRevision: argo
   destination:
     name: bramble
-    namespace: argocd
+    namespace: main
   project: bramble
   syncPolicy:
     automated:

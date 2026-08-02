@@ -29,5 +29,6 @@ generators:
         exec:
           path: ksops
   files:
-  - secret-cluster-bramble.enc.yaml
+  - secret-age.enc.yaml
   - secret-argocd-dex-credentials.enc.yaml
+  - secret-cluster-bramble.enc.yaml

@@ -2,7 +2,9 @@ creation_rules:
 - path_regex: ".yaml$"
   unencrypted_regex: "^(apiVersion|metadata|kind|type)$"
   age: >-
-    age1f57t8jyuwattnn2ul724pwtrgl7q4jkwghqqyhk8t4vq5ed08pxqjcy98l
+    age1f57t8jyuwattnn2ul724pwtrgl7q4jkwghqqyhk8t4vq5ed08pxqjcy98l,
+    age1rt8t5r7qv3lqad907pxg9233x2xlvr5kvqc8tj38y560ayd8ruhq352jgy
 - path_regex: ".enc$"
   age: >-
-    age1f57t8jyuwattnn2ul724pwtrgl7q4jkwghqqyhk8t4vq5ed08pxqjcy98l
+    age1f57t8jyuwattnn2ul724pwtrgl7q4jkwghqqyhk8t4vq5ed08pxqjcy98l,
+    age1rt8t5r7qv3lqad907pxg9233x2xlvr5kvqc8tj38y560ayd8ruhq352jgy
