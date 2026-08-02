@@ -49,3 +49,4 @@ spec:
   ignoreApplicationDifferences:
   - jsonPointers:
     - /spec/source/targetRevision
+    - /spec/syncPolicy/automated
