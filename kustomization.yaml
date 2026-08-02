@@ -3,13 +3,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- adguard/
-- arr/
-- cert-manager/
-- homeassistant/
-- immich/
-- infra/
-- keycloak/
-- oauth2-proxy/
-- n8n/
-- observability/
+- appset-bramble.yaml

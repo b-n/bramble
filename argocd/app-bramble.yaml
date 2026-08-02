@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   source:
-    path: ./appset-bramble.yaml
+    path: ./
     repoURL: https://github.com/b-n/bramble.git
     targetRevision: argo
   destination:
