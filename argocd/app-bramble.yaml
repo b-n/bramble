@@ -7,7 +7,7 @@ spec:
   source:
     path: ./
     repoURL: https://github.com/b-n/bramble.git
-    targetRevision: argo
+    targetRevision: main
   destination:
     name: bramble
     namespace: main
