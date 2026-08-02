@@ -33,6 +33,7 @@ spec:
         syncOptions:
         - FailOnSharedResource=true
         - ApplyOutOfSyncOnly=true
+        - ServerSideApply=true
   ignoreApplicationDifferences:
   - jsonPointers:
     - /spec/source/targetRevision
