@@ -1,0 +1,23 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argocd
+
+resources:
+- https://raw.githubusercontent.com/argoproj/argo-cd/v3.4.6/manifests/install.yaml
+- appproject-bramble.yaml
+- app-bramble.yaml
+
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: argocd
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - secret-cluster-bramble.enc.yaml

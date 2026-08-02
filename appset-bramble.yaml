@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: root-appset
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: git@github.com:b-n/bramble.git
+      revision: main
+      directories:
+      - path: adgaurd
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  template:
+    metadata:
+      name: "bramble-{{path.basename}}"
+    spec:
+      project: bramble
+      source:
+        repoURL: "{{.repoURL}}"
+        targetRevision: main
+        path: "{{path}}"
+      destination:
+        server: bramble
+        namespace: argocd
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+        syncOptions:
+        - FailOnSharedResource=true
+        - ApplyOutOfSyncOnly=true
+  ignoreApplicationDifferences:
+  - jsonPointers:
+    - /spec/source/targetRevision

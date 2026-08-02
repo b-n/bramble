@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: bramble
+  namespace: argocd
+spec:
+  description: Bramble home cluster
+  clusterResourceWhitelist:
+  - group: "*"
+    kind: "*"
+  destinations:
+  - name: "*"
+    namespace: "*"
+    server: "*"
+  sourceRepos:
+  - "*"
+  roles:
+  - name: admin
+    description: Do anything in this project
+    groups:
+    - nayben@gmail.com
+    policies:
+    - p, proj:bramble:admin, applications, *, bramble/*, allow
