@@ -14,6 +14,9 @@ spec:
       - path: adguard
       - path: arr
       - path: cert-manager
+      - path: immich
+      - path: keycloak
+      - path: n8n
       - path: oauth2-proxy
   syncPolicy:
     preserveResourcesOnDeletion: true
