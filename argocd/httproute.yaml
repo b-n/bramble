@@ -1,0 +1,24 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: argocd-public
+spec:
+  parentRefs:
+  - name: argocd
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    sectionName: websecure
+  hostnames:
+  - argocd.bennaylor.dev
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - group: ""
+      kind: Service
+      name: argocd-server
+      port: 80
+      weight: 1

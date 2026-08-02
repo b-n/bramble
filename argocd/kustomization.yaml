@@ -8,9 +8,14 @@ resources:
 - https://raw.githubusercontent.com/argoproj/argo-cd/v3.4.6/manifests/install.yaml
 - appproject-bramble.yaml
 - app-bramble.yaml
+- gateway.yaml
+- certificate.yaml
+- httproute.yaml
 
 patches:
-- path: patches/configmap-argocd-cm.yaml
+- path: patches/configmap-argocd-cmd-params.yaml
+- path: patches/configmap-argocd-rbac.yaml
+- path: patches/configmap-argocd.yaml
 - path: patches/deployment-argocd-repo-server.yaml
 
 generators:
@@ -25,3 +30,4 @@ generators:
           path: ksops
   files:
   - secret-cluster-bramble.enc.yaml
+  - secret-argocd-dex-credentials.enc.yaml

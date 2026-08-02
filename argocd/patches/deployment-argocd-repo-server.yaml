@@ -12,19 +12,17 @@ spec:
           name: custom-tools
           subPath: ksops
       initContainers:
-      # KSOPS: Copy ksops binary to a shared volume
       - name: install-ksops
         image: viaductoss/ksops:v4.5.1
         command:
-        - "/usr/local/bin/ksops",
-        - "install",
-        - "--with-kustomize",
-        - "/custom-tools",
+        - "/usr/local/bin/ksops"
+        - "install"
+        - "--with-kustomize"
+        - "/custom-tools"
         volumeMounts:
         - mountPath: /custom-tools
           name: custom-tools
       serviceAccountName: argocd-repo-server
-      # Add a new volume mount for custom-tools
       volumes:
       - emptyDir: {}
         name: custom-tools
