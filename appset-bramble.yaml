@@ -4,6 +4,8 @@ metadata:
   name: bramble-root
   namespace: argocd
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
   - git:
       repoURL: https://github.com/b-n/bramble.git
@@ -14,13 +16,13 @@ spec:
     preserveResourcesOnDeletion: true
   template:
     metadata:
-      name: "bramble-{{path.basename}}"
+      name: "bramble-{{ .path.basename }}"
     spec:
       project: bramble
       source:
-        repoURL: "{{.repoURL}}"
+        repoURL: https://github.com/b-n/bramble.git
         targetRevision: main
-        path: "{{path}}"
+        path: "{{ .path.path }}"
       destination:
         server: bramble
         namespace: argocd
