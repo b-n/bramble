@@ -24,7 +24,7 @@ spec:
         targetRevision: main
         path: "{{ .path.path }}"
       destination:
-        server: bramble
+        name: bramble
         namespace: argocd
       syncPolicy:
         automated:
