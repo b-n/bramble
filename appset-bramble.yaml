@@ -12,6 +12,8 @@ spec:
       revision: main
       directories:
       - path: adguard
+      - path: arr
+      - path: cert-manager
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
