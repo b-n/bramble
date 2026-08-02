@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: root-appset
+  name: bramble-root
   namespace: argocd
 spec:
   generators:
