@@ -52,6 +52,7 @@ spec:
   - matches:
     - headers:
       - name: X-Forwarded-Host
+        type: Exact
         value: transmission.arr.bennaylor.dev
       path:
         type: PathPrefix
@@ -73,6 +74,7 @@ spec:
   - matches:
     - headers:
       - name: X-Forwarded-Host
+        type: Exact
         value: jellyfin.arr.bennaylor.dev
       path:
         type: PathPrefix
@@ -94,6 +96,7 @@ spec:
   - matches:
     - headers:
       - name: X-Forwarded-Host
+        type: Exact
         value: prowlarr.arr.bennaylor.dev
       path:
         type: PathPrefix
