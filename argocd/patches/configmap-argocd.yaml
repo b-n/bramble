@@ -13,6 +13,11 @@ data:
   #   Used for kustomize with ksops
   kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone --enable-alpha-plugins --enable-exec"
   application.resourceTrackingMethod: annotation
+  resource.inclusions: |
+    - apiGroups:
+        - "discovery.k8s.io"
+      kinds:
+        - EndpointSlice
   dex.config: |-
     connectors:
     - type: oidc
