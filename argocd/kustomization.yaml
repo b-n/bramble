@@ -32,3 +32,4 @@ generators:
   - secret-age.enc.yaml
   - secret-argocd-dex-credentials.enc.yaml
   - secret-cluster-bramble.enc.yaml
+  - secret-cluster-twk3s.enc.yaml

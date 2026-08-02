@@ -78,4 +78,12 @@ data:
         issuer: https://keycloak.bennaylor.dev/realms/master
         clientID: $argocd-dex-credentials:DEX_BRAMBLE_CLIENT_ID
         clientSecret: $argocd-dex-credentials:DEX_BRAMBLE_CLIENT_SECRET
-        redirectURI: https://argocd.platform.instruqt.net/api/dex/callback
+        redirectURI: https://argocd.bennaylor.dev/api/dex/callback
+    - type: oidc
+      id: twk3s
+      name: Techwerkers
+      config:
+        issuer: https://id.techwerkers.nl/realms/techwerkers
+        clientID: $argocd-dex-credentials:DEX_TWK3S_CLIENT_ID
+        clientSecret: $argocd-dex-credentials:DEX_TWK3S_CLIENT_SECRET
+        redirectURI: https://argocd.bennaylor.dev/api/dex/callback
