@@ -14,8 +14,9 @@ spec:
   - matches:
     - headers:
       - name: Host
+        type: Exact
         value: thuis.home
-    - path:
+      path:
         type: PathPrefix
         value: /
     backendRefs:
