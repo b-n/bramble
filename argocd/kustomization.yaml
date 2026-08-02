@@ -9,6 +9,10 @@ resources:
 - appproject-bramble.yaml
 - app-bramble.yaml
 
+patches:
+- path: patches/configmap-argocd-cm.yaml
+- path: patches/deployment-argocd-repo-server.yaml
+
 generators:
 - |-
   apiVersion: viaduct.ai/v1
