@@ -17,6 +17,9 @@ spec:
       enableGatewayAPI: true
     extraArgs:
     - "--enable-gateway-api"
+    global:
+      nodeSelector:
+        "home.bramble/node-type": "head"
     resources:
       requests:
         memory: 64Mi
