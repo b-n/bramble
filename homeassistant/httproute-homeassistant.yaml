@@ -12,18 +12,7 @@ spec:
   - thuis.bennaylor.dev
   rules:
   - matches:
-    - headers:
-      - name: Host
-        type: Exact
-        value: thuis.home
-      path:
-        type: PathPrefix
-        value: /
-    - headers:
-      - name: Host
-        type: Exact
-        value: thuis.bennaylor.dev
-      path:
+    - path:
         type: PathPrefix
         value: /
     backendRefs:
