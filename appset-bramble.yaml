@@ -20,7 +20,7 @@ spec:
     metadata:
       name: "bramble-{{ .path.basename }}"
       annotations:
-        kargo.akuity.io/authorized-stage: kp-bramble:live-${{ .path.basename }}
+        kargo.akuity.io/authorized-stage: kp-bramble:live-{{ .path.basename }}
     spec:
       project: bramble
       source:
