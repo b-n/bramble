@@ -12,7 +12,6 @@ spec:
       revision: main
       directories:
       - path: arr
-      - path: cert-manager
       - path: headscale
       - path: homeassistant
       - path: immich

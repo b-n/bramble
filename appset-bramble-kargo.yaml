@@ -12,6 +12,7 @@ spec:
       revision: main
       directories:
       - path: adguard
+      - path: cert-manager
       - path: keycloak
   syncPolicy:
     preserveResourcesOnDeletion: true
