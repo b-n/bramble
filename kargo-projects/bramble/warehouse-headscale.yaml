@@ -24,9 +24,11 @@ spec:
       strictSemvers: true
   - git:
       repoURL: https://github.com/b-n/bramble.git
+      discoveryLimit: 20
       branch: main
       commitSelectionStrategy: NewestFromBranch
       includePaths:
       - "headscale/"
       excludePaths:
       - "glob:*.md"
+      strictSemvers: true
