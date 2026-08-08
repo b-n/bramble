@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: adguard
 
 images:
-- name: adguard/adguardhome
+- name: docker.io/adguard/adguardhome
   newTag: v0.107.77
 
 resources:
