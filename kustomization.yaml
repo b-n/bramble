@@ -4,3 +4,4 @@ kind: Kustomization
 
 resources:
 - appset-bramble.yaml
+- appset-bramble-kargo.yaml
