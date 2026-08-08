@@ -17,7 +17,6 @@ spec:
       - path: immich
       - path: infra
       - path: n8n
-      - path: oauth2-proxy
       - path: observability
   syncPolicy:
     preserveResourcesOnDeletion: true
