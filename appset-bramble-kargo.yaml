@@ -12,6 +12,7 @@ spec:
       revision: main
       directories:
       - path: adguard
+      - path: keycloak
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
