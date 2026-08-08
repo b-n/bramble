@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 spec:
   chart: oci://quay.io/jetstack/charts/cert-manager
-  version: {"repoURL":"oci://quay.io/jetstack/charts/cert-manager","version":"1.21.1"}.Version
+  version: 1.21.1
   targetNamespace: cert-manager
   createNamespace: true
   valuesContent: |-
