@@ -1,0 +1,27 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: homeassistant
+spec:
+  gatewayClassName: traefik
+  listeners:
+  - name: websecure
+    port: 9443
+    protocol: HTTPS
+    hostname: thuis.bennaylor.dev
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - group: ""
+        kind: Secret
+        name: homeassistant-tls
+        namespace: homeassistant
+  - name: web
+    port: 9080
+    protocol: HTTP
+    hostname: thuis.home
+  - name: web-esphome
+    port: 9080
+    protocol: HTTP
+    hostname: esphome.home

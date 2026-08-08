@@ -1,0 +1,34 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: homeassistant
+resources:
+# Generic resources
+- ../ext/middlewares/
+- certificate.yaml
+- gateway.yaml
+- ns.yaml
+# Homeassistant
+- configmap-homeassistant-env.yaml
+- httproute-homeassistant.yaml
+- httproute-homeassistant-local.yaml
+- statefulset-homeassistant.yaml
+- service-homeassistant.yaml
+# Esphome
+- configmap-esphome-env.yaml
+- httproute-esphome.yaml
+- deployment-esphome.yaml
+- pvc-esphome.yaml
+# Matter server
+- statefulset-matter-server.yaml
+- service-esphome.yaml
+- service-matter-server.yaml
+images:
+- name: ghcr.io/esphome/esphome
+  newTag: 2026.7.4
+  digest: sha256:e636269c6390c2124916510d45f55febb1d9ce41365f8445c9083ee41e43c92b
+- name: ghcr.io/home-assistant/home-assistant
+  newTag: 2026.8.1
+  digest: sha256:6340a3de3917a9b19368e767310a96dd090f6a19aca8aeadf87fd1145cec9682
+- name: ghcr.io/matter-js/python-matter-server
+  newTag: 8.1.2
+  digest: sha256:6827e352011e2d8c2bde771e446fcf72acc49150ef66bad978816bac1762aad3

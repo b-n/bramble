@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homeassistant-esphome
+spec:
+  selector:
+    matchLabels:
+      app: homeassistant-esphome
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: homeassistant-esphome
+    spec:
+      containers:
+      - name: esphome
+        image: ghcr.io/esphome/esphome:stable # Overridden
+        envFrom:
+        - configMapRef:
+            name: homeassistant-esphome-env
+        ports:
+        - containerPort: 6052
+          name: http
+        volumeMounts:
+        - mountPath: /config
+          name: homeassistant-esphome-config
+        - mountPath: /cache
+          name: homeassistant-esphome-cache
+        resources:
+          requests:
+            memory: 512Mi
+          limits:
+            memory: 512Mi
+      volumes:
+      - name: homeassistant-esphome-cache
+        emptyDir: {}
+      - name: homeassistant-esphome-config
+        persistentVolumeClaim:
+          claimName: homeassistant-esphome-config
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: home.bramble/compute-class
+                operator: In
+                values:
+                - "raspberry-pi-5"
