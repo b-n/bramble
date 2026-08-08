@@ -5,8 +5,6 @@ images:
 - name: docker.io/n8nio/n8n
   newTag: 2.34.4
   digest: sha256:f69bad7a699300702af665b9f13fc67455b93c9fb9174bca6c37f3d4a47b8583
-- name: n8nio/n8n
-  newTag: 2.27.3
 resources:
 # Dependencies: infra
 - gateway.yaml

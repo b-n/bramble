@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: n8n
-        image: n8nio/n8n:latest
+        image: docker.io/n8nio/n8n:latest
         command: ["sh"]
         args:
         - -c
