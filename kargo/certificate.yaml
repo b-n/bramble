@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kargo
+spec:
+  secretName: kargo-tls
+  dnsNames:
+  - "kargo.bennaylor.dev"
+  issuerRef:
+    name: acme
+    kind: ClusterIssuer

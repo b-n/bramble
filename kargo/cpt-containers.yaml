@@ -1,0 +1,51 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ClusterPromotionTask
+metadata:
+  name: containers
+spec:
+  vars:
+  - name: gitopsRepo
+  - name: appName
+  - name: appPath
+  steps:
+  - uses: git-clone
+    config:
+      repoURL: ${{ vars.gitopsRepo }}
+      checkout:
+      - branch: main
+        path: ./src
+      - branch: kargo-${{ vars.appName }}
+        path: ./out
+        create: true
+  # Clean the stage branch of the service
+  - uses: git-clear
+    config:
+      path: ./out
+  - uses: copy
+    config:
+      inPath: ./src/${{ vars.appPath }}
+      outPath: ./out/${{ vars.appPath }}
+  - uses: copy
+    config:
+      inPath: ./src/ext
+      outPath: ./out/ext
+  # Kustomize set will be called on each image of the freight, so we do not need to specify the `images` field.
+  - uses: kustomize-set-image
+    as: update
+    config:
+      path: ./out/${{ vars.appPath }}
+  - uses: git-commit
+    as: commit
+    config:
+      path: ./out
+      message: ${{ task.outputs.update.commitMessage }}
+  - uses: git-push
+    config:
+      path: ./out
+  - uses: argocd-update
+    config:
+      apps:
+      - name: ${{ vars.appName }}
+        sources:
+        - repoURL: ${{ vars.gitopsRepo }}
+          desiredRevision: ${{ task.outputs.commit.commit }}
