@@ -1,0 +1,81 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: kargo
+spec:
+  chart: oci://ghcr.io/akuity/kargo-charts/kargo
+  version: 1.11.0
+  targetNamespace: kargo
+  valuesContent: |-
+    api:
+      adminAccount:
+        enabled: false
+      host: kargo.bennaylor.dev
+      secret:
+        name: kargo-api-admin
+      # All secrets should be managed by kargo-extras
+      secretManagementEnabled: false
+      tls:
+        enabled: false
+        terminatedUpstream: true
+      oidc:
+        enabled: true
+        admins:
+          claims:
+            groups:
+            - bramble_admin
+        users:
+          claims:
+            groups:
+            - bramble_admin
+            - twk3s_admin
+        dex:
+          enabled: true
+          connectors:
+          - type: oidc
+            id: bramble
+            name: bennaylor.dev
+            config:
+              issuer: https://keycloak.bennaylor.dev/realms/master
+              clientID: $DEX_BRAMBLE_CLIENT_ID
+              clientSecret: $DEX_BRAMBLE_CLIENT_SECRET
+              redirectURI: https://kargo.bennaylor.dev/dex/callback
+              scopes:
+              - profile
+              - groups
+              - email
+              insecureEnableGroups: true
+              claimMapping:
+                groups: "groups"
+          envFrom:
+          - secretRef:
+              name: kargo-dex-env
+      argocd:
+        urls:
+          "": "https://argocd.platform.instruqt.net"
+      logLevel: INFO
+      logFormat: JSON
+    controller:
+      # gitClient:
+      #   name: 'kargo-for-instruqt'
+      #   email: kargo@instruqt.com
+      reconcilers:
+        warehouses:
+          minReconcilationInterval: "30m0s"
+      logLevel: DEBUG
+      logFormat: JSON
+    externalWebhooksServer:
+      tls:
+        enabled: false
+        terminatedUpstream: true
+      logLevel: INFO
+      logFormat: JSON
+    garbageCollector:
+      logLevel: INFO
+      logFormat: JSON
+    managementController:
+      logLevel: DEBUG
+      logFormat: JSON
+    webhooksServer:
+      logLevel: INFO
+      logFormat: JSON

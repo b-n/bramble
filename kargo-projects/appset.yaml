@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: bramble-root
+  name: bramble-kargo-projects
   namespace: argocd
 spec:
   goTemplate: true
@@ -11,13 +11,12 @@ spec:
       repoURL: https://github.com/b-n/bramble.git
       revision: main
       directories:
-      - path: infra
-      - path: observability
+      - path: "kargo-projects/*"
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
     metadata:
-      name: "bramble-{{ .path.basename }}"
+      name: "bramble-kargo-project-{{ .path.basename }}"
     spec:
       project: bramble
       source:
@@ -26,7 +25,7 @@ spec:
         path: "{{ .path.path }}"
       destination:
         name: bramble
-        namespace: "{{ .path.basename }}"
+        namespace: kargo
       syncPolicy:
         automated:
           prune: false

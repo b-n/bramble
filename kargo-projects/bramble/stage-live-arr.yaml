@@ -1,0 +1,24 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: live-arr
+spec:
+  vars:
+  - name: appName
+    value: bramble-arr
+  - name: appPath
+    value: arr
+  - name: gitopsRepo
+    value: https://github.com/b-n/bramble.git
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: containers
+          kind: ClusterPromotionTask
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: arr
+    sources:
+      direct: true

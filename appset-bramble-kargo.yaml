@@ -12,8 +12,15 @@ spec:
       revision: main
       directories:
       - path: adguard
+      - path: arr
       - path: cert-manager
+      - path: headscale
+      - path: homeassistant
+      - path: immich
+      - path: kargo
+      - path: kargo-projects
       - path: keycloak
+      - path: n8n
       - path: oauth2-proxy
   syncPolicy:
     preserveResourcesOnDeletion: true

@@ -1,0 +1,38 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: homeassistant
+spec:
+  subscriptions:
+  - image:
+      repoURL: ghcr.io/home-assistant/home-assistant
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      platform: "linux/arm64"
+  - image:
+      repoURL: ghcr.io/esphome/esphome
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      platform: "linux/arm64"
+  - image:
+      repoURL: ghcr.io/matter-js/python-matter-server
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      platform: "linux/arm64"
+  - git:
+      repoURL: https://github.com/b-n/bramble.git
+      branch: main
+      commitSelectionStrategy: NewestFromBranch
+      includePaths:
+      - "homeassistant/"
+      excludePaths:
+      - "glob:*.md"

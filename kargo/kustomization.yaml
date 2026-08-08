@@ -1,0 +1,29 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kargo
+
+resources:
+- certificate.yaml
+- gateway.yaml
+- helmchart.yaml
+- httproute.yaml
+- ns.yaml
+- cpt-containers.yaml
+- cpt-helmchart-https.yaml
+- cpt-helmchart-oci.yaml
+
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: kargo
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - ./secret-api-admin.enc.yaml
+  - ./secret-dex-env.enc.yaml

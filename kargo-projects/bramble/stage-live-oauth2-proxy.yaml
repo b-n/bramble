@@ -1,0 +1,32 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: live-oauth2-proxy
+spec:
+  vars:
+  - name: appName
+    value: bramble-oauth2-proxy
+  - name: appPath
+    value: oauth2-proxy
+  - name: gitopsRepo
+    value: https://github.com/b-n/bramble.git
+  - name: chartUrl
+    value: https://oauth2-proxy.github.io/manifests
+  - name: chartName
+    value: oauth2-proxy
+  - name: warehouse
+    value: oauth2-proxy
+  - name: versionPrefix
+    value: ""
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: helmchart-https
+          kind: ClusterPromotionTask
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: oauth2-proxy
+    sources:
+      direct: true

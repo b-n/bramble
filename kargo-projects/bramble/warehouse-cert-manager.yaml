@@ -1,0 +1,17 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: cert-manager
+spec:
+  subscriptions:
+  - chart:
+      repoURL: oci://quay.io/jetstack/charts/cert-manager
+      discoveryLimit: 20
+  - git:
+      repoURL: https://github.com/b-n/bramble.git
+      branch: main
+      commitSelectionStrategy: NewestFromBranch
+      includePaths:
+      - "cert-manager/"
+      excludePaths:
+      - "glob:*.md"

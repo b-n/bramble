@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: n8n
 
 images:
-- name: n8nio/n8n
+- name: docker.io/n8nio/n8n
   newTag: 2.27.3
 
 resources:

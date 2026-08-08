@@ -9,7 +9,7 @@ images:
   newTag: v2.7.5
 - name: ghcr.io/immich-app/immich-machine-learning
   newTag: v2.7.5
-- name: valkey/valkey
+- name: docker.io/valkey/valkey
   newTag: 9.1.0
 - name: ghcr.io/immich-app/postgres
   newTag: 18-vectorchord0.5.3-pgvector0.8.1

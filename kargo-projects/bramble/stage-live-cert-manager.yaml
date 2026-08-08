@@ -1,0 +1,30 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: live-cert-manager
+spec:
+  vars:
+  - name: appName
+    value: bramble-cert-manager
+  - name: appPath
+    value: cert-manager
+  - name: gitopsRepo
+    value: https://github.com/b-n/bramble.git
+  - name: chartUrl
+    value: oci://quay.io/jetstack/charts/cert-manager
+  - name: warehouse
+    value: cert-manager
+  - name: versionPrefix
+    value: "v"
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: helmchart-oci
+          kind: ClusterPromotionTask
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: cert-manager
+    sources:
+      direct: true

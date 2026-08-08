@@ -1,0 +1,30 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: live-kargo
+spec:
+  vars:
+  - name: appName
+    value: bramble-kargo
+  - name: appPath
+    value: kargo
+  - name: gitopsRepo
+    value: https://github.com/b-n/bramble.git
+  - name: chartUrl
+    value: oci://ghcr.io/akuity/kargo-charts/kargo
+  - name: warehouse
+    value: kargo
+  - name: versionPrefix
+    value: " "
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: helmchart-oci
+          kind: ClusterPromotionTask
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: kargo
+    sources:
+      direct: true

@@ -1,0 +1,41 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kp-bramble
+
+resources:
+- project.yaml
+- projectconfig.yaml
+- stage-live-adguard.yaml
+- stage-live-arr.yaml
+- stage-live-cert-manager.yaml
+- stage-live-headscale.yaml
+- stage-live-homeassistant.yaml
+- stage-live-immich.yaml
+- stage-live-kargo.yaml
+- stage-live-keycloak.yaml
+- stage-live-n8n.yaml
+- stage-live-oauth2-proxy.yaml
+- warehouse-adguard.yaml
+- warehouse-arr.yaml
+- warehouse-cert-manager.yaml
+- warehouse-headscale.yaml
+- warehouse-homeassistant.yaml
+- warehouse-immich.yaml
+- warehouse-kargo.yaml
+- warehouse-keycloak.yaml
+- warehouse-n8n.yaml
+- warehouse-oauth2-proxy.yaml
+
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: kp-bramble
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - ./secret-bramble-git.enc.yaml

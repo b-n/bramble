@@ -1,0 +1,46 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: arr
+spec:
+  subscriptions:
+  - image:
+      repoURL: lscr.io/linuxserver/jellyfin
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      platform: "linux/arm64"
+  - image:
+      repoURL: lscr.io/linuxserver/prowlarr
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      platform: "linux/arm64"
+  - image:
+      repoURL: lscr.io/linuxserver/transmission
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      platform: "linux/arm64"
+  - image:
+      repoURL: docker.io/lipanski/docker-static-website
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      platform: "linux/arm64"
+  - git:
+      repoURL: https://github.com/b-n/bramble.git
+      branch: main
+      commitSelectionStrategy: NewestFromBranch
+      includePaths:
+      - "arr/"
+      excludePaths:
+      - "glob:*.md"

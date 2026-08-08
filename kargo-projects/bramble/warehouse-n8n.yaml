@@ -1,0 +1,22 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: n8n
+spec:
+  subscriptions:
+  - image:
+      repoURL: docker.io/n8nio/n8n
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      platform: "linux/arm64"
+  - git:
+      repoURL: https://github.com/b-n/bramble.git
+      branch: main
+      commitSelectionStrategy: NewestFromBranch
+      includePaths:
+      - "adguard/"
+      excludePaths:
+      - "glob:*.md"
