@@ -12,7 +12,6 @@ spec:
       allowTagsRegexes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+$"
       platform: "linux/arm64"
-      strictSemvers: true
   - image:
       repoURL: docker.io/headscale/headscale
       discoveryLimit: 20
@@ -21,14 +20,11 @@ spec:
       allowTagsRegexes:
       - "v[0-9]+\\.[0-9]+\\.[0-9]+$"
       platform: "linux/arm64/v8"
-      strictSemvers: true
   - git:
       repoURL: https://github.com/b-n/bramble.git
-      discoveryLimit: 20
       branch: main
       commitSelectionStrategy: NewestFromBranch
       includePaths:
       - "headscale/"
       excludePaths:
       - "glob:*.md"
-      strictSemvers: true
