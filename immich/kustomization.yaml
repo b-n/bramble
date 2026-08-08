@@ -13,8 +13,6 @@ images:
   digest: sha256:b434cb9287eea1471c9974845914d4dd328c9c2d652e446ed4930f99944f0ceb
 - name: ghcr.io/immich-app/postgres
   newTag: 18-vectorchord0.5.3-pgvector0.8.1
-- name: valkey/valkey
-  newTag: 9.1.0
 resources:
 - ../ext/iscsi
 - ../ext/middlewares

@@ -30,9 +30,9 @@ spec:
           name: postgres-data
         resources:
           requests:
-            memory: 512Mi
+            memory: 768Mi
           limits:
-            memory: 512Mi
+            memory: 768Mi
   volumeClaimTemplates:
   - apiVersion: v1
     kind: PersistentVolumeClaim
