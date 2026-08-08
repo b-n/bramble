@@ -24,7 +24,7 @@ spec:
       source:
         repoURL: https://github.com/b-n/bramble.git
         targetRevision: kargo-bramble-{{ .path.basename }}
-        path: "{{ .path.path }}"
+        path: "./"
       destination:
         name: bramble
         namespace: "{{ .path.basename }}"
