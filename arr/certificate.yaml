@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: arr
+spec:
+  secretName: arr-tls
+  dnsNames:
+  - "arr.bennaylor.dev"
+  - "jellyfin.arr.bennaylor.dev"
+  - "prowlarr.arr.bennaylor.dev"
+  - "transmission.arr.bennaylor.dev"
+  issuerRef:
+    name: acme
+    kind: ClusterIssuer

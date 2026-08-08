@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arr-transmission
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: arr-transmission
+  template:
+    metadata:
+      labels:
+        app: arr-transmission
+    spec:
+      containers:
+      - name: arr-transmission
+        image: lscr.io/linuxserver/transmission:latest
+        envFrom:
+        - configMapRef:
+            name: arr-transmission-env
+        ports:
+        - containerPort: 9091
+          protocol: TCP
+          name: web
+        - containerPort: 51413
+          protocol: TCP
+          name: torrent-tcp
+        - containerPort: 51413
+          protocol: UDP
+          name: torrent-udp
+        volumeMounts:
+        - name: transmission-config
+          mountPath: /config
+        - name: arr-media
+          mountPath: /downloads
+        resources:
+          requests:
+            memory: 256Mi
+          limits:
+            memory: 256Mi
+      volumes:
+      - name: transmission-config
+        iscsi:
+          targetPortal: 192.168.64.253:3260
+          iqn: iqn.2025-03.com.ugreen:arr-transmission-config
+          lun: 0
+          fsType: ext4
+          chapAuthDiscovery: false
+          chapAuthSession: true
+          secretRef:
+            name: iscsi-chap-secret
+      - name: arr-media
+        persistentVolumeClaim:
+          claimName: arr-media

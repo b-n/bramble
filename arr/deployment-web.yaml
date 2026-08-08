@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arr-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arr-web
+  template:
+    metadata:
+      labels:
+        app: arr-web
+    spec:
+      containers:
+      - name: arr-web
+        image: lipanski/docker-static-website:latest
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+          name: http
+        volumeMounts:
+        - name: static-site
+          mountPath: /home/static
+        resources:
+          requests:
+            memory: 16Mi
+          limits:
+            memory: 16Mi
+      volumes:
+      - name: static-site
+        configMap:
+          name: arr-web
