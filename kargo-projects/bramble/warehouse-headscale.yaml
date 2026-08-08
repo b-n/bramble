@@ -25,6 +25,6 @@ spec:
       branch: main
       commitSelectionStrategy: NewestFromBranch
       includePaths:
-      - "adguard/"
+      - "headscale/"
       excludePaths:
       - "glob:*.md"

@@ -42,6 +42,6 @@ spec:
       branch: main
       commitSelectionStrategy: NewestFromBranch
       includePaths:
-      - "adguard/"
+      - "immich/"
       excludePaths:
       - "glob:*.md"
