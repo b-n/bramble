@@ -34,6 +34,13 @@ spec:
         - FailOnSharedResource=true
         - ApplyOutOfSyncOnly=true
         - ServerSideApply=true
+      ignoreDifferences:
+      - group: kargo.akuity.io
+        kind: Warehouse
+        jqPathExpressions:
+        - ".spec.subscriptions[].image.strictSemvers"
+        - ".spec.subscriptions[].git.strictSemvers"
+        - ".spec.subscriptions[].git.discoveryLimit"
   ignoreApplicationDifferences:
   - jsonPointers:
     - /spec/source/targetRevision
