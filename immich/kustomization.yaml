@@ -1,0 +1,55 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: immich
+images:
+- name: docker.io/valkey/valkey
+  newTag: 9.1.1
+  digest: sha256:3acc0687f2a2e1091fae6450d7842dd658c941338cf0a873ddd9e14b9e4ea4dd
+- name: ghcr.io/immich-app/immich-machine-learning
+  newTag: v3.1.0
+  digest: sha256:5a0839dc5303cd7215bcd2180a26aed3af41675aefb3e75e5157e9f10ad16e6e
+- name: ghcr.io/immich-app/immich-server
+  newTag: v3.1.0
+  digest: sha256:b434cb9287eea1471c9974845914d4dd328c9c2d652e446ed4930f99944f0ceb
+- name: ghcr.io/immich-app/postgres
+  newTag: 18-vectorchord0.5.3-pgvector0.8.1
+- name: valkey/valkey
+  newTag: 9.1.0
+resources:
+- ../ext/iscsi
+- ../ext/middlewares
+- ns.yaml
+- certificate.yaml
+- gateway.yaml
+- httproute.yaml
+- httproute-local.yaml
+# Postgres
+- configmap-postgres.yaml
+- statefulset-postgres.yaml
+- service-postgres.yaml
+# Valkey
+- deployment-valkey.yaml
+- service-valkey.yaml
+# Immich
+- configmap-immich-env.yaml
+- deployment-server.yaml
+- deployment-ml.yaml
+- service-immich.yaml
+- service-ml.yaml
+# Backup
+- cronjob-backup.yaml
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: immich
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - ./secret-postgres.enc.yaml
+  - ./secret-immich.enc.yaml
+  - ./secret-immich-backup.enc.yaml
+  - ./configmap-immich-backup.enc.yaml

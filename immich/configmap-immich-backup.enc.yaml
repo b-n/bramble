@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: immich-backup
+    namespace: immich
+data:
+    config.conf: ENC[AES256_GCM,data:IrNMtDtSELHjLQ9ZdnkXsaQU4cJZy2COBBcthrkaLWsMIBfDps5CtatnBClYqgOC8ffIZm2OMNZO88XRZFGW+WJw8pxzqgGBfyvAKpVuLpSikcu6rAwoZMVzgu9PeaVma9SytIdUyxxksir8+iF1gqnWGVvdwI+mCCGwuE8UO1idjCQynPcn3ozLDn3cztFezTK1Lnv6vrLmMDdPQYHGHmNxnLjSd1vuLIBK3h0WrWXTc138M/ywjG6W7Ne2ZnawWXKPWUP/22tr9O+p48tE+wbDaS+6m84XSGcrc6lKHl2MwLk0U4JvRNQq0AwvQS/dKY2S9z9C3IPENKYffiI9kPQ=,iv:D9FBpY0AY1QIEMRCDHzwVjakt6naBHL+GEVfQruPRbQ=,tag:U+HfBQ4iwqncsO87iKWCAA==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBGd2JPbzRFRFZsczUwK2lR
+            Nk9jTllSOUJEVTRNelJPQlF6ZkZJSDBZUmtNCmo0WjNITER3ZTNpdEgyQjYzZjNX
+            Y2RaT3l6RlN3VllqUEZXZGRGN0VtbVkKLS0tIHYrVzFWeDBMdnNjSXR1c0hmNHpU
+            Y0ZBSjJBeUNvS1Q3M1lzYU5XbTBnbkUKNTDWEYr/slm2fwgsl03uM/ih2ZjMyYuw
+            j83Vo4j5zwrgfScbTyjJIpH0Te3wX4UUDokjd4YfnOH58O0s+yqulA==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1f57t8jyuwattnn2ul724pwtrgl7q4jkwghqqyhk8t4vq5ed08pxqjcy98l
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA0TEI0QWluQ203WjJZNTNK
+            VzZOU1UzYlgyUmRmL0tqNVl5dE1WNjZMQkU4ClNqNVlBNUVCSlYyZkw3MkZVTDRx
+            MHc3Y0pKSktyUy9VbXgzNGpJTUpGYVkKLS0tIGgzZXBYdXdWZkt1eW9jcy8vcGdq
+            RlMwamVpbmxwSDl0N0N2MVAyaFRvT28K395ZzBuXeFRQUT7K2ygkBofBHgDUDpg9
+            48dsgwyYwEnGJAOYePn1AggLe7ImoJcEqEoyMZe4Ds1YIRpP7yAbvw==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age1rt8t5r7qv3lqad907pxg9233x2xlvr5kvqc8tj38y560ayd8ruhq352jgy
+    lastmodified: "2025-12-16T09:48:05Z"
+    mac: ENC[AES256_GCM,data:IF2Q2+HgZ9s7TAGi+ScUBU4giFZZYpojh90Nv75eQq8jareHtQBSlyeOIjOpVdYEXGjNTyN5Sz+m6g1Mwqo5lcG1qRF8D6AB/S8V5wbLtbx2H3axh3V3E34u9b/nZqRXd0x/2v1Y8ATqzvPNGEmBLYsD572Cd6eHE/Cs087ffno=,iv:marAHP6/tPnKgof374H+QITHTwOMTnKEQ1lkJP1a5IQ=,tag:CGgBKyTQ8Cgvp7Gc5IH1sw==,type:str]
+    unencrypted_regex: ^(apiVersion|metadata|kind|type)$
+    version: 3.11.0
