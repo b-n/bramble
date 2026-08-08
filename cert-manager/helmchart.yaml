@@ -1,0 +1,39 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: cert-manager
+  namespace: kube-system
+spec:
+  chart: oci://quay.io/jetstack/charts/cert-manager
+  version: {"repoURL":"oci://quay.io/jetstack/charts/cert-manager","version":"1.21.1"}.Version
+  targetNamespace: cert-manager
+  createNamespace: true
+  valuesContent: |-
+    crds:
+      enabled: true
+    config:
+      apiVersion: controller.config.cert-manager.io/v1alpha1
+      kind: ControllerConfiguration
+      enableGatewayAPI: true
+    extraArgs:
+    - "--enable-gateway-api"
+    global:
+      nodeSelector:
+        "home.bramble/node-type": "head"
+    resources:
+      requests:
+        memory: 64Mi
+      limits:
+        memory: 64Mi
+    cainjector:
+      resources:
+        requests:
+          memory: 64Mi
+        limits:
+          memory: 64Mi
+    webhook:
+      resources:
+        requests:
+          memory: 64Mi
+        limits:
+          memory: 64Mi
