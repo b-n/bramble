@@ -13,6 +13,7 @@ spec:
       directories:
       - path: infra
       - path: observability
+      - path: kargo-projects
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
