@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: adguard
+images:
+- name: docker.io/adguard/adguardhome
+  newTag: v0.107.78
+  digest: sha256:1ea34eafe5dc691007946e8eaab7bf46b0de9412f39213d8c06e48b53bf9a6c5
+resources:
+- certificate.yaml
+- gateway.yaml
+- httproute-local.yaml
+- httproute-public.yaml
+- ns.yaml
+- statefulset.yaml
+- service-admin.yaml
+- service-dns.yaml
+- ../ext/middlewares
