@@ -1,0 +1,22 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: n8n
+spec:
+  gatewayClassName: traefik
+  listeners:
+  - name: websecure
+    port: 9443
+    protocol: HTTPS
+    hostname: n8n.bennaylor.dev
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - group: ""
+        kind: Secret
+        name: n8n-tls
+        namespace: n8n
+  - name: web
+    port: 9080
+    protocol: HTTP
+    hostname: n8n.home
