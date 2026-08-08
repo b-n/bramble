@@ -1,0 +1,65 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: headscale-public
+spec:
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: headscale
+  hostnames:
+  - wg.bennaylor.dev
+  rules:
+  # Oauth used for the admin-ui
+  # headscale deals with /oidc/callback for its own oauth
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /oauth2
+    backendRefs:
+    - group: ""
+      kind: Service
+      name: oauth2-proxy
+      namespace: oauth2-proxy
+      port: 80
+      weight: 1
+  # Headscale itself
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - group: ""
+      kind: Service
+      name: headscale
+      port: 8080
+      weight: 1
+  # Admin ui for headscale
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /admin
+    backendRefs:
+    - group: ""
+      kind: Service
+      name: headscale-headplane
+      port: 8080
+      weight: 1
+    filters:
+    - type: ExtensionRef
+      extensionRef:
+        group: traefik.io
+        kind: Middleware
+        name: oauth-chain
+  - matches:
+    - path:
+        type: Exact
+        value: /
+    filters:
+    - type: RequestRedirect
+      requestRedirect:
+        path:
+          type: ReplaceFullPath
+          replaceFullPath: /admin
+        statusCode: 302

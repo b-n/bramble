@@ -1,0 +1,41 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: headscale
+images:
+- name: docker.io/headscale/headscale
+  newTag: 0.22.3
+  digest: sha256:aadf29a875bb2ffdf6579869e5759935f7a64b9fd19fcea9d5385c5d7220dc7b
+- name: ghcr.io/tale/headplane
+  newTag: 0.7.0
+  digest: sha256:7bd6523a14567a43eb4ffa1e95e3d95456b8539c9d081757df3f228b9e836fb5
+resources:
+# Dependencies: infra
+- gateway.yaml
+- httproute.yaml
+- certificate.yaml
+- ../ext/middlewares
+# Main deployment
+- statefulset-headscale.yaml
+- statefulset-headplane.yaml
+- service-headscale.yaml
+- service-headplane.yaml
+configMapGenerator:
+- name: headscale-config
+  files:
+  - config-headscale.yaml
+- name: headscale-headplane-config
+  files:
+  - config-headplane.yaml
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: headscale
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - secret-headscale-keys.enc.yaml
+  - secret-headplane.enc.yaml
