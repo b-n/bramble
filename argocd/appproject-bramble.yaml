@@ -18,6 +18,10 @@ spec:
   - name: admin
     description: Do anything in this project
     groups:
-    - nayben@gmail.com
+    - bramble_admin
     policies:
     - p, proj:bramble:admin, applications, *, bramble/*, allow
+    - p, proj:bramble:admin, applicationsets, *, bramble/*, allow
+    - p, proj:bramble:admin, logs, get, bramble/*, allow
+    - p, proj:bramble:admin, exec, create, bramble/*, allow
+    - p, proj:bramble:admin, clusters, get, bramble/*, allow

@@ -3,8 +3,6 @@ kind: ConfigMap
 metadata:
   name: argocd-rbac-cm
 data:
-  policy.default: role:readonly
   scopes: "[groups, email]"
   policy.csv: |-
-    g, default, role:readonly
-    g, nayben@gmail.com, role:admin
+    g, bramble_admin, role:admin

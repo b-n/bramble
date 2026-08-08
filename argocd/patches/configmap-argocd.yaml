@@ -3,7 +3,6 @@ kind: ConfigMap
 metadata:
   name: argocd-cm
 data:
-  timeout.reconciliation: 60s
   cluster.inClusterEnabled: "false"
   url: "https://argocd.bennaylor.dev"
   # --load-restrictor:
@@ -13,6 +12,7 @@ data:
   #   Used for kustomize with ksops
   kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone --enable-alpha-plugins --enable-exec"
   application.resourceTrackingMethod: annotation
+  exec.enabled: "true"
   # re-include endpointslice mapping
   resource.exclusions: |
     ### Network resources created by the Kubernetes control plane and excluded to reduce the number of watched events and UI clutter
@@ -79,6 +79,13 @@ data:
         clientID: $argocd-dex-credentials:DEX_BRAMBLE_CLIENT_ID
         clientSecret: $argocd-dex-credentials:DEX_BRAMBLE_CLIENT_SECRET
         redirectURI: https://argocd.bennaylor.dev/api/dex/callback
+        scopes:
+        - profile
+        - groups
+        - email
+        insecureEnableGroups: true
+        claimMapping:
+          groups: "groups"
     - type: oidc
       id: twk3s
       name: Techwerkers

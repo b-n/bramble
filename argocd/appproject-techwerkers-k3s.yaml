@@ -20,4 +20,13 @@ spec:
     groups:
     - twk3s_admin
     policies:
-    - p, proj:techwerkers-k3s:admin, applications, *, techwerkers-k3s/*, allow
+    - p, proj:techwerkers-k3s:admin, applications, get, techwerkers-k3s/*, allow
+    - p, proj:techwerkers-k3s:admin, applications, update, techwerkers-k3s/*, allow
+    - p, proj:techwerkers-k3s:admin, applications, sync, techwerkers-k3s/*, allow
+    - p, proj:techwerkers-k3s:admin, applications, action, techwerkers-k3s/*, allow
+    - p, proj:techwerkers-k3s:admin, applications, override, techwerkers-k3s/*, allow
+    - p, proj:techwerkers-k3s:admin, applicationsets, get, techwerkers-k3s/*, allow
+    - p, proj:techwerkers-k3s:admin, applicationsets, update, techwerkers-k3s/*, allow
+    - p, proj:techwerkers-k3s:admin, logs, get, techwerkers-k3s/*, allow
+    - p, proj:techwerkers-k3s:admin, exec, create, techwerkers-k3s/*, allow
+    - p, proj:techwerkers-k3s:admin, clusters, get, techwerkers-k3s/*, allow
