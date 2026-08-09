@@ -11,16 +11,17 @@ spec:
       repoURL: https://github.com/b-n/bramble.git
       revision: main
       directories:
-      - path: adguard
-      - path: arr
-      - path: cert-manager
-      - path: headscale
-      - path: homeassistant
-      - path: immich
-      - path: kargo
-      - path: keycloak
-      - path: n8n
-      - path: oauth2-proxy
+      - path: "*"
+      - path: "kargo-projects"
+        exclude: true
+      - path: "infra"
+        exclude: true
+      - path: "ext"
+        exclude: true
+      - path: "observability"
+        exclude: true
+      - path: "argocd"
+        exclude: true
   syncPolicy:
     preserveResourcesOnDeletion: true
   template:
