@@ -14,7 +14,6 @@ resources:
 - stage-live-immich.yaml
 - stage-live-kargo.yaml
 - stage-live-keycloak.yaml
-- stage-live-n8n.yaml
 - stage-live-oauth2-proxy.yaml
 - warehouse-adguard.yaml
 - warehouse-arr.yaml
@@ -24,7 +23,6 @@ resources:
 - warehouse-immich.yaml
 - warehouse-kargo.yaml
 - warehouse-keycloak.yaml
-- warehouse-n8n.yaml
 - warehouse-oauth2-proxy.yaml
 
 generators:
