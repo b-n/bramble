@@ -52,13 +52,10 @@ spec:
               name: kargo-dex-env
       argocd:
         urls:
-          "": "https://argocd.platform.instruqt.net"
+          "": "https://argocd.bennaylor.dev"
       logLevel: INFO
       logFormat: JSON
     controller:
-      # gitClient:
-      #   name: 'kargo-for-instruqt'
-      #   email: kargo@instruqt.com
       reconcilers:
         warehouses:
           minReconcilationInterval: "30m0s"
