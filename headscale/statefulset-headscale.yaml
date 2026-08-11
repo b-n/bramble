@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: headscale
-        image: docker.io/headscale/headscale:latest # REPLACEME
+        image: ghcr.io/juanfont/headscale:latest # REPLACEME
         args: ["serve", "-c", "/etc/headscale/config.yaml"]
         ports:
         - name: http
