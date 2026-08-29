@@ -40,7 +40,7 @@ spec:
           requests:
             memory: 768Mi
           limits:
-            memory: 768Mi
+            memory: 1536Mi
       volumes:
       - name: jellyfin-config-cache
         iscsi:
