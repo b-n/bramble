@@ -14,14 +14,14 @@ spec:
       platform: "linux/amd64"
       constraint: ^0.95.0
   - image:
-      repoURL: docker.io/library/redis
+      repoURL: docker.io/valkey/valkey
       discoveryLimit: 20
       imageSelectionStrategy: SemVer
       cacheByTag: true
       allowTagsRegexes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+-alpine$"
       platform: "linux/amd64"
-      constraint: ^8.8.0
+      constraint: ^9.1.1
   - git:
       repoURL: https://codeberg.org/Techwerkers/manifests.git
       branch: main
