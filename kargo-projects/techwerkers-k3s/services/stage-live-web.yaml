@@ -39,7 +39,7 @@ spec:
       - uses: kustomize-set-image
         as: update
         config:
-          path: ./out/preview/${{ vars.appPath }}
+          path: ./out/hetzner/services/web/preview
       - uses: git-commit
         as: commit
         config:
