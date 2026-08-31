@@ -15,7 +15,7 @@ spec:
   #     - "[0-9]+\\.[0-9]+\\.[0-9]+$"
   #     platform: "linux/arm64"
   - image:
-      repoURL: valkey/valkey
+      repoURL: docker.io/valkey/valkey
       discoveryLimit: 20
       imageSelectionStrategy: SemVer
       cacheByTag: true
