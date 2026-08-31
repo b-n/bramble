@@ -24,8 +24,8 @@ resources:
 - service-matter-server.yaml
 images:
 - name: ghcr.io/esphome/esphome
-  newTag: 2026.8.1
-  digest: sha256:dda49fd0079ed818c2859b52ffeb2c07263349c2d3cc601a0539fd3a8f855d21
+  newTag: 2026.8.2
+  digest: sha256:000c5ee5ee96d57208ee48f2d255f73713236f183959803e64cd0b00c39b277b
 - name: ghcr.io/home-assistant/home-assistant
   newTag: 2026.8.3
   digest: sha256:14931c6b13756317849f46da1d01b45937a1150db66c081cfe529d48215943fe
