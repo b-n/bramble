@@ -27,3 +27,4 @@ generators:
   files:
   - ./secret-api-admin.enc.yaml
   - ./secret-dex-env.enc.yaml
+  - ./secret-docker-hub.enc.yaml
