@@ -1,0 +1,32 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: discourse
+spec:
+  subscriptions:
+  # We should be using stable per this:
+  # https://releases.discourse.org/
+  # - image:
+  #     repoURL: discourse/discourse
+  #     discoveryLimit: 20
+  #     imageSelectionStrategy: SemVer
+  #     cacheByTag: true
+  #     allowTagsRegexes:
+  #     - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+  #     platform: "linux/arm64"
+  - image:
+      repoURL: valkey/valkey
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+-latest$"
+      platform: "linux/arm64"
+  - git:
+      repoURL: https://codeberg.org/Techwerkers/manifests.git
+      branch: main
+      commitSelectionStrategy: NewestFromBranch
+      includePaths:
+      - "hetzner/services/discourse/"
+      excludePaths:
+      - "glob:*.md"

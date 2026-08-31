@@ -6,7 +6,11 @@ namespace: kp-techwerkers-k3s-services
 resources:
 - project.yaml
 - projectconfig.yaml
+- stage-live-discourse.yaml
+- stage-live-docmost.yaml
 - stage-live-keycloak.yaml
+- warehouse-discourse.yaml
+- warehouse-docmost.yaml
 - warehouse-keycloak.yaml
 
 generators:
