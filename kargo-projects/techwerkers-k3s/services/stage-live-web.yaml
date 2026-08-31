@@ -1,0 +1,63 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: live-web
+spec:
+  vars:
+  - name: appName
+    value: twk3s-services-web
+  - name: appPath
+    value: hetzner/services/web
+  - name: gitopsRepo
+    value: https://codeberg.org/Techwerkers/manifests.git
+  - name: extPath
+    value: hetzner/ext
+  promotionTemplate:
+    spec:
+      steps:
+      - uses: git-clone
+        config:
+          repoURL: ${{ vars.gitopsRepo }}
+          checkout:
+          - branch: main
+            path: ./src
+          - branch: kargo-${{ vars.appName }}
+            path: ./out
+            create: true
+      - uses: git-clear
+        config:
+          path: ./out
+      - uses: copy
+        config:
+          inPath: ./src/${{ vars.appPath }}
+          outPath: ./out/${{ vars.appPath }}
+      - uses: copy
+        config:
+          inPath: ./src/${{ vars.extPath }}
+          outPath: ./out/${{ vars.extPath }}
+      # Key reason for inline promotion is the preview path
+      - uses: kustomize-set-image
+        as: update
+        config:
+          path: ./out/preview/${{ vars.appPath }}
+      - uses: git-commit
+        as: commit
+        config:
+          path: ./out
+          message: ${{ task.outputs.update.commitMessage }}
+      - uses: git-push
+        config:
+          path: ./out
+      - uses: argocd-update
+        config:
+          apps:
+          - name: ${{ vars.appName }}
+            sources:
+            - repoURL: ${{ vars.gitopsRepo }}
+              desiredRevision: ${{ task.outputs.commit.commit }}
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: web
+    sources:
+      direct: true
