@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: bramble-kargo-projects-twk3s
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - git:
+      repoURL: https://github.com/b-n/bramble.git
+      revision: main
+      directories:
+      - path: "kargo-projects/techwerkers-k3s/*"
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  template:
+    metadata:
+      name: "bramble-kargo-project-twk3s-{{ .path.basename }}"
+    spec:
+      project: bramble
+      source:
+        repoURL: https://github.com/b-n/bramble.git
+        targetRevision: main
+        path: "{{ .path.path }}"
+      destination:
+        name: bramble
+        namespace: kargo
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+        syncOptions:
+        - FailOnSharedResource=true
+        - ApplyOutOfSyncOnly=true
+        - ServerSideApply=true
+      ignoreDifferences:
+      - group: kargo.akuity.io
+        kind: Warehouse
+        jqPathExpressions:
+        - ".spec.subscriptions[].image.strictSemvers"
+        - ".spec.subscriptions[].git.strictSemvers"
+        - ".spec.subscriptions[].git.discoveryLimit"
+  ignoreApplicationDifferences:
+  - jsonPointers:
+    - /spec/source/targetRevision
+    - /spec/syncPolicy/automated
