@@ -8,9 +8,11 @@ resources:
 - projectconfig.yaml
 - stage-live-discourse.yaml
 - stage-live-docmost.yaml
+- stage-live-espocrm.yaml
 - stage-live-keycloak.yaml
 - warehouse-discourse.yaml
 - warehouse-docmost.yaml
+- warehouse-espocrm.yaml
 - warehouse-keycloak.yaml
 
 generators:
