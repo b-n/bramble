@@ -7,6 +7,8 @@ spec:
   - name: gitopsRepo
   - name: appName
   - name: appPath
+  - name: extPath
+    value: ext
   steps:
   - uses: git-clone
     config:
@@ -27,8 +29,8 @@ spec:
       outPath: ./out/${{ vars.appPath }}
   - uses: copy
     config:
-      inPath: ./src/ext
-      outPath: ./out/ext
+      inPath: ./src/${{ vars.extPath }}
+      outPath: ./out/${{ vars.extPath }}
   # Kustomize set will be called on each image of the freight, so we do not need to specify the `images` field.
   - uses: kustomize-set-image
     as: update
