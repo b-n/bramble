@@ -16,6 +16,8 @@ spec:
     value: cert-manager
   - name: versionPrefix
     value: "v"
+  - name: extPath
+    value: hetzner/ext
   promotionTemplate:
     spec:
       steps:

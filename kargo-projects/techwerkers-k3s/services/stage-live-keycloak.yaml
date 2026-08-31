@@ -10,6 +10,8 @@ spec:
     value: hetzner/services/keycloak
   - name: gitopsRepo
     value: https://codeberg.org/Techwerkers/manifests.git
+  - name: extPath
+    value: hetzner/ext
   promotionTemplate:
     spec:
       steps:

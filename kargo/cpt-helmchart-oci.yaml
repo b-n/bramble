@@ -13,6 +13,8 @@ spec:
   - name: versionPrefix
     value: " "
   - name: warehouse
+  - name: extPath
+    value: ext
   steps:
   - uses: git-clone
     config:
@@ -33,8 +35,8 @@ spec:
       outPath: ./out/${{ vars.appPath }}
   - uses: copy
     config:
-      inPath: ./src/ext
-      outPath: ./out/ext
+      inPath: ./src/${{ vars.extPath }}
+      outPath: ./out/${{ vars.extPath }}
   - uses: yaml-update
     as: update
     config:

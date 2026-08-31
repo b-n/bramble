@@ -18,6 +18,8 @@ spec:
     value: oauth2-proxy
   - name: versionPrefix
     value: ""
+  - name: extPath
+    value: hetzner/ext
   promotionTemplate:
     spec:
       steps:
