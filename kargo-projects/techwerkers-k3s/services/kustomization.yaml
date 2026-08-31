@@ -13,6 +13,7 @@ resources:
 - stage-live-gancio.yaml
 - stage-live-keycloak.yaml
 - stage-live-listmonk.yaml
+- stage-live-n8n.yaml
 - warehouse-discourse.yaml
 - warehouse-docmost.yaml
 - warehouse-espocrm.yaml
@@ -20,6 +21,7 @@ resources:
 - warehouse-gancio.yaml
 - warehouse-keycloak.yaml
 - warehouse-listmonk.yaml
+- warehouse-n8n.yaml
 
 generators:
 - |-

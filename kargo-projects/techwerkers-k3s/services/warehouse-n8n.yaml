@@ -1,0 +1,23 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: n8n
+spec:
+  subscriptions:
+  - image:
+      repoURL: docker.io/n8nio/n8n
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      platform: "linux/amd64"
+      constrait: ^2.32.7
+  - git:
+      repoURL: https://codeberg.org/Techwerkers/manifests.git
+      branch: main
+      commitSelectionStrategy: NewestFromBranch
+      includePaths:
+      - "hetzner/services/n8n/"
+      excludePaths:
+      - "glob:*.md"

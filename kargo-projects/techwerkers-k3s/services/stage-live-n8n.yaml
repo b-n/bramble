@@ -1,0 +1,26 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: live-n8n
+spec:
+  vars:
+  - name: appName
+    value: twk3s-services-n8n
+  - name: appPath
+    value: hetzner/services/n8n
+  - name: gitopsRepo
+    value: https://codeberg.org/Techwerkers/manifests.git
+  - name: extPath
+    value: hetzner/ext
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: containers
+          kind: ClusterPromotionTask
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: n8n
+    sources:
+      direct: true
