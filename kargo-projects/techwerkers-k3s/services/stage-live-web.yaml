@@ -44,7 +44,7 @@ spec:
         as: commit
         config:
           path: ./out
-          message: "Updating nginx"
+          message: ${{ outputs.update.commitMessage }}
       - uses: git-push
         config:
           path: ./out
@@ -54,7 +54,7 @@ spec:
           - name: ${{ vars.appName }}
             sources:
             - repoURL: ${{ vars.gitopsRepo }}
-              desiredRevision: ${{ task.outputs.commit.commit }}
+              desiredRevision: ${{ outputs.commit.commit }}
   requestedFreight:
   - origin:
       kind: Warehouse
