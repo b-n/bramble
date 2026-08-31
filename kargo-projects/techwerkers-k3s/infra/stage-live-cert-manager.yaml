@@ -5,7 +5,7 @@ metadata:
 spec:
   vars:
   - name: appName
-    value: twk3s-hetzner-cert-manager
+    value: twk3s-infra-cert-manager
   - name: appPath
     value: hetzner/infra/cert-manager
   - name: gitopsRepo
