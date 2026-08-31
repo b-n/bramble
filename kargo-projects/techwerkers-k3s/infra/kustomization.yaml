@@ -10,3 +10,16 @@ resources:
 - stage-live-oauth2-proxy.yaml
 - warehouse-cert-manager.yaml
 - warehouse-oauth2-proxy.yaml
+
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: kp-bramble
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - ./secret-techwerkers-git.enc.yaml

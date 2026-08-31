@@ -8,3 +8,16 @@ resources:
 - projectconfig.yaml
 - stage-live-keycloak.yaml
 - warehouse-keycloak.yaml
+
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: kp-bramble
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - ./secret-techwerkers-git.enc.yaml
