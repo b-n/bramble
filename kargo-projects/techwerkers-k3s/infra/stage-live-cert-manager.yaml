@@ -7,7 +7,7 @@ spec:
   - name: appName
     value: twk3s-hetzner-cert-manager
   - name: appPath
-    value: infra/cert-manager
+    value: hetzner/infra/cert-manager
   - name: gitopsRepo
     value: https://codeberg.org/Techwerkers/manifests.git
   - name: chartUrl

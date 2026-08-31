@@ -7,7 +7,7 @@ spec:
   - name: appName
     value: twk3s-services-keycloak
   - name: appPath
-    value: infra/keycloak
+    value: hetzner/services/keycloak
   - name: gitopsRepo
     value: https://codeberg.org/Techwerkers/manifests.git
   promotionTemplate:
