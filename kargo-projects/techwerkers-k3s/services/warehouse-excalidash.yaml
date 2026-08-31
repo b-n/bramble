@@ -1,0 +1,32 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: excalidash
+spec:
+  subscriptions:
+  - image:
+      repoURL: docker.io/zimengxiong/excalidash-frontend
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      platform: "linux/amd64"
+      constriant: ^0.5.1
+  - image:
+      repoURL: docker.io/zimengxiong/excalidash-backend
+      discoveryLimit: 20
+      imageSelectionStrategy: SemVer
+      cacheByTag: true
+      allowTagsRegexes:
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      platform: "linux/amd64"
+      constriant: ^0.5.1
+  - git:
+      repoURL: https://codeberg.org/Techwerkers/manifests.git
+      branch: main
+      commitSelectionStrategy: NewestFromBranch
+      includePaths:
+      - "hetzner/services/excalidash/"
+      excludePaths:
+      - "glob:*.md"

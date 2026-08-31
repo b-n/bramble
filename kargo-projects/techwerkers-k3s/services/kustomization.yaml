@@ -9,10 +9,12 @@ resources:
 - stage-live-discourse.yaml
 - stage-live-docmost.yaml
 - stage-live-espocrm.yaml
+- stage-live-excalidash.yaml
 - stage-live-keycloak.yaml
 - warehouse-discourse.yaml
 - warehouse-docmost.yaml
 - warehouse-espocrm.yaml
+- warehouse-excalidash.yaml
 - warehouse-keycloak.yaml
 
 generators:
