@@ -44,7 +44,7 @@ spec:
         as: commit
         config:
           path: ./out
-          message: ${{ task.outputs.update.commitMessage }}
+          message: "Updating nginx"
       - uses: git-push
         config:
           path: ./out
