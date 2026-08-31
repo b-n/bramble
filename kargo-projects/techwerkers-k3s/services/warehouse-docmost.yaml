@@ -21,7 +21,7 @@ spec:
       allowTagsRegexes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+-alpine$"
       platform: "linux/amd64"
-      constraint: ^8.10.1
+      constraint: ^8.9.1
   - git:
       repoURL: https://codeberg.org/Techwerkers/manifests.git
       branch: main
