@@ -7,7 +7,7 @@ spec:
   - name: appName
     value: twk3s-infra-oauth2-proxy
   - name: appPath
-    value: hetzner/oauth2-proxy
+    value: hetzner/infra/oauth2-proxy
   - name: gitopsRepo
     value: https://codeberg.org/Techwerkers/manifests.git
   - name: chartUrl
