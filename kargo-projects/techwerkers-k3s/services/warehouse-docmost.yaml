@@ -12,7 +12,7 @@ spec:
       allowTagsRegexes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+$"
       platform: "linux/amd64"
-      constraint: ^8.10.1
+      constraint: ^0.95.0
   - image:
       repoURL: docker.io/library/redis
       discoveryLimit: 20
