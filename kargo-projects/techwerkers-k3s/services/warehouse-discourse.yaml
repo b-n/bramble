@@ -20,7 +20,7 @@ spec:
       imageSelectionStrategy: SemVer
       cacheByTag: true
       allowTagsRegexes:
-      - "[0-9]+\\.[0-9]+\\.[0-9]+-latest$"
+      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
       platform: "linux/arm64"
   - git:
       repoURL: https://codeberg.org/Techwerkers/manifests.git
