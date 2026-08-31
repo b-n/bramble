@@ -12,6 +12,6 @@ spec:
       branch: main
       commitSelectionStrategy: NewestFromBranch
       includePaths:
-      - "infra/cert-manager/"
+      - "hetzner/infra/cert-manager/"
       excludePaths:
       - "glob:*.md"
