@@ -19,9 +19,10 @@ spec:
       imageSelectionStrategy: SemVer
       cacheByTag: true
       allowTagsRegexes:
-      - "[0-9]+\\.[0-9]+\\.[0-9]+$"
+      - "[0-9]+\\.[0-9]+\\.[0-9]+-alpine$"
       platform: "linux/amd64"
       constraint: ^8.10.1
+      strictSemvers: false
   - git:
       repoURL: https://codeberg.org/Techwerkers/manifests.git
       branch: main
