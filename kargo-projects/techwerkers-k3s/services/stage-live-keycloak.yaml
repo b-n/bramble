@@ -1,0 +1,24 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: live-keycloak
+spec:
+  vars:
+  - name: appName
+    value: twk3s-services-keycloak
+  - name: appPath
+    value: infra/keycloak
+  - name: gitopsRepo
+    value: https://codeberg.org/Techwerkers/manifests.git
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: containers
+          kind: ClusterPromotionTask
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: keycloak
+    sources:
+      direct: true

@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- infra/
+- services/
+
+generators:
+- |-
+  apiVersion: viaduct.ai/v1
+  kind: ksops
+  metadata:
+    name: kp-bramble
+    annotations:
+      config.kubernetes.io/function: |
+        exec:
+          path: ksops
+  files:
+  - ./secret-techwerkers-git.enc.yaml

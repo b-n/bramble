@@ -1,0 +1,11 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: ProjectConfig
+metadata:
+  name: kp-techwerkers-k3s-infra
+spec:
+  promotionPolicies:
+  - stageSelector:
+      name: glob:live-*
+      matchLabels:
+        home.bramble/allow-auto-promotion: "true"
+    autoPromotionEnabled: true
