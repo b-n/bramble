@@ -1,0 +1,26 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: live-gancio
+spec:
+  vars:
+  - name: appName
+    value: twk3s-services-gancio
+  - name: appPath
+    value: hetzner/services/gancio
+  - name: gitopsRepo
+    value: https://codeberg.org/Techwerkers/manifests.git
+  - name: extPath
+    value: hetzner/ext
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: containers
+          kind: ClusterPromotionTask
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: gancio
+    sources:
+      direct: true

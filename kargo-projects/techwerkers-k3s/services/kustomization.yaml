@@ -10,12 +10,16 @@ resources:
 - stage-live-docmost.yaml
 - stage-live-espocrm.yaml
 - stage-live-excalidash.yaml
+- stage-live-gancio.yaml
 - stage-live-keycloak.yaml
+- stage-live-listmonk.yaml
 - warehouse-discourse.yaml
 - warehouse-docmost.yaml
 - warehouse-espocrm.yaml
 - warehouse-excalidash.yaml
+- warehouse-gancio.yaml
 - warehouse-keycloak.yaml
+- warehouse-listmonk.yaml
 
 generators:
 - |-
