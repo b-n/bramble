@@ -18,6 +18,7 @@ resources:
 - ../ext/iscsi/
 - ../ext/middlewares/
 - ns.yaml
+- pvc-jellyfin-config-cache.yaml
 - pvc-media.yaml
 # Gateway and routes
 - certificate.yaml
