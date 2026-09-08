@@ -31,10 +31,8 @@ spec:
           protocol: TCP
           name: web
         volumeMounts:
-        - name: jellyfin-config-cache
-          mountPath: /config
         - name: arr-jellyfin-config-cache
-          mountPath: /config-cache
+          mountPath: /config
         - name: arr-media
           mountPath: /media
           readOnly: true
@@ -44,16 +42,6 @@ spec:
           limits:
             memory: 1536Mi
       volumes:
-      - name: jellyfin-config-cache
-        iscsi:
-          targetPortal: 192.168.64.253:3260
-          iqn: iqn.2025-03.com.ugreen:arr-jellyfin-config-cache
-          lun: 0
-          fsType: ext4
-          chapAuthDiscovery: false
-          chapAuthSession: true
-          secretRef:
-            name: iscsi-chap-secret
       - name: arr-media
         persistentVolumeClaim:
           claimName: arr-media
