@@ -3,8 +3,8 @@ kind: Kustomization
 namespace: immich
 images:
 - name: docker.io/valkey/valkey
-  newTag: 9.1.1
-  digest: sha256:3acc0687f2a2e1091fae6450d7842dd658c941338cf0a873ddd9e14b9e4ea4dd
+  newTag: 9.1.2
+  digest: sha256:a91d34ab33975b1054e26f1bd9995b268f7e0c507b5ded7f3d181a1a25521630
 - name: ghcr.io/immich-app/immich-machine-learning
   newTag: v3.1.0
   digest: sha256:5a0839dc5303cd7215bcd2180a26aed3af41675aefb3e75e5157e9f10ad16e6e
