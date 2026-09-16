@@ -6,11 +6,11 @@ images:
   newTag: 9.1.2
   digest: sha256:c123e3715db63d06d4ad6964884037aa0d5d4d703939b9929954112889708e1d
 - name: ghcr.io/immich-app/immich-machine-learning
-  newTag: v3.2.0
-  digest: sha256:f8b2869891c861a58dde969d86e7ea8a186e6059a55886632ee3249e51fb574a
+  newTag: v3.2.2
+  digest: sha256:60dfcf266a9ef3b7376f5678e8c980d4fb61db5fc48c078fe8a326ab1535d60d
 - name: ghcr.io/immich-app/immich-server
-  newTag: v3.2.0
-  digest: sha256:ae13784ffcfcce8f4178113eb6661602a1fd1912f3d539880b8ac0dd95fc8ac2
+  newTag: v3.2.2
+  digest: sha256:79cc1623323d5894922686d8743b4780181428f98eecbfb58ce12c41ef02d1ea
 - name: ghcr.io/immich-app/postgres
   newTag: 18-vectorchord0.5.3-pgvector0.8.1
 resources:
