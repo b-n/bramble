@@ -31,7 +31,7 @@ spec:
           requests:
             memory: 1024Mi
           limits:
-            memory: 1024Mi
+            memory: 2048Mi
       volumes:
       - name: homeassistant-esphome-cache
         emptyDir: {}
