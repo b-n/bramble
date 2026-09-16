@@ -27,8 +27,8 @@ images:
   newTag: 2026.8.2
   digest: sha256:000c5ee5ee96d57208ee48f2d255f73713236f183959803e64cd0b00c39b277b
 - name: ghcr.io/home-assistant/home-assistant
-  newTag: 2026.9.1
-  digest: sha256:612d76760b544cb40b7ba01387fdac964c59a6a550a50a4d30b4773c822d2918
+  newTag: 2026.9.2
+  digest: sha256:a1bc133af84ee6505fe2c266d9805b7c75b780dfdc188edfee3b11e8f3cd8efe
 - name: ghcr.io/matter-js/matterjs-server
   newTag: 1.4.0
   digest: sha256:54232d0d3e7dff5a54759469d2753399270412b4c30c55b31750a4595e4cb236
