@@ -47,3 +47,11 @@ spec:
                 operator: In
                 values:
                 - "raspberry-pi-5"
+        nodeAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: home.bramble/node-type
+                operator: In
+                values:
+                - "head"
