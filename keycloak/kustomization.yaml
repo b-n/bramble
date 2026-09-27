@@ -3,8 +3,8 @@ kind: Kustomization
 namespace: keycloak
 images:
 - name: quay.io/keycloak/keycloak
-  newTag: 26.7.3
-  digest: sha256:ff4257d0d64efbe99ed1ddfaf07765cc3c36dc7518bf8324d41961327f441c54
+  newTag: 26.7.4
+  digest: sha256:82a77884f3af238beab1e7afd63b5f530e1b5c0590bd7aa60b40a40463e29b2c
 resources:
 # Dependencies: infra
 - gateway.yaml
