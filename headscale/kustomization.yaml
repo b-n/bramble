@@ -34,8 +34,8 @@ generators:
   - secret-headplane.enc.yaml
 images:
 - name: ghcr.io/juanfont/headscale
-  newTag: v0.29.3
-  digest: sha256:0e7f1c6e4ce6c2a2a001103ecd3fa645a045adf30ac8a5234fe037b43000cd72
+  newTag: v0.29.4
+  digest: sha256:8833f828b414c0907b7e5c71da76473216fe17cce0818a166b536ec552c0903f
 - name: ghcr.io/tale/headplane
   newTag: 0.7.1
   digest: sha256:394483fd2336ce6b15df360c3e118ddfd45eb8140fe21df9f2611077f5d79d22
