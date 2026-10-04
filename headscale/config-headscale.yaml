@@ -426,7 +426,7 @@ oidc:
   # allowed_groups list.
   allowed_groups:
   # - /headscale
-  - /headscale_users
+  - headscale_users
 
   # Optional: PKCE (Proof Key for Code Exchange) configuration
   # PKCE adds an additional layer of security to the OAuth 2.0 authorization code flow
