@@ -26,6 +26,11 @@ spec:
       containers:
       - name: arr-jellyfin
         image: lscr.io/linuxserver/jellyfin:latest
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "10"
         ports:
         - containerPort: 8096
           protocol: TCP
