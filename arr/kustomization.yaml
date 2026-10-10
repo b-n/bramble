@@ -11,7 +11,7 @@ images:
   newTag: 2.4.0
 - name: lscr.io/linuxserver/transmission
   newTag: 4.1.2
-- name: lipanski/docker-static-website
+- name: mirror.gcr.io/lipanski/docker-static-website
   newTag: 2.6.0
 
 resources:
