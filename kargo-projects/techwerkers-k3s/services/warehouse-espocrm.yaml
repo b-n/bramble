@@ -5,7 +5,7 @@ metadata:
 spec:
   subscriptions:
   - image:
-      repoURL: docker.io/espocrm/espocrm
+      repoURL: docker.io/library/espocrm
       discoveryLimit: 20
       imageSelectionStrategy: SemVer
       cacheByTag: true
