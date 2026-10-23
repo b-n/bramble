@@ -37,5 +37,5 @@ images:
   newTag: v0.29.5
   digest: sha256:780ed2f9e85719a2211277433f2c8afb45105d0d25031949a6848a485f9e216d
 - name: ghcr.io/tale/headplane
-  newTag: 0.8.1
-  digest: sha256:2cc960b89fad90ead5151a2e6ab025dbf63c3b2a3dfe33af9183eae45b611261
+  newTag: 0.8.2
+  digest: sha256:b053a0a6699d0a67be3f0d9bae8e7dbe35ed67ae8448412adcbad7ea49866faa
