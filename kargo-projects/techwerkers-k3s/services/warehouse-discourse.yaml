@@ -6,7 +6,7 @@ spec:
   subscriptions:
   # Lexical because `-latest` suffix. We can change to real semver at 2027.01 release
   - image:
-      repoURL: discourse/discourse
+      repoURL: docker.io/discourse/discourse
       discoveryLimit: 20
       imageSelectionStrategy: NewestBuild
       cacheByTag: true
