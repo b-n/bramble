@@ -6,8 +6,8 @@ images:
   newTag: 12.4ubu2604-ls57
   digest: sha256:3894d9eae88418d3cf9ac6349392d2c4dad818365a59565d19edc38098897044
 - name: lscr.io/linuxserver/prowlarr
-  newTag: 2.6.5
-  digest: sha256:f9151e5bc1025c6d0a630d503210cdcb6bb55a7cc098562609d96a408d838902
+  newTag: 2.7.0
+  digest: sha256:04be30163fbaf48d6aeee7b5893c9f6614ffbad6d853971df0d6dcdf01c7f104
 - name: lscr.io/linuxserver/transmission
   newTag: 4.1.3
   digest: sha256:4813745e2c721997d8849f5718786fd4406b3c656fbef479f87a161e51383cbd
