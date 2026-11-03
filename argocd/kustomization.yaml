@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-- https://raw.githubusercontent.com/argoproj/argo-cd/v3.4.6/manifests/install.yaml
+- https://raw.githubusercontent.com/argoproj/argo-cd/v3.5.7/manifests/install.yaml
 - appproject-bramble.yaml
 - appproject-techwerkers-k3s.yaml
 - app-bramble.yaml

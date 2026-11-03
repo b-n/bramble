@@ -40,7 +40,6 @@ spec:
           mountPath: /config
         - name: arr-media
           mountPath: /media
-          readOnly: true
         resources:
           requests:
             memory: 768Mi
