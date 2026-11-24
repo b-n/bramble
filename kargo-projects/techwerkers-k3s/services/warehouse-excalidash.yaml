@@ -12,7 +12,7 @@ spec:
       allowTagsRegexes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+$"
       platform: "linux/amd64"
-      constriant: ^0.5.1
+      constriant: ^0 # All 0.x verisons
   - image:
       repoURL: docker.io/zimengxiong/excalidash-backend
       discoveryLimit: 20
@@ -21,7 +21,7 @@ spec:
       allowTagsRegexes:
       - "[0-9]+\\.[0-9]+\\.[0-9]+$"
       platform: "linux/amd64"
-      constriant: ^0.5.1
+      constriant: ^0 # All 0.x verisons
   - git:
       repoURL: https://codeberg.org/Techwerkers/manifests.git
       branch: main
