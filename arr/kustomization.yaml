@@ -3,8 +3,8 @@ kind: Kustomization
 namespace: arr
 images:
 - name: lscr.io/linuxserver/jellyfin
-  newTag: 12.4ubu2604-ls60
-  digest: sha256:b10044530553b2506f06279bf0b5223f9534f434f87a277da4b8fa8ac386cb58
+  newTag: 12.4ubu2604-ls61
+  digest: sha256:1c60c32d1de1529cc58ea6c7879dd47f89d0d88082b085a66214243de3150b5c
 - name: lscr.io/linuxserver/prowlarr
   newTag: 3.1.0
   digest: sha256:2806c9b763810589c42157730d547c293639e55c7610e9f5069314854639ec48
