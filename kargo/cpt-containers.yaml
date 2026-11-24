@@ -51,3 +51,8 @@ spec:
         sources:
         - repoURL: ${{ vars.gitopsRepo }}
           desiredRevision: ${{ task.outputs.commit.commit }}
+  - uses: argocd-wait
+    config:
+      apps:
+      - name: ${{ vars.appName }}
+        waitFor: [health, operation, sync]
